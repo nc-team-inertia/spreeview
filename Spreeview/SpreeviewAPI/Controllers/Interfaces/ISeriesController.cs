@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CommonLibrary.DataClasses.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SpreeviewAPI.Controllers.Interfaces;
 public interface ISeriesController
