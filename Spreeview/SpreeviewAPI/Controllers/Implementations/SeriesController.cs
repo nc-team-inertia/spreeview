@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SpreeviewAPI.Controllers.Interfaces;
 
 namespace SpreeviewAPI.Controllers.Implementations;
 [ApiController]
 [Route("/api/[controller]")]
-public class SeriesController : Controller
+public class SeriesController : Controller, ISeriesController
 {
     [HttpGet]
     public ActionResult Index()
