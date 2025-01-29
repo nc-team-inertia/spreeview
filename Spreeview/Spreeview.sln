@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreeviewAPI", "SpreeviewAP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibrary", "CommonLibrary\CommonLibrary.csproj", "{2FD31A0D-A5FE-48E6-97EA-527F2997A180}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreeviewFrontend", "SpreeviewFrontend\SpreeviewFrontend\SpreeviewFrontend.csproj", "{060A6891-ABD0-40A0-88B3-3A3F7508D332}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpreeviewFrontend.Client", "SpreeviewFrontend\SpreeviewFrontend.Client\SpreeviewFrontend.Client.csproj", "{00DB55D5-C330-471F-A639-08D8292CA8B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{2FD31A0D-A5FE-48E6-97EA-527F2997A180}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FD31A0D-A5FE-48E6-97EA-527F2997A180}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FD31A0D-A5FE-48E6-97EA-527F2997A180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{060A6891-ABD0-40A0-88B3-3A3F7508D332}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{060A6891-ABD0-40A0-88B3-3A3F7508D332}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{060A6891-ABD0-40A0-88B3-3A3F7508D332}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{060A6891-ABD0-40A0-88B3-3A3F7508D332}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00DB55D5-C330-471F-A639-08D8292CA8B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00DB55D5-C330-471F-A639-08D8292CA8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00DB55D5-C330-471F-A639-08D8292CA8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00DB55D5-C330-471F-A639-08D8292CA8B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
