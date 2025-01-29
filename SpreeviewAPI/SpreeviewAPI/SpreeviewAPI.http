@@ -1,6 +1,0 @@
-@SpreeviewAPI_HostAddress = http://localhost:5202
-
-GET {{SpreeviewAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
