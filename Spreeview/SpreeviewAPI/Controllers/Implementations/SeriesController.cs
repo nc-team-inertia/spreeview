@@ -5,7 +5,7 @@ using SpreeviewAPI.Controllers.Interfaces;
 
 namespace SpreeviewAPI.Controllers.Implementations;
 [ApiController]
-[Route("/api/[controller]")]
+[Route("api/[controller]")]
 public class SeriesController : Controller, ISeriesController
 {
     [HttpGet]

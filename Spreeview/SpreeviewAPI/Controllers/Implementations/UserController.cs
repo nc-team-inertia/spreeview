@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
 
 namespace SpreeviewAPI.Controllers.Implementations;
+[ApiController]
+[Route("api/[controller]")]
 public class UserController : Controller, IUserController
 {
     [HttpGet]
