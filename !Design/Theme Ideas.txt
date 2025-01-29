@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="Title" format="color"/>
+    <attr name="Interactable" format="color"/>
+    <attr name="Background" format="color"/>
+    <attr name="FragBackground" format="color"/>
+    <attr name="Text" format="color"/>
+    <attr name="DelHighlight" format="color"/>
+    <attr name="EditTextBorder" format="color"/>
+    <attr name="NoteTextBorder" format="color"/>
+    <attr name="colorAccent" format="color"/>"
+
+    <!-- Main theme(s), declare the cols that attribute can access and treat as colours stated in format -->
+
+    <style name="MainTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Background">#FFAB9866</item>
+        <item name="Title">#FFf4d882</item>
+        <item name="Interactable">#FFdb863e</item>
+        <item name="Text">#FF6C5346</item>
+        <item name="EditTextBorder">#FFc9a473</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="DelHighlight">#FFCAB377</item>
+        <item name="NoteTextBorder">#FFd9b453</item>
+    </style>
+
+    <style name="PinkTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFF482EE</item>
+        <item name="Interactable">#FF5BDB3E</item>
+        <item name="Background">#FFAB66AA</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FF85C89F</item>
+        <item name="DelHighlight">#FFAA77CA</item>
+        <item name="EditTextBorder">#FFB37CBF</item>
+        <item name="NoteTextBorder">#FF9653D9</item>
+    </style>
+
+    <style name="GrayTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFFFFFFF</item>
+        <item name="Interactable">#FF000000</item>
+        <item name="Background">#FF999999</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFDDDDDD</item>
+        <item name="DelHighlight">#FF606060</item>
+        <item name="EditTextBorder">#FF444444</item>
+        <item name="NoteTextBorder">#FF666666</item>
+    </style>
+
+    <style name="GreenTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFEA0E0E</item>
+        <item name="Interactable">#FF99D651</item>
+        <item name="Background">#FF075E05</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFDD4D4D</item>
+        <item name="DelHighlight">#FF712F2F</item>
+        <item name="EditTextBorder">#FF567806</item>
+        <item name="NoteTextBorder">#FF37915A</item>
+    </style>
+
+    <style name="BlueTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFFFEE00</item>
+        <item name="Interactable">#FF52C5E3</item>
+        <item name="Background">#FF0065FF</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFe7dd50</item>
+        <item name="DelHighlight">#FFA10404</item>
+        <item name="EditTextBorder">#FF18AAAA</item>
+        <item name="NoteTextBorder">#FF1e1bee</item>
+    </style>
+    
+    <style name="OrangeTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FF000000</item>
+        <item name="Interactable">#FFE89B57</item>
+        <item name="Background">#FFFA7907</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFFFFFFF</item>
+        <item name="DelHighlight">#F41D1D</item>
+        <item name="EditTextBorder">#FFD1870A</item>
+        <item name="NoteTextBorder">#FFCC5901</item>
+    </style>
+
+    <style name="CherryBlossomTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFE3E2E3</item>
+        <item name="Interactable">#FF801498</item>
+        <item name="Background">#FFE481E3</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFF3F3F3</item>
+        <item name="DelHighlight">#FFB61677</item>
+        <item name="EditTextBorder">#FFF61DC5</item>
+        <item name="NoteTextBorder">#FFC445E1</item>
+    </style>
+
+    <style name="PrimeTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#F1E591</item>
+        <item name="Interactable">#FFBAB47A</item>
+        <item name="Background">#E1D1A9</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFFDFD00</item>
+        <item name="DelHighlight">#FFCD9C08</item>
+        <item name="EditTextBorder">#FF9F9F9E</item>
+        <item name="NoteTextBorder">#FFB8B8B6</item>
+    </style>
+
+    <style name="WappTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFE3E2E3</item>
+        <item name="Interactable">#29A544</item>
+        <item name="Background">#FF2B2B2B</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFF3F3F3</item>
+        <item name="DelHighlight">#FF0E5906</item>
+        <item name="EditTextBorder">#FF206719</item>
+        <item name="NoteTextBorder">#FF35774F</item>
+    </style>
+
+    <style name="MagmaTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFEA0E0E</item>
+        <item name="Interactable">#FFD69951</item>
+        <item name="Background">#FF5E0705</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFDD4D4D</item>
+        <item name="DelHighlight">#FF712F2F</item>
+        <item name="EditTextBorder">#FF614606</item>
+        <item name="NoteTextBorder">#FF91375A</item>
+    </style>
+
+    <style name="GemTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFFF4545</item>
+        <item name="Interactable">#7AFBB5</item>
+        <item name="Background">#FF6022C1</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FF58BFF7</item>
+        <item name="DelHighlight">#FFB445EF</item>
+        <item name="EditTextBorder">#FF4C288F</item>
+        <item name="NoteTextBorder">#FF7800FF</item>
+    </style>
+
+    <style name="ChristmasTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#FFEFEF</item>
+        <item name="Interactable">#906EFF5E</item>
+        <item name="Background">#BD0514</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#E8CC14</item>
+        <item name="DelHighlight">#00C136</item>
+        <item name="EditTextBorder">#E63030</item>
+        <item name="NoteTextBorder">#268E00</item>
+    </style>
+
+    <style name="HalloweenTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="Title">#000000</item>
+        <item name="Interactable">#FF6F00</item>
+        <item name="Background">#EA8811</item>
+        <item name="FragBackground">#8F000000</item>
+        <item name="Text">#FFFFFF</item>
+        <item name="DelHighlight">#D66909</item>
+        <item name="EditTextBorder">#000000</item>
+        <item name="NoteTextBorder">#C6B40E</item>
+    </style>
+
+</resources>
