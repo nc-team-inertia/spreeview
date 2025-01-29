@@ -1,9 +1,10 @@
 ﻿using CommonLibrary.DataClasses.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SpreeviewAPI.Controllers.Interfaces;
 
 namespace SpreeviewAPI.Controllers.Implementations;
-public class UserController : Controller
+public class UserController : Controller, IUserController
 {
     [HttpGet]
     public ActionResult Index()
