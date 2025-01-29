@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SpreeviewAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67f20622a89c71c937e03520f8e851343ca86e6e")]
 [assembly: System.Reflection.AssemblyProductAttribute("SpreeviewAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SpreeviewAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
