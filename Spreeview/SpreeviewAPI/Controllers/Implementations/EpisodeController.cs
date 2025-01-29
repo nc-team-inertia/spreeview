@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SpreeviewAPI.Controllers.Interfaces;
 
 namespace SpreeviewAPI.Controllers;
 [ApiController]
 [Route("/api/[controller]")]
-public class EpisodeController : Controller
+public class EpisodeController : Controller, IEpisodeController
 {
     [HttpGet]
     public ActionResult Index()
