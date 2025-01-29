@@ -1,4 +1,4 @@
-﻿using CommonLibrary.DataClasses.Entities;
+﻿using CommonLibrary.DataClasses.SeriesModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
