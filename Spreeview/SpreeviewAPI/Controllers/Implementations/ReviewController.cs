@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CommonLibrary.DataClasses.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SpreeviewAPI.Controllers.Implementations;
@@ -17,13 +18,13 @@ public class ReviewController : Controller
     }
 
     [HttpPost]
-    public ActionResult Create(User user)
+    public ActionResult Create(Review review)
     {
         return View();
     }
 
     [HttpPut("{id}")]
-    public ActionResult Edit(int id, User user)
+    public ActionResult Edit(int id, Review review)
     {
         return View();
     }
@@ -34,3 +35,4 @@ public class ReviewController : Controller
         return View();
     }
 }
+

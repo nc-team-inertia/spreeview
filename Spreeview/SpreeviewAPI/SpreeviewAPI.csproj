@@ -14,4 +14,8 @@
     <Folder Include="Controllers\Interfaces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

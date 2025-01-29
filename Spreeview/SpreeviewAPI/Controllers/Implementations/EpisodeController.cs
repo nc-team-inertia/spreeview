@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CommonLibrary.DataClasses.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SpreeviewAPI.Controllers;
+namespace SpreeviewAPI.Controllers.Implementations;
 [ApiController]
 [Route("/api/[controller]")]
 public class EpisodeController : Controller
