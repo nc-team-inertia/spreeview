@@ -1,0 +1,72 @@
+﻿
+@code{
+    public enum Themes
+    { Light, Dark }
+
+    [Parameter]
+    public Themes {get; set;} = Themes.Light;
+
+
+    public UniversalTheme Theme {get; set;}
+
+    public class UniversalTheme
+    {
+        public UniversalTheme(Themes t) { 
+            switch (t)
+            {
+                case Themes.Light:
+                    //HEADER
+                    hBgCol="#1e1e1e"; hFgCol="#ffffff";
+
+                    //BODY/MAIN
+                    bBgCol="#1e1e1e"; bFgCol="#ffffff";
+                    imgBgCol="#00000088"; Accent = "#8020ff";
+                            //rgba
+
+                    //FOOTER
+                    hBgCol="#1e1e1e"; hFgCol="#ffffff";
+
+                    break;
+                case Themes.Dark:
+                    //HEADER
+                    hBgCol="#ffffff"; hFgCol="#1e1e1e";
+
+                    //BODY/MAIN
+                    bBgCol="#ffffff"; bFgCol="#1e1e1e";
+                    imgBgCol="#00000088"; Accent = "#E85E16";
+                        //rgba
+
+                    //FOOTER
+                    hBgCol="#ffffff"; hFgCol="#1e1e1e";
+                    break;
+            }
+        }
+
+        /* public static string hBgCol, hFgCol,    Accent, bFgCol, bBgCol, imgBgCol,   fBgcol,fFgCol; */
+
+            public string hBgCol { get; private set; }
+            public string hFgCol { get; private set; }
+            public string Accent { get; private set; }
+            public string bFgCol { get; private set; }
+            public string bBgCol { get; private set; }
+            public string imgBgCol { get; private set; }
+            public string fBgCol { get; private set; }
+            public string fFgCol { get; private set; }
+
+        /*
+            Header BgCol, Header FgCol
+
+            Accent (button fill) + in-site links
+            body FgCol, Body BgCol, ImgContainer BgCol
+
+            Header BgCol, Header FgCol
+        */
+    }
+}
+
+body{
+    background-color: "@Theme.bBgCol";
+    border: 1px dashed "@Theme.Accent";
+}
+
+

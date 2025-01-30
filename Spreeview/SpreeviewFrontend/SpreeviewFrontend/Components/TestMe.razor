@@ -1,0 +1,21 @@
+﻿<h3>TestMe</h3>
+
+@inject SessionOptions so;
+@inject HttpContext htpc;
+
+@code {
+    UniversalTheme ut = new UniversalTheme(Themes.Light);
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        htpc.Session.SetInt32("theme", 0);
+
+        ut = new UniversalTheme( (Themes) htpc.Session.GetInt32("theme") );
+        //injects css of other class?
+
+        Console.WriteLine(ut.fBgCol);
+    }
+}
+
