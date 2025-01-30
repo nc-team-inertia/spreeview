@@ -1,4 +1,3 @@
-using SpreeviewFrontend.Client.Pages;
 using SpreeviewFrontend.Components;
 
 var builder = WebApplication.CreateBuilder(args);
