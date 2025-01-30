@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen();
 
 builder.SetupDbContext();
 builder.SetupIdentity();
+builder.SetupCors();
 
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
@@ -33,6 +34,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
