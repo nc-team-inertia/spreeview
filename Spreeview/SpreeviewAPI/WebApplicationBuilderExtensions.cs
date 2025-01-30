@@ -21,8 +21,8 @@ namespace SpreeviewAPI
         public static void SetupIdentity(this WebApplicationBuilder builder)
         {
             // establish cookie authentication
-            builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme);
-            
+            builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
+
             // configure authorization
             builder.Services.AddAuthorizationBuilder();
             
