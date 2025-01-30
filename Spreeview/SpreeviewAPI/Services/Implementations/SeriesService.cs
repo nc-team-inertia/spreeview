@@ -1,4 +1,4 @@
-﻿using CommonLibrary.DataClasses.Entities;
+﻿using CommonLibrary.DataClasses.SeriesModel;
 using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Services.Implementations;
