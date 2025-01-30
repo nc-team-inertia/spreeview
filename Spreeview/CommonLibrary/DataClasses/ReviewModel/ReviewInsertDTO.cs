@@ -1,6 +1,6 @@
 ﻿namespace CommonLibrary.DataClasses.ReviewModel
 {
-    internal class ReviewInsertDTO : IInsertDTO
+    public class ReviewInsertDTO : IInsertDTO
     {
         public int EpisodeId { get; set; }
     }
