@@ -11,7 +11,6 @@ namespace SpreeviewAPI
 
             if (builder.Environment.IsDevelopment())
             {
-
                 var applicationDbConnectionString = builder.Configuration.GetConnectionString("ApplicationDb");
 
                 if (applicationDbConnectionString == null)
