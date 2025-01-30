@@ -7,14 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Components\Theme\UniversalThemes.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Components\Theme\UniversalThemes.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\CommonLibrary\CommonLibrary.csproj" />
     <ProjectReference Include="..\SpreeviewFrontend.Client\SpreeviewFrontend.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.12" />
