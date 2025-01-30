@@ -1,4 +1,4 @@
-﻿using CommonLibrary.DataClasses.Entities;
+﻿using CommonLibrary.DataClasses.EpisodeModel;
 
 namespace SpreeviewAPI.Services.Interfaces;
 public interface IEpisodeService
