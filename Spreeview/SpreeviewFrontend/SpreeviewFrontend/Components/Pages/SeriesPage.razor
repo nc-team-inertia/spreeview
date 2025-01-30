@@ -1,4 +1,4 @@
-﻿@page "/series"
+﻿@page "/series/{Id:int}"
 @rendermode InteractiveServer
 
 <div class="flex gap-10 px-20 py-4">
@@ -44,6 +44,9 @@
 
 
 @code {
+	[Parameter]
+	public int Id { get; set; }
+
 	public int numberOfEpisodes { get; set; } = 10;
 	public string seriesName { get; set; } = "Breaking Bad";
 	public int releaseDate { get; set; } = 2023;
