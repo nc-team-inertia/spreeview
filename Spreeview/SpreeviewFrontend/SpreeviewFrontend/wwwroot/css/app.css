@@ -27,3 +27,33 @@
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+/*---------------Color Variables---------------*/
+
+.light-bg-primary {
+    @apply bg-white;
+}
+
+.light-bg-secondary {
+    @apply bg-purple-600;
+}
+
+.dark-bg-primary {
+    @apply bg-gray-700;
+}
+
+.dark-bg-secondary {
+    @apply bg-purple-600;
+}
+
+.light-text-primary {
+    @apply text-black;
+}
+
+.dark-text-primary {
+    @apply text-white;
+}
+
+.button-purple {
+    @apply bg-purple-600 px-3 py-1 text-white rounded-sm;
+}
