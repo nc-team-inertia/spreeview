@@ -55,5 +55,5 @@
 }
 
 .button-purple {
-    @apply bg-purple-600 px-3 py-1 text-white rounded-sm;
+    @apply bg-purple-600 px-3 py-1 text-white rounded-lg;
 }
