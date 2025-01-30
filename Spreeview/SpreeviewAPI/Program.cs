@@ -18,10 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.SetupDbContext();
+builder.SetupCors();
 builder.SetupIdentity();
-
-builder.Services.AddAuthentication();
-builder.Services.AddAuthorization();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -34,13 +32,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapIdentityApi<IdentityUser<int>>();
+
+app.UseCors();
+
 app.UseHttpsRedirection();
 
+app.AddLogoutEndpoint();
+app.AddRolesEndpoint();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapIdentityApi<IdentityUser<int>>();
 
 app.MapControllers();
 

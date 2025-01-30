@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CommonLibrary\CommonLibrary.csproj" />
     <ProjectReference Include="..\SpreeviewFrontend.Client\SpreeviewFrontend.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.12" />
   </ItemGroup>
 
