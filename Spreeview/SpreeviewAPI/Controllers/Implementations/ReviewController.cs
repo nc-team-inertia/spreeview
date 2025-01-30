@@ -1,41 +1,47 @@
 ﻿using CommonLibrary.DataClasses.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
+using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Controllers.Implementations;
+
 [ApiController]
 [Route("api/[controller]")]
-public class ReviewController : Controller, IReviewController
+public class ReviewController : ControllerBase, IReviewController
 {
+    private readonly IReviewService _reviewService;
+    public ReviewController(IReviewService reviewService)
+    {
+        _reviewService = reviewService;
+    }
+
     [HttpGet]
     public ActionResult Index()
     {
-        return View();
+        return null;
     }
 
     [HttpGet("{id}")]
     public ActionResult GetById(int id)
     {
-        return View();
+        return null;
     }
 
     [HttpPost]
     public ActionResult Create(Review review)
     {
-        return View();
+        return null;
     }
 
     [HttpPut("{id}")]
     public ActionResult Edit(int id, Review review)
     {
-        return View();
+        return null;
     }
 
     [HttpDelete("{id}")]
     public ActionResult Delete(int id)
     {
-        return View();
+        return null;
     }
 }
-

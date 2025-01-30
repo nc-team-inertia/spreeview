@@ -1,40 +1,47 @@
 ﻿using CommonLibrary.DataClasses.EpisodeModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
+using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Controllers.Implementations;
+
 [ApiController]
 [Route("api/[controller]")]
-public class EpisodeController : Controller, IEpisodeController
+public class EpisodeController : ControllerBase, IEpisodeController
 {
+    private readonly IEpisodeService _episodeService;
+    public EpisodeController(IEpisodeService episodeService)
+    {
+        _episodeService = episodeService;
+    }
+
     [HttpGet]
     public ActionResult Index()
     {
-        return View();
+        return null;
     }
 
     [HttpGet("{id}")]
     public ActionResult GetById(int id)
     {
-        return View();
+        return null;
     }
 
     [HttpPost]
     public ActionResult Create(Episode episode)
     {
-        return View();
+        return null;
     }
 
     [HttpPut("{id}")]
     public ActionResult Edit(int id, Episode episode)
     {
-        return View();
+        return null;
     }
 
     [HttpDelete("{id}")]
     public ActionResult Delete(int id)
     {
-        return View();
+        return null;
     }
 }

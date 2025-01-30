@@ -1,12 +1,18 @@
 using Microsoft.AspNetCore.Identity;
 using SpreeviewAPI;
 using SpreeviewAPI.Database;
+using SpreeviewAPI.Services.Implementations;
+using SpreeviewAPI.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IEpisodeService, EpisodeService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<ISeriesService, SeriesService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
