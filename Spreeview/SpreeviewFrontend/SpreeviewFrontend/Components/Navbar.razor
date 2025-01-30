@@ -1,5 +1,5 @@
 ﻿<nav class="text-black flex justify-between px-8">
-	<img src="./Spreeview Logo.png" width="300" />
+	<img src="/Spreeview Logo.png" width="300" />
 	@if (signedIn == true)
 	{
 		<div class="flex gap-4 items-center">
@@ -17,5 +17,5 @@
 </nav>
 
 @code {
-	public bool signedIn { get; set; } = false;
+	public bool signedIn { get; set; } = true;
 }
