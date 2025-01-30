@@ -61,5 +61,33 @@ namespace SpreeviewAPI
                 });
             });
         }
+        
+        public static void SetupCors(this WebApplicationBuilder builder)
+        {
+            // Setup CORS between frontend and backend
+            string? backendUrl = builder.Configuration["BackendUrl"];
+            string? frontendUrl = builder.Configuration["FrontendUrl"];
+
+            if (backendUrl == null)
+            {
+                throw new InvalidOperationException("BackendUrl is missing from configuration.");
+            }
+
+            if (frontendUrl == null)
+            {
+                throw new InvalidOperationException("FrontendUrl URL is missing from configuration.");
+            }
+            
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.WithOrigins(backendUrl, frontendUrl)
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .AllowAnyHeader();
+                });
+            });
+        }
     }
 }
