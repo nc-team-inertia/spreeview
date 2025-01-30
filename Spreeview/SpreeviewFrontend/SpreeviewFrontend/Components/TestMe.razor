@@ -1,15 +1,19 @@
 ﻿<h3>TestMe</h3>
 
 @code {
-    Theme.UniverseThemes.UniversalTheme ut = new(Theme.UniverseThemes.Themes.Light);
+    [Parameter]
+    public UniverseThemes.Themes selectedTheme { get; set; }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
         //injects css of other class?
+                                                        //defaults to 0 (light)
+        UniverseThemes.UniversalTheme ut = new(selectedTheme);
 
-        Console.WriteLine(ut.fBgCol);
+        Console.WriteLine("Col: "+ut.Accent); //Empty!
     }
 }
 
+<UniverseThemes />
