@@ -5,5 +5,5 @@ namespace SpreeviewAPI.Controllers.Interfaces;
 public interface ISeriesController
 {
     Task<ActionResult> GetById(int id);
-    ActionResult Index();
+    Task<ActionResult> IndexPopular();
 }
