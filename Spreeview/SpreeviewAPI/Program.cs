@@ -13,6 +13,14 @@ builder.Services.AddScoped<IEpisodeService, EpisodeService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
 
+string tmdbAccessToken = builder.Configuration["HttpClient:BearerToken"]!;
+
+builder.Services.AddHttpClient("tmdb", tmdb =>
+{
+    tmdb.BaseAddress = new Uri("https://api.themoviedb.org/3/");
+    tmdb.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"Bearer {tmdbAccessToken}");
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -5,28 +5,32 @@ namespace SpreeviewAPI.Services.Implementations;
 
 public class EpisodeService : IEpisodeService
 {
-    public IEnumerable<Episode>? Index()
+    private readonly IHttpClientFactory _httpClientFactory;
+    public EpisodeService(IHttpClientFactory httpClientFactory)
     {
-        return new List<Episode>();
+        _httpClientFactory = httpClientFactory;
     }
 
-    public Episode? GetById(int id)
+    public async Task<Episode?> FindByIds(int seriesId, int seasonNumber, int episodeNumber)
     {
-        return new Episode();
-    }
+        HttpClient client;
+        Episode? returnedEpisode;
 
-    public Episode? Create(Episode episode)
-    {
-        return new Episode();
-    }
+        string urlSuffix = $"tv/{seriesId}/season/{seasonNumber}/episode/{episodeNumber}";
 
-    public Episode? Edit(int id, Episode episode)
-    {
-        return new Episode();
-    }
+        try
+        {
+            using (client = _httpClientFactory.CreateClient("tmdb"))
+            {
+                returnedEpisode = await client.GetFromJsonAsync<Episode>(urlSuffix);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error has occured: ", ex.Message);
+            returnedEpisode = null;
+        }
 
-    public Episode? Delete(int id)
-    {
-        return new Episode();
+        return returnedEpisode;
     }
 }

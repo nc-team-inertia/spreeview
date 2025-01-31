@@ -1,9 +1,9 @@
-﻿namespace CommonLibrary.DataClasses.EpisodeModel
+﻿namespace CommonLibrary.DataClasses.EpisodeModel;
+
+public class EpisodeGetDTO : IGetDTO
 {
-    public class EpisodeGetDTO : IGetDTO
-    {
-		public int Id { get; set; }
-		public string Title { get; set; }
-		public int EpisodeNumber { get; set; }
-	}
+	public int Id { get; set; }
+	public string Title { get; set; } = "";
+	public int EpisodeNumber { get; set; }
+    public string StillPath { get; set; } = "";
 }
