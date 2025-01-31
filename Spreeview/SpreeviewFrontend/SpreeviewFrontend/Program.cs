@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using SpreeviewFrontend.Components;
 using SpreeviewFrontend.Client.Identity;
+using SpreeviewFrontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ if (string.IsNullOrEmpty(backendUrl))
 builder.Services
     .AddHttpClient("SpreeviewAPI", client => client.BaseAddress = new Uri(backendUrl))
     .AddHttpMessageHandler<CookieHandler>();
+
+builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
 
 var app = builder.Build();
 
