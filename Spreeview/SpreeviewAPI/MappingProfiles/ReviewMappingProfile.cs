@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CommonLibrary.DataClasses.Entities;
 using CommonLibrary.DataClasses.ReviewModel;
 
 namespace SpreeviewAPI.MappingProfiles
@@ -8,13 +7,13 @@ namespace SpreeviewAPI.MappingProfiles
     {
         public ReviewMappingProfile()
         {
-            CreateMap<Review, CommentGetDTO>()
+            CreateMap<Review, ReviewGetDTO>()
                 .ReverseMap();
 
-            CreateMap<Review, CommentInsertDTO>()
+            CreateMap<Review, ReviewInsertDTO>()
                 .ReverseMap();
 
-            CreateMap<Review, CommentUpdateDTO>()
+            CreateMap<Review, ReviewUpdateDTO>()
                 .ReverseMap();
         }
     }
