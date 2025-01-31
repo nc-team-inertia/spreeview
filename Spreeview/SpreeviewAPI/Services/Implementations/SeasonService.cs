@@ -17,7 +17,7 @@ namespace SpreeviewAPI.Services.Implementations
 			HttpClient client;
 			Season? returnedSeason;
 
-			string urlSuffix = $"/tv/{seriesId}/season/{seasonNumber}";
+			string urlSuffix = $"tv/{seriesId}/season/{seasonNumber}";
 
 			try
 			{
