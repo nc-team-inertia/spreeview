@@ -905,16 +905,12 @@ input[type="range"]::-ms-fill-lower {
   height: 2.5rem;
 }
 
-.h-32 {
-  height: 8rem;
+.h-36 {
+  height: 9rem;
 }
 
 .h-\[1px\] {
   height: 1px;
-}
-
-.h-36 {
-  height: 9rem;
 }
 
 .max-h-full {
