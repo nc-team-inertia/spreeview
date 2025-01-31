@@ -26,7 +26,7 @@ public class SeriesController : ControllerBase, ISeriesController
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult> Details(int id)
+    public async Task<ActionResult> GetById(int id)
     {
         var response = await _seriesService.GetById(id);
         if (response == null) return NotFound();
