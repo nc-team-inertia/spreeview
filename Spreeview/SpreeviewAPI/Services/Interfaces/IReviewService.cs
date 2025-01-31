@@ -1,4 +1,4 @@
-﻿using CommonLibrary.DataClasses.Entities;
+﻿using CommonLibrary.DataClasses.ReviewModel;
 
 namespace SpreeviewAPI.Services.Interfaces;
 public interface IReviewService

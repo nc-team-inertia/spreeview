@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using CommonLibrary.DataClasses.SeasonModel;
 
 namespace CommonLibrary.DataClasses.SeriesModel;
 
