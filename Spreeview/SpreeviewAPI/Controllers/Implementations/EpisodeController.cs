@@ -1,4 +1,5 @@
-﻿using CommonLibrary.DataClasses.EpisodeModel;
+﻿using AutoMapper;
+using CommonLibrary.DataClasses.EpisodeModel;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
 using SpreeviewAPI.Services.Interfaces;
@@ -10,38 +11,24 @@ namespace SpreeviewAPI.Controllers.Implementations;
 public class EpisodeController : ControllerBase, IEpisodeController
 {
     private readonly IEpisodeService _episodeService;
-    public EpisodeController(IEpisodeService episodeService)
+    private readonly IMapper _mapper;
+
+    public EpisodeController(IEpisodeService episodeService, IMapper mapper)
     {
         _episodeService = episodeService;
+        _mapper = mapper;
     }
 
-    [HttpGet]
-    public ActionResult Index()
+    [HttpGet("{seriesId}/{seasonNumber}/{episodeNumber}")]
+    public async Task<ActionResult> GetByIds(int seriesId, int seasonNumber, int episodeNumber)
     {
-        return null;
-    }
+        Episode? episode = await _episodeService.FindByIds(seriesId, seasonNumber, episodeNumber);
 
-    [HttpGet("{id}")]
-    public ActionResult GetById(int id)
-    {
-        return null;
-    }
+        EpisodeGetDTO episodeGetDto = _mapper.Map<EpisodeGetDTO>(episode);
 
-    [HttpPost]
-    public ActionResult Create(Episode episode)
-    {
-        return null;
-    }
+        if (episode == null)
+            return NotFound("There is no episode with the associated values.");
 
-    [HttpPut("{id}")]
-    public ActionResult Edit(int id, Episode episode)
-    {
-        return null;
-    }
-
-    [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
-    {
-        return null;
+        return Ok(episodeGetDto);
     }
 }
