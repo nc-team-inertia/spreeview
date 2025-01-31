@@ -1,9 +1,20 @@
 ﻿@using SpreeviewFrontend.Components
+@using SpreeviewFrontend.Services
 @inherits LayoutComponentBase
+@inject IUserPreferencesService UserPreferencesService
 
+@code {
+	private UserPreferences _preferences = new();
 
+	protected override async Task OnInitializedAsync()
+	{
+		_preferences = await UserPreferencesService.GetUserPreferencesAsync();
+	}
 
-<main>
+}
+
+@* Example of dynamically setting html attributes via UserPreferences *@
+<main class="@(_preferences.Theme == Theme.Dark ? "dark" : "light")">
 	<header>
 		<Navbar />
 	</header>
