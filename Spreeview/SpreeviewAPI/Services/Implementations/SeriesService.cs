@@ -1,32 +1,29 @@
-﻿using CommonLibrary.DataClasses.SeriesModel;
+﻿using System.Text.Json;
+using CommonLibrary.DataClasses.SeriesModel;
 using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Services.Implementations;
 
-public class SeriesService : ISeriesService
+public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesService
 {
     public IEnumerable<Series>? Index()
     {
         return new List<Series>();
     }
 
-    public Series? GetById(int id)
+    public async Task<Series?> GetById(int id)
     {
-        return new Series();
-    }
-
-    public Series? Create(Series series)
-    {
-        return new Series();
-    }
-
-    public Series? Edit(int id, Series series)
-    {
-        return new Series();
-    }
-
-    public Series? Delete(int id)
-    {
-        return new Series();
+        string urlSuffix = $"tv/{id}";
+        Series? returnedSeries;
+        try
+        {
+            using var client = httpClientFactory.CreateClient("tmdb");
+            returnedSeries = await client.GetFromJsonAsync<Series>(urlSuffix);
+        }
+        catch (Exception ex)
+        {
+            returnedSeries = null;
+        }
+        return returnedSeries;
     }
 }
