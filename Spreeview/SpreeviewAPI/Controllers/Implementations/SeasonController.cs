@@ -3,6 +3,7 @@ using CommonLibrary.DataClasses.SeasonModel;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
 using SpreeviewAPI.Services.Implementations;
+using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Controllers.Implementations
 {
@@ -11,8 +12,8 @@ namespace SpreeviewAPI.Controllers.Implementations
 	public class SeasonController : ControllerBase, ISeasonController
 	{
 		private readonly IMapper _seasonMapper;
-		private readonly SeasonService _seasonService;
-		public SeasonController(SeasonService seasonService, IMapper mapper)
+		private readonly ISeasonService _seasonService;
+		public SeasonController(ISeasonService seasonService, IMapper mapper)
 		{
 			_seasonService = seasonService;
 			_seasonMapper = mapper;
