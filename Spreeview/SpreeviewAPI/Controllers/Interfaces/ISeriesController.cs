@@ -4,6 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace SpreeviewAPI.Controllers.Interfaces;
 public interface ISeriesController
 {
-    ActionResult Details(int id);
+    Task<ActionResult> Details(int id);
     ActionResult Index();
 }

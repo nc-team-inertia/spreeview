@@ -26,9 +26,9 @@ public class SeriesController : ControllerBase, ISeriesController
     }
 
     [HttpGet("{id:int}")]
-    public ActionResult Details(int id)
+    public async Task<ActionResult> Details(int id)
     {
-        var response = _seriesService.GetById(id);
+        var response = await _seriesService.GetById(id);
         if (response == null) return NotFound();
         var dto = _mapper.Map<SeriesGetDTO>(response);
         return Ok(dto);
