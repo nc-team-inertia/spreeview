@@ -7,7 +7,8 @@ using Microsoft.Extensions.FileProviders;
 
 namespace SpreeviewAPI.Database
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int> // use integer based primary key
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int> 
+        // use integer based primary key
     {
 
 
@@ -17,6 +18,11 @@ namespace SpreeviewAPI.Database
 
         public ApplicationDbContext(IWebHostEnvironment env) { this.env = env; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IWebHostEnvironment env) : base(options)
+        {
+            this.env = env;
+            Database.EnsureCreated(); //Ensure its created
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IWebHostEnvironment env, IConfiguration config) : base(options)
         {
             this.env = env;
@@ -26,6 +32,7 @@ namespace SpreeviewAPI.Database
         }
 
             //TODO test when it actually runs/is called
+            //TODO in-memory option
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             if (env.IsDevelopment())
@@ -40,7 +47,7 @@ namespace SpreeviewAPI.Database
                     Console.WriteLine("+User secrets");
                     conStr = config.GetConnectionString("ApplicationDb") ?? throw new Exception("Missing Dev Db from UserSecrets 'ApplicationDb' - add to restore functionality");
                 }
-                else
+                else //TODO no user secrets when update-database -- shift from user secrets into Tmp?
                 {
                     Console.WriteLine("-User secrets");
                     conStr = $"Server={Tmp.Dev.Server};Database={Tmp.Dev.DbName};User Id={Tmp.Dev.User};Password={Tmp.Dev.Pass};Trust Server Certificate=True";
@@ -58,6 +65,7 @@ namespace SpreeviewAPI.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //Setup values to test here!
+            base.OnModelCreating(builder); //For identity superclass
         }
     }
 
@@ -75,7 +83,7 @@ namespace SpreeviewAPI.Database
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            var c = new ApplicationDbContext(new E() { EnvironmentName = "Production" });
+            var c = new ApplicationDbContext(new E() { EnvironmentName = "Development" });
 
             return c;
         }

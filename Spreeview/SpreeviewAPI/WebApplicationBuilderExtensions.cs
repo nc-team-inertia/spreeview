@@ -14,7 +14,9 @@ namespace SpreeviewAPI
 
         public static void SetupIdentity(this WebApplicationBuilder builder)
         {
-            builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>().AddApiEndpoints().AddEntityFrameworkStores<ApplicationDbContext>(); // build in identity classes for now
+            builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>().AddApiEndpoints().AddEntityFrameworkStores<ApplicationDbContext>()
+                //.AddDefaultTokenProviders() TODO optional
+                ; // build in identity classes for now
         }
     }
 }
