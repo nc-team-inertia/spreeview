@@ -1,6 +1,6 @@
 ﻿namespace CommonLibrary.DataClasses.ReviewModel
 {
-    public class CommentUpdateDTO : IUpdateDTO
+    public class ReviewUpdateDTO : IUpdateDTO
     {
 		public string Contents { get; set; }
 		public int UserId { get; set; }
