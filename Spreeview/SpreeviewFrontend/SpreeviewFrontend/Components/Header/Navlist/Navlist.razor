@@ -1,5 +1,26 @@
-﻿<h3>Navlist</h3>
-
+﻿
 @code {
-    
+    [Parameter]
+    public bool MobileMode { get; set; }
 }
+<nav class="@(MobileMode ? "grow flex gap-6 flex-col items-end lg:hidden p-5" : "flex grow justify-end text-nowrap gap-6 align-middle max-lg:hidden h-fit")">
+    
+    @if (MobileMode)
+    {
+        <UserStatus/>
+    }
+    
+    <NavlistLink href="">Test Link 1</NavlistLink>
+    <NavlistLink href="">Test Link 2</NavlistLink>
+    <NavlistLink href="">Test Link 3</NavlistLink>
+
+    @if (!MobileMode)
+    {
+        <UserStatus/>
+    }
+    
+</nav>
+
+
+           
+           
