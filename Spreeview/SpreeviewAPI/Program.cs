@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IEpisodeService, EpisodeService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
+builder.Services.AddScoped<ISeasonService, SeasonService>();
 
 string tmdbAccessToken = builder.Configuration["HttpClient:BearerToken"]!;
 
