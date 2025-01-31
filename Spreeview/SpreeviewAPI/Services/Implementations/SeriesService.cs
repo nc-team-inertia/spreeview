@@ -4,9 +4,8 @@ using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Services.Implementations;
 
-public class SeriesService(IHttpClientFactory _httpClientFactory) : ISeriesService
+public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
     public IEnumerable<Series>? Index()
     {
         return new List<Series>();
@@ -18,7 +17,7 @@ public class SeriesService(IHttpClientFactory _httpClientFactory) : ISeriesServi
         Series? returnedSeries;
         try
         {
-            using var client = _httpClientFactory.CreateClient("tmdb");
+            using var client = httpClientFactory.CreateClient("tmdb");
             returnedSeries = await client.GetFromJsonAsync<Series>(urlSuffix);
         }
         catch (Exception ex)
