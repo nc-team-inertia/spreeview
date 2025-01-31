@@ -1,7 +1,7 @@
 ﻿using CommonLibrary.DataClasses.CommentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace CommonLibrary.DataClasses.Entities;
+namespace CommonLibrary.DataClasses.ReviewModel;
 
 public class Review : IEntity
 {

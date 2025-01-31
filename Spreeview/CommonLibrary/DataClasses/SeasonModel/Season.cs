@@ -1,7 +1,7 @@
 ﻿using CommonLibrary.DataClasses.EpisodeModel;
 using System.ComponentModel;
 
-namespace CommonLibrary.DataClasses.SeriesModel;
+namespace CommonLibrary.DataClasses.SeasonModel;
 
 public class Season : IEntity
 {
