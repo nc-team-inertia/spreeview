@@ -9,12 +9,25 @@
 @*     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" /> *@
     <link rel="icon" type="image/png" href="favicon.png" />
 
+    <title>SpreeView</title> <!-- obligratory title -->
+
     <!-- Tailwind CDN - replace in production with a proper build process -->
     <script src="https://unpkg.com/@@tailwindcss/browser@@4"></script>
     <HeadOutlet />
+
+    <!-- customTheme for tailwind -->
+    <link href="/css/custTailwind.css" rel="stylesheet">
 </head>
 
-<body>
+<body data-theme="light">
+    <!-- attempt to test cust theme -->
+    <h2>Main Content</h2>
+    <p>This is a paragraph with background and foreground colors.</p>
+    <div class="bg-ImgContainer p-4">
+        <p>This is an image container with a custom background color.</p>
+    </div>
+
+
     <Routes />
     <script src="_framework/blazor.web.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>

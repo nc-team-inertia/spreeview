@@ -1,0 +1,40 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+    TODO tailwind not finding the file?
+    TODO Warning not using tailwind CLI
+
+    TODO test and implement online https://playcode.io/tailwind
+
+    @theme overrides defaults!
+
+*/
+
+@layer base {
+
+    /*
+        diff themes via html attribute
+        --color-esther => fg-esther || bg-esther  after fetched via tailwind.config.js
+    */
+
+    /*html[data-theme='default'] {
+        --color-esther: 34, 39, 46;
+        --color-maximus: 45, 51, 59;
+        --color-linx: 55, 62, 71;
+    } html[data-theme='neon'] {}*/
+
+    *[data-theme='light']{
+        --color-hBg: #E0E0E0;
+        --color-hFg: #101010;
+
+        --color-bBg: #FFFFFF;
+        --color-bFg: #000000;
+        --color-accent: #8816fc;
+        --colour-ImgContainer: #888888;
+
+        --color-fBg: #E0E0E0;
+        --color-fFg: #101010;
+    }
+}
