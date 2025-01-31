@@ -8,13 +8,13 @@ namespace SpreeviewAPI.MappingProfiles
     {
         public ReviewMappingProfile()
         {
-            CreateMap<Review, ReviewGetDTO>()
+            CreateMap<Review, CommentGetDTO>()
                 .ReverseMap();
 
-            CreateMap<Review, ReviewInsertDTO>()
+            CreateMap<Review, CommentInsertDTO>()
                 .ReverseMap();
 
-            CreateMap<Review, ReviewUpdateDTO>()
+            CreateMap<Review, CommentUpdateDTO>()
                 .ReverseMap();
         }
     }
