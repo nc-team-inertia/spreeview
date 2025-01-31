@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
 using SpreeviewAPI.Services.Interfaces;
+using AutoMapper;
 
 namespace SpreeviewAPI.Controllers.Implementations;
 
@@ -9,39 +10,27 @@ namespace SpreeviewAPI.Controllers.Implementations;
 [Route("api/[controller]")]
 public class SeriesController : ControllerBase, ISeriesController
 {
+    private readonly IMapper _mapper;
     private readonly ISeriesService _seriesService;
-    public SeriesController(ISeriesService seriesService)
+    public SeriesController(ISeriesService seriesService, IMapper mapper)
     {
         _seriesService = seriesService;
+        _mapper = mapper;
     }
 
     [HttpGet]
     public ActionResult Index()
     {
-        return null;
+        var response = _seriesService.Index();
+        return response != null ? Ok(response) : NotFound();
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public ActionResult Details(int id)
     {
-        return null;
-    }
-
-    [HttpPost]
-    public ActionResult Create(Series series)
-    {
-        return null;
-    }
-
-    [HttpPut("{id}")]
-    public ActionResult Edit(int id, Series series)
-    {
-        return null;
-    }
-
-    [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
-    {
-        return null;
+        var response = _seriesService.GetById(id);
+        if (response == null) return NotFound();
+        var dto = _mapper.Map<SeriesGetDTO>(response);
+        return Ok(dto);
     }
 }
