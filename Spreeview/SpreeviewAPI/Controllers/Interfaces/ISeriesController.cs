@@ -4,7 +4,8 @@ namespace SpreeviewAPI.Controllers.Interfaces;
 
 public interface ISeriesController
 {
-    Task<ActionResult> GetById(int id);
     Task<ActionResult> IndexPopular();
+    Task<ActionResult> IndexTopRated();
+    Task<ActionResult> GetById(int id);
     Task<ActionResult> GetByKeywords(string query);
 }

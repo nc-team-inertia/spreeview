@@ -23,6 +23,25 @@ public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesServic
         return seriesResponse?.Results;
     }
 
+    public async Task<List<Series>?> IndexTopRated()
+    {
+        const string urlSuffix = $"tv/top_rated";
+        SeriesResponse? seriesResponse;
+
+        try
+        {
+            using var httpClient = httpClientFactory.CreateClient("tmdb");
+            seriesResponse = await httpClient.GetFromJsonAsync<SeriesResponse>(urlSuffix);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error has occured: ", ex.Message);
+            return null;
+        }
+
+        return seriesResponse?.Results;
+    }
+
     public async Task<Series?> GetById(int id)
     {
         var urlSuffix = $"tv/{id}";

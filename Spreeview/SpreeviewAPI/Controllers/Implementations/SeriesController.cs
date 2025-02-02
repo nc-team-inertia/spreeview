@@ -32,6 +32,19 @@ public class SeriesController : ControllerBase, ISeriesController
         return Ok(dtoList);
     }
 
+    [HttpGet("top")]
+    public async Task<ActionResult> IndexTopRated()
+    {
+        var response = await _seriesService.IndexTopRated();
+
+        if (response == null)
+            return StatusCode(500, "ERROR: A server error has occurred. (500)");
+
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+
+        return Ok(dtoList);
+    }
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById(int id)
     {
