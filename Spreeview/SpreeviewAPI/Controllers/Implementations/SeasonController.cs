@@ -18,8 +18,8 @@ public class SeasonController : ControllerBase, ISeasonController
 		_seasonMapper = mapper;
 	}
 
-	[HttpGet("/{seriesId:int}/{seasonNumber:int}")]
-	public async Task<ActionResult> GetSeason(int seriesId, int seasonNumber)
+	[HttpGet("{seriesId:int}/{seasonNumber:int}")]
+	public async Task<ActionResult> GetSeasonByIds(int seriesId, int seasonNumber)
 	{
 		var response = await _seasonService.FindSeasonByIds(seriesId, seasonNumber);
 		if (response == null)
