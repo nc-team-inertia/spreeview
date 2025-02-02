@@ -8,6 +8,7 @@ namespace SpreeviewAPI.Controllers.Implementations;
 
 [ApiController]
 [Route("api/[controller]")]
+
 public class SeriesController : ControllerBase, ISeriesController
 {
     private readonly IMapper _mapper;
@@ -38,5 +39,18 @@ public class SeriesController : ControllerBase, ISeriesController
         if (response == null) return NotFound();
         var dto = _mapper.Map<SeriesGetDTO>(response);
         return Ok(dto);
+    }
+
+    [HttpGet("search/")]
+    public async Task<ActionResult> GetByKeywords([FromQuery] string query)
+    {
+        List<Series>? response = await _seriesService.FindByKeywords(query);
+
+        if (response == null)
+            return StatusCode(500, "ERROR: A server error has occurred. (500)");
+
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+
+        return Ok(dtoList);
     }
 }

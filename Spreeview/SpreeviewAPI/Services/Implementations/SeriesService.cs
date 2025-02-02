@@ -38,4 +38,23 @@ public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesServic
         }
         return returnedSeries;
     }
+
+    public async Task<List<Series>?> FindByKeywords(string query)
+    {
+        string urlSuffix = $"search/tv?query={query}";
+        SeriesResponse? seriesResponse;
+
+        try
+        {
+            using var httpClient = httpClientFactory.CreateClient("tmdb");
+            seriesResponse = await httpClient.GetFromJsonAsync<SeriesResponse>(urlSuffix);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error has occurred: ", ex.Message);
+            seriesResponse = null;
+        }
+
+        return seriesResponse?.Results;
+    }
 }
