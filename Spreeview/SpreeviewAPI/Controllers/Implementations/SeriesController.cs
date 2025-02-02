@@ -65,4 +65,17 @@ public class SeriesController : ControllerBase, ISeriesController
 
         return Ok(dtoList);
     }
+
+    [HttpGet("recommendations/{seriesId:int}")]
+    public async Task<ActionResult> GetRecommendationsById(int seriesId)
+    {
+        List<Series>? response = await _seriesService.FindRecommendationsById(seriesId);
+
+        if (response == null)
+            return StatusCode(500, "ERROR: A server error has occurred. (500)");
+
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+
+        return Ok(dtoList);
+    }
 }

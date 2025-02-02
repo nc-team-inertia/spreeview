@@ -8,4 +8,5 @@ public interface ISeriesController
     Task<ActionResult> IndexTopRated();
     Task<ActionResult> GetById(int id);
     Task<ActionResult> GetByKeywords(string query);
+    Task<ActionResult> GetRecommendationsById(int seriesId);
 }
