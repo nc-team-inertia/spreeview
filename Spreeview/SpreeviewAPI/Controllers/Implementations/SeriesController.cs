@@ -8,7 +8,6 @@ namespace SpreeviewAPI.Controllers.Implementations;
 
 [ApiController]
 [Route("api/[controller]")]
-
 public class SeriesController : ControllerBase, ISeriesController
 {
     private readonly IMapper _mapper;
@@ -54,7 +53,7 @@ public class SeriesController : ControllerBase, ISeriesController
         return Ok(dto);
     }
 
-    [HttpGet("search/")]
+    [HttpGet("search")]
     public async Task<ActionResult> GetByKeywords([FromQuery] string query)
     {
         List<Series>? response = await _seriesService.FindByKeywords(query);

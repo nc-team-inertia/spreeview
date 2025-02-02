@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using CommonLibrary.DataClasses.SeriesModel;
+﻿using CommonLibrary.DataClasses.SeriesModel;
 using SpreeviewAPI.Services.Interfaces;
 using SpreeviewAPI.Wrappers;
 
