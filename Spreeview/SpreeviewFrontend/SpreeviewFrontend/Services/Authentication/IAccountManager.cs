@@ -29,7 +29,6 @@ public interface IAccountManager
     /// <summary>
     /// Check the current authentication status.
     /// </summary>
-    /// <returns>A ServiceObjectResponse of type bool, indicating success or failure.
-    /// If successful, the Value (bool) indicates authentications status.</returns>
-    public Task<ServiceObjectResponse<bool>> CheckAuthenticatedAsync();
+    /// <returns>A bool indicating the authentication state.</returns>
+    public Task<bool> CheckAuthenticatedAsync();
 }
