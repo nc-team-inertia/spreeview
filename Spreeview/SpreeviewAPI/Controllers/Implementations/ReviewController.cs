@@ -27,6 +27,15 @@ public class ReviewController : ControllerBase, IReviewController
         return Ok(responseDto);
     }
 
+    [HttpGet("episode/{id:int}")]
+    public async Task<ActionResult> GetByEpisodeId(int episodeId)
+    {
+        var response = await _reviewService.GetByEpisodeId(episodeId);
+        if (response == null) return NotFound();
+        var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
+        return Ok(responseDto);
+    }
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById(int id)
     {

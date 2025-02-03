@@ -15,27 +15,20 @@ public class ReviewService : IReviewService
     }
     
     public async Task<IEnumerable<Review>?> Index()
-    {
-        return new List<Review>();
-    }
+        => await _reviewRepository.Index();
 
     public async Task<Review?> GetById(int id)
-    {
-        return new Review();
-    }
+        => await _reviewRepository.GetById(id); 
+
+    public async Task<IEnumerable<Review>?> GetByEpisodeId(int episodeId)
+        => await _reviewRepository.GetByEpisodeId(episodeId);
 
     public async Task<Review?> Create(Review review)
-    {
-        return new Review();
-    }
+        => await _reviewRepository.Create(review);
 
     public async Task<Review?> Edit(ReviewUpdateDTO reviewDto)
-    {
-        return new Review();
-    }
+        => await _reviewRepository.Edit(reviewDto);
 
     public async Task<bool> Delete(int id)
-    {
-        return true;
-    }
+        => await _reviewRepository.Delete(id);
 }
