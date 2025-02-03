@@ -1,36 +1,21 @@
 ﻿using CommonLibrary.DataClasses.EpisodeModel;
 using SpreeviewAPI.Services.Interfaces;
+using SpreeviewAPI.Utilities;
 
 namespace SpreeviewAPI.Services.Implementations;
 
 public class EpisodeService : IEpisodeService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-    public EpisodeService(IHttpClientFactory httpClientFactory)
+    private readonly IRequestManager _requestManager;
+    public EpisodeService(IRequestManager requestManager)
     {
-        _httpClientFactory = httpClientFactory;
+        _requestManager = requestManager;
     }
 
     public async Task<Episode?> FindEpisodeByIds(int seriesId, int seasonNumber, int episodeNumber)
     {
-        HttpClient client;
-        Episode? returnedEpisode;
-
         string urlSuffix = $"tv/{seriesId}/season/{seasonNumber}/episode/{episodeNumber}";
-
-        try
-        {
-            using (client = _httpClientFactory.CreateClient("tmdb"))
-            {
-                returnedEpisode = await client.GetFromJsonAsync<Episode>(urlSuffix);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("An error has occured: ", ex.Message);
-            returnedEpisode = null;
-        }
-
+        Episode? returnedEpisode = await _requestManager.TmdbGetAsync<Episode>(urlSuffix);
         return returnedEpisode;
     }
 }
