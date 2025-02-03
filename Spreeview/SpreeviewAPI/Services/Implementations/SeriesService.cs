@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using CommonLibrary.DataClasses.SeriesModel;
+﻿using CommonLibrary.DataClasses.SeriesModel;
 using SpreeviewAPI.Services.Interfaces;
 using SpreeviewAPI.Wrappers;
 
@@ -23,6 +22,25 @@ public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesServic
         return seriesResponse?.Results;
     }
 
+    public async Task<List<Series>?> IndexTopRated()
+    {
+        const string urlSuffix = $"tv/top_rated";
+        SeriesResponse? seriesResponse;
+
+        try
+        {
+            using var httpClient = httpClientFactory.CreateClient("tmdb");
+            seriesResponse = await httpClient.GetFromJsonAsync<SeriesResponse>(urlSuffix);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error has occured: ", ex.Message);
+            return null;
+        }
+
+        return seriesResponse?.Results;
+    }
+
     public async Task<Series?> GetById(int id)
     {
         var urlSuffix = $"tv/{id}";
@@ -37,5 +55,43 @@ public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesServic
             returnedSeries = null;
         }
         return returnedSeries;
+    }
+
+    public async Task<List<Series>?> FindByKeywords(string query)
+    {
+        string urlSuffix = $"search/tv?query={query}";
+        SeriesResponse? seriesResponse;
+
+        try
+        {
+            using var httpClient = httpClientFactory.CreateClient("tmdb");
+            seriesResponse = await httpClient.GetFromJsonAsync<SeriesResponse>(urlSuffix);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error has occurred: ", ex.Message);
+            seriesResponse = null;
+        }
+
+        return seriesResponse?.Results;
+    }
+
+    public async Task<List<Series>?> FindRecommendationsById(int seriesId)
+    {
+        string urlSuffix = $"tv/{seriesId}/recommendations";
+        SeriesResponse? seriesResponse;
+
+        try
+        {
+            using var httpClient = httpClientFactory.CreateClient("tmdb");
+            seriesResponse = await httpClient.GetFromJsonAsync<SeriesResponse>(urlSuffix);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("An error has occurred: ", ex.Message);
+            seriesResponse = null;
+        }
+
+        return seriesResponse?.Results;
     }
 }

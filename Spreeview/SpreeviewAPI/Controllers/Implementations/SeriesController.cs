@@ -31,6 +31,19 @@ public class SeriesController : ControllerBase, ISeriesController
         return Ok(dtoList);
     }
 
+    [HttpGet("top")]
+    public async Task<ActionResult> IndexTopRated()
+    {
+        var response = await _seriesService.IndexTopRated();
+
+        if (response == null)
+            return StatusCode(500, "ERROR: A server error has occurred. (500)");
+
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+
+        return Ok(dtoList);
+    }
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult> GetById(int id)
     {
@@ -38,5 +51,31 @@ public class SeriesController : ControllerBase, ISeriesController
         if (response == null) return NotFound();
         var dto = _mapper.Map<SeriesGetDTO>(response);
         return Ok(dto);
+    }
+
+    [HttpGet("search")]
+    public async Task<ActionResult> GetByKeywords([FromQuery] string query)
+    {
+        List<Series>? response = await _seriesService.FindByKeywords(query);
+
+        if (response == null)
+            return StatusCode(500, "ERROR: A server error has occurred. (500)");
+
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+
+        return Ok(dtoList);
+    }
+
+    [HttpGet("recommendations/{seriesId:int}")]
+    public async Task<ActionResult> GetRecommendationsById(int seriesId)
+    {
+        List<Series>? response = await _seriesService.FindRecommendationsById(seriesId);
+
+        if (response == null)
+            return StatusCode(500, "ERROR: A server error has occurred. (500)");
+
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+
+        return Ok(dtoList);
     }
 }

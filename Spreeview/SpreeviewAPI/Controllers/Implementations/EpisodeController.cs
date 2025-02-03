@@ -19,10 +19,10 @@ public class EpisodeController : ControllerBase, IEpisodeController
         _mapper = mapper;
     }
 
-    [HttpGet("{seriesId}/{seasonNumber}/{episodeNumber}")]
-    public async Task<ActionResult> GetByIds(int seriesId, int seasonNumber, int episodeNumber)
+    [HttpGet("{seriesId:int}/{seasonNumber:int}/{episodeNumber:int}")]
+    public async Task<ActionResult> GetEpisodeByIds(int seriesId, int seasonNumber, int episodeNumber)
     {
-        Episode? episode = await _episodeService.FindByIds(seriesId, seasonNumber, episodeNumber);
+        Episode? episode = await _episodeService.FindEpisodeByIds(seriesId, seasonNumber, episodeNumber);
 
         EpisodeGetDTO episodeGetDto = _mapper.Map<EpisodeGetDTO>(episode);
 

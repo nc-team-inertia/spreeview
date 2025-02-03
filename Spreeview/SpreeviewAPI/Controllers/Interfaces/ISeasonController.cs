@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SpreeviewAPI.Controllers.Interfaces
+namespace SpreeviewAPI.Controllers.Interfaces;
+
+public interface ISeasonController
 {
-    public interface ISeasonController
-    {
-        Task<ActionResult> GetSeason(int seriesId, int seasonNumber);
-    }
+    Task<ActionResult> GetSeasonByIds(int seriesId, int seasonNumber);
 }

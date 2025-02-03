@@ -11,7 +11,7 @@ public class EpisodeService : IEpisodeService
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<Episode?> FindByIds(int seriesId, int seasonNumber, int episodeNumber)
+    public async Task<Episode?> FindEpisodeByIds(int seriesId, int seasonNumber, int episodeNumber)
     {
         HttpClient client;
         Episode? returnedEpisode;
