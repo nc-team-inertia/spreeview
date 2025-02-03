@@ -56,7 +56,7 @@ public class SeriesController : ControllerBase, ISeriesController
     [HttpGet("search")]
     public async Task<ActionResult> GetByKeywords([FromQuery] string query)
     {
-        List<SeriesDTO>? response = await _seriesService.FindByKeywords(query);
+        List<Series>? response = await _seriesService.FindByKeywords(query);
 
         if (response == null)
             return StatusCode(500, "ERROR: A server error has occurred. (500)");
@@ -69,7 +69,7 @@ public class SeriesController : ControllerBase, ISeriesController
     [HttpGet("recommendations/{seriesId:int}")]
     public async Task<ActionResult> GetRecommendationsById(int seriesId)
     {
-        List<SeriesDTO>? response = await _seriesService.FindRecommendationsById(seriesId);
+        List<Series>? response = await _seriesService.FindRecommendationsById(seriesId);
 
         if (response == null)
             return StatusCode(500, "ERROR: A server error has occurred. (500)");

@@ -7,7 +7,7 @@ namespace SpreeviewAPI.MappingProfiles
 	{
 		public SeriesMappingProfile()
 		{
-			CreateMap<SeriesDTO, SeriesGetDTO>()
+			CreateMap<Series, SeriesGetDTO>()
 				.ReverseMap();
 		}
 	}

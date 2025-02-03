@@ -6,7 +6,7 @@ namespace SpreeviewAPI.Services.Implementations;
 
 public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesService
 {
-    public async Task<IEnumerable<SeriesDTO>?> IndexPopular()
+    public async Task<IEnumerable<Series>?> IndexPopular()
     {
         const string urlSuffix = $"trending/tv/week";
         SeriesResponse? seriesResponse;
@@ -22,7 +22,7 @@ public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesServic
         return seriesResponse?.Results;
     }
 
-    public async Task<List<SeriesDTO>?> IndexTopRated()
+    public async Task<List<Series>?> IndexTopRated()
     {
         const string urlSuffix = $"tv/top_rated";
         SeriesResponse? seriesResponse;
@@ -41,14 +41,14 @@ public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesServic
         return seriesResponse?.Results;
     }
 
-    public async Task<SeriesDTO?> GetById(int id)
+    public async Task<Series?> GetById(int id)
     {
         var urlSuffix = $"tv/{id}";
-        SeriesDTO? returnedSeries;
+        Series? returnedSeries;
         try
         {
             using var client = httpClientFactory.CreateClient("tmdb");
-            returnedSeries = await client.GetFromJsonAsync<SeriesDTO>(urlSuffix);
+            returnedSeries = await client.GetFromJsonAsync<Series>(urlSuffix);
         }
         catch (Exception ex)
         {
@@ -57,7 +57,7 @@ public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesServic
         return returnedSeries;
     }
 
-    public async Task<List<SeriesDTO>?> FindByKeywords(string query)
+    public async Task<List<Series>?> FindByKeywords(string query)
     {
         string urlSuffix = $"search/tv?query={query}";
         SeriesResponse? seriesResponse;
@@ -76,7 +76,7 @@ public class SeriesService(IHttpClientFactory httpClientFactory) : ISeriesServic
         return seriesResponse?.Results;
     }
 
-    public async Task<List<SeriesDTO>?> FindRecommendationsById(int seriesId)
+    public async Task<List<Series>?> FindRecommendationsById(int seriesId)
     {
         string urlSuffix = $"tv/{seriesId}/recommendations";
         SeriesResponse? seriesResponse;

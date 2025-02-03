@@ -8,11 +8,11 @@ public class Episode : IEntity
     public int Id { get; set; }
 
     [JsonPropertyName("name")]
-    public string Title { get; set; } = "";
+    public string Title { get; set; }
 
     [JsonPropertyName("episode_number")]
 	public int EpisodeNumber { get; set; }
 
     [JsonPropertyName("still_path")]
-    public string StillPath { get; set; } = "";
+    public string StillPath { get; set; }
 }

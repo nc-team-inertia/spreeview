@@ -4,9 +4,9 @@ namespace SpreeviewAPI.Services.Interfaces;
 
 public interface ISeriesService
 {
-    Task<IEnumerable<SeriesDTO>?> IndexPopular();
-    Task<List<SeriesDTO>?> IndexTopRated();
-    Task<SeriesDTO?> GetById(int id);
-    Task<List<SeriesDTO>?> FindByKeywords(string query);
-    Task<List<SeriesDTO>?> FindRecommendationsById(int seriesId);
+    Task<IEnumerable<Series>?> IndexPopular();
+    Task<List<Series>?> IndexTopRated();
+    Task<Series?> GetById(int id);
+    Task<List<Series>?> FindByKeywords(string query);
+    Task<List<Series>?> FindRecommendationsById(int seriesId);
 }
