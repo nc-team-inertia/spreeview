@@ -23,19 +23,27 @@ public class ReviewController : ControllerBase, IReviewController
     {
         var response = await _reviewService.Index();
         if(response == null) return NotFound();
-        return Ok(response);
+        var responseDto = _mapper.Map<ReviewGetDTO>(response);
+        return Ok(responseDto);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult GetById(int id)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult> GetById(int id)
     {
-        return null;
+        var response = await _reviewService.GetById(id);
+        if(response == null) return NotFound();
+        var responseDto = _mapper.Map<ReviewGetDTO>(response);
+        return Ok(responseDto);
     }
 
     [HttpPost]
-    public ActionResult Create(Review review)
+    public async Task<ActionResult> Create(ReviewInsertDTO reviewDto)
     {
-        return null;
+        if(!ModelState.IsValid) return BadRequest();
+        var review = _mapper.Map<Review>(reviewDto);
+        var response = await _reviewService.Create(review);
+        if(response == null) return NotFound();
+        return Ok(_mapper.Map<ReviewGetDTO>(response));
     }
 
     [HttpPut("{id}")]

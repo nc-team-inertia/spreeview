@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace SpreeviewAPI.Controllers.Interfaces;
 public interface IReviewController
 {
-    ActionResult Create(Review review);
+    Task<ActionResult> Create(ReviewInsertDTO dto);
     ActionResult Delete(int id);
     ActionResult Edit(int id, Review review);
-    ActionResult GetById(int id);
+    Task<ActionResult> GetById(int id);
     Task<ActionResult> Index();
 }

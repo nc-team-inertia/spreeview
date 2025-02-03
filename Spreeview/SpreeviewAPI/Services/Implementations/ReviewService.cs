@@ -10,12 +10,12 @@ public class ReviewService : IReviewService
         return new List<Review>();
     }
 
-    public Review? GetById(int id)
+    public async Task<Review?> GetById(int id)
     {
         return new Review();
     }
 
-    public Review? Create(Review review)
+    public async Task<Review?> Create(Review review)
     {
         return new Review();
     }

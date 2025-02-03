@@ -3,9 +3,9 @@
 namespace SpreeviewAPI.Services.Interfaces;
 public interface IReviewService
 {
-    Review? Create(Review review);
+    Task<Review?> Create(Review review);
     Review? Delete(int id);
     Review? Edit(int id, Review review);
-    Review? GetById(int id);
+    Task<Review?> GetById(int id);
     Task<IEnumerable<Review>?> Index();
 }
