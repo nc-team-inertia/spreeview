@@ -848,6 +848,11 @@ video {
   background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
 }
 
+.bg-light-accent {
+  --tw-bg-opacity: 1;
+  background-color: rgb(136 22 252 / var(--tw-bg-opacity, 1));
+}
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
@@ -952,6 +957,10 @@ video {
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
+}
+
+.text-bFg {
+  color: var(--color-bFg);
 }
 
 .text-black {
