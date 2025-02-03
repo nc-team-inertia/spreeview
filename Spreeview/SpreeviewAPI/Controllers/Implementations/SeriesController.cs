@@ -36,7 +36,7 @@ public class SeriesController : ControllerBase, ISeriesController
         return Ok(dtoList);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{seriesId:int}")]
     public async Task<ActionResult> GetSeriesById(int seriesId)
     {
         var response = await _seriesService.FindSeriesById(seriesId);
