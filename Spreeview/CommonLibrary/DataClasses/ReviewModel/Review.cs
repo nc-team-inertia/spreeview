@@ -6,6 +6,7 @@ namespace CommonLibrary.DataClasses.ReviewModel;
 public class Review : IEntity
 {
     public int Id { get; set; }
+    [MaxLength(1000)]
     public string Contents { get; set; } = "";
 	public int UserId { get; set; }
     public int EpisodeId { get; set; }
