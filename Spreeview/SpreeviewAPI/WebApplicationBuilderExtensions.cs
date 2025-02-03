@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SpreeviewAPI.Database;
 
@@ -8,14 +9,7 @@ namespace SpreeviewAPI
     {
         public static void SetupDbContext(this WebApplicationBuilder builder)
         {
-            var applicationDbConnectionString = builder.Configuration.GetConnectionString("ApplicationDb");
-
-            if (applicationDbConnectionString == null)
-            {
-                throw new InvalidOperationException("ApplicationDb connection string not found. Please include this in usersecrets for development purposes.");
-            }
-
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(applicationDbConnectionString));
+            builder.Services.AddDbContext<ApplicationDbContext>();
         }
 
         public static void SetupIdentity(this WebApplicationBuilder builder)
