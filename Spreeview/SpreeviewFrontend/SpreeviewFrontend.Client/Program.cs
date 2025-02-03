@@ -14,6 +14,9 @@ builder.Services.AddAuthorizationCore();
 // register the custom state provider
 builder.Services.AddScoped<AuthenticationStateProvider, CookieAuthenticationStateProvider>();
 
+// Cascading authentication state
+builder.Services.AddCascadingAuthenticationState();
+
 // register the account management interface (satisfy IAccountManagement dependency with our previously added AuthenticationStateProvider).
 builder.Services.AddScoped(sp => (IAccountManagement) sp.GetRequiredService<AuthenticationStateProvider>()); 
 
