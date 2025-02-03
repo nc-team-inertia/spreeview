@@ -34,6 +34,7 @@
 		@for (var i = 1; i <= series.Seasons.Count; i++)
 		{
 			<div class="w-4/5 h-36 flex justify-center items-center light-bg-secondary text-white">
+				<img src=@($"https://image.tmdb.org/t/p/original{series.Seasons[i].PosterPath}") />
 				Season @i
 			</div>
 		}
