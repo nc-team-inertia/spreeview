@@ -46,15 +46,20 @@ public class ReviewController : ControllerBase, IReviewController
         return Ok(_mapper.Map<ReviewGetDTO>(response));
     }
 
-    [HttpPut("{id}")]
-    public ActionResult Edit(int id, Review review)
+    [HttpPut]
+    public async Task<ActionResult> Edit(ReviewUpdateDTO reviewDto)
     {
-        return null;
+        if(!ModelState.IsValid) return BadRequest();
+        var response = await _reviewService.Edit(reviewDto);
+        if(response == null) return NotFound();
+        var responseDto = _mapper.Map<ReviewGetDTO>(response);
+        return Ok(responseDto);
     }
 
-    [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> Delete(int id)
     {
-        return null;
+        var response = await _reviewService.Delete(id);
+        return response ? NoContent() : NotFound();
     }
 }

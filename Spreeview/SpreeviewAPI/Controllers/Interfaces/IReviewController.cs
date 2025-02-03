@@ -5,8 +5,8 @@ namespace SpreeviewAPI.Controllers.Interfaces;
 public interface IReviewController
 {
     Task<ActionResult> Create(ReviewInsertDTO dto);
-    ActionResult Delete(int id);
-    ActionResult Edit(int id, Review review);
+    Task<ActionResult> Delete(int id);
+    Task<ActionResult> Edit(ReviewUpdateDTO dto);
     Task<ActionResult> GetById(int id);
     Task<ActionResult> Index();
 }

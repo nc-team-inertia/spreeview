@@ -20,13 +20,13 @@ public class ReviewService : IReviewService
         return new Review();
     }
 
-    public Review? Edit(int id, Review review)
+    public async Task<Review?> Edit(ReviewUpdateDTO reviewDto)
     {
         return new Review();
     }
 
-    public Review? Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        return new Review();
+        return true;
     }
 }
