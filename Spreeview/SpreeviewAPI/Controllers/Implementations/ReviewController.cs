@@ -1,4 +1,5 @@
-﻿using CommonLibrary.DataClasses.ReviewModel;
+﻿using AutoMapper;
+using CommonLibrary.DataClasses.ReviewModel;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
 using SpreeviewAPI.Services.Interfaces;
@@ -9,39 +10,56 @@ namespace SpreeviewAPI.Controllers.Implementations;
 [Route("api/[controller]")]
 public class ReviewController : ControllerBase, IReviewController
 {
+    private readonly IMapper _mapper;
     private readonly IReviewService _reviewService;
-    public ReviewController(IReviewService reviewService)
+    public ReviewController(IReviewService reviewService, IMapper mapper)
     {
+        _mapper = mapper;
         _reviewService = reviewService;
     }
 
     [HttpGet]
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-        return null;
+        var response = await _reviewService.Index();
+        if(response == null) return NotFound();
+        var responseDto = _mapper.Map<ReviewGetDTO>(response);
+        return Ok(responseDto);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult GetById(int id)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult> GetById(int id)
     {
-        return null;
+        var response = await _reviewService.GetById(id);
+        if(response == null) return NotFound();
+        var responseDto = _mapper.Map<ReviewGetDTO>(response);
+        return Ok(responseDto);
     }
 
     [HttpPost]
-    public ActionResult Create(Review review)
+    public async Task<ActionResult> Create(ReviewInsertDTO reviewDto)
     {
-        return null;
+        if(!ModelState.IsValid) return BadRequest();
+        var review = _mapper.Map<Review>(reviewDto);
+        var response = await _reviewService.Create(review);
+        if(response == null) return NotFound();
+        return Ok(_mapper.Map<ReviewGetDTO>(response));
     }
 
-    [HttpPut("{id}")]
-    public ActionResult Edit(int id, Review review)
+    [HttpPut]
+    public async Task<ActionResult> Edit(ReviewUpdateDTO reviewDto)
     {
-        return null;
+        if(!ModelState.IsValid) return BadRequest();
+        var response = await _reviewService.Edit(reviewDto);
+        if(response == null) return NotFound();
+        var responseDto = _mapper.Map<ReviewGetDTO>(response);
+        return Ok(responseDto);
     }
 
-    [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> Delete(int id)
     {
-        return null;
+        var response = await _reviewService.Delete(id);
+        return response ? NoContent() : NotFound();
     }
 }

@@ -5,28 +5,28 @@ namespace SpreeviewAPI.Services.Implementations;
 
 public class ReviewService : IReviewService
 {
-    public IEnumerable<Review>? Index()
+    public async Task<IEnumerable<Review>?> Index()
     {
         return new List<Review>();
     }
 
-    public Review? GetById(int id)
+    public async Task<Review?> GetById(int id)
     {
         return new Review();
     }
 
-    public Review? Create(Review review)
+    public async Task<Review?> Create(Review review)
     {
         return new Review();
     }
 
-    public Review? Edit(int id, Review review)
+    public async Task<Review?> Edit(ReviewUpdateDTO reviewDto)
     {
         return new Review();
     }
 
-    public Review? Delete(int id)
+    public async Task<bool> Delete(int id)
     {
-        return new Review();
+        return true;
     }
 }
