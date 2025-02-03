@@ -22,7 +22,7 @@ public class SeasonController : ControllerBase, ISeasonController
 	public async Task<ActionResult> GetSeasonByIds(int seriesId, int seasonNumber)
 	{
 		var response = await _seasonService.FindSeasonByIds(seriesId, seasonNumber);
-		if (response == null) return NotFound();
+		if (response == null) return NotFound("There is no season with the associated values.");
 		SeasonGetDTO mappedSeasonDTO = _seasonMapper.Map<SeasonGetDTO>(response);
 		return Ok(mappedSeasonDTO);
 	}

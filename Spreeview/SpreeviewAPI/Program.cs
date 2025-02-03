@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using SpreeviewAPI;
-using SpreeviewAPI.Database;
 using SpreeviewAPI.Services.Implementations;
 using SpreeviewAPI.Services.Interfaces;
+using SpreeviewAPI.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +13,7 @@ builder.Services.AddScoped<IEpisodeService, EpisodeService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
 builder.Services.AddScoped<ISeasonService, SeasonService>();
+builder.Services.AddScoped<IRequestManager, RequestManager>();
 
 string tmdbAccessToken = builder.Configuration["HttpClient:BearerToken"]!;
 
