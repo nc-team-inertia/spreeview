@@ -13,6 +13,9 @@ module.exports = {
         extend: {
             colors: {
                     //TODO doesnt change by theme
+                    /*TODO only compiled to .min.css when detected in use
+                        how to change from --color to actual .css
+                    */
 
                 hBg: 'var(--color-hBg)',
                 hFg: 'var(--color-hFg)',
@@ -25,7 +28,23 @@ module.exports = {
                 fBg: 'var(--color-fBg)',
                 fFg: 'var(--color-fFg)',
 
-                brand: { light:"#ffffff", dark:"#000000", red:"#FF0000" } //text-brand-light : #ffffff
+                brand: { light: "#ffffff", dark: "#000000", red: "#FF0000" } //text-brand-light : #ffffff
+                ,
+
+
+                //Making cust themes here??
+                light:{
+                    hBg: "#E0E0E0",
+                    "hFg": "#101010",
+
+                    "bBg": "#FFFFFF",
+                    "bFg": "#000000",
+                    "accent": "#8816fc",
+                    "ImgContainer": "#888888",
+
+                    "fBg": "#E0E0E0",
+                    "fFg": "#101010",
+                }
             },
         },
         plugins: [

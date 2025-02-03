@@ -688,23 +688,19 @@ video {
   border-radius: 0.5rem;
 }
 
-.bg-ImgContainer {
-  background-color: var(--color-ImgContainer);
-}
-
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
 }
 
-.bg-brand-red {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 0 0 / var(--tw-bg-opacity, 1));
-}
-
 .bg-gray-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
+}
+
+.bg-light-accent {
+  --tw-bg-opacity: 1;
+  background-color: rgb(136 22 252 / var(--tw-bg-opacity, 1));
 }
 
 .bg-white {
@@ -764,6 +760,10 @@ video {
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
+}
+
+.text-bFg {
+  color: var(--color-bFg);
 }
 
 .text-black {

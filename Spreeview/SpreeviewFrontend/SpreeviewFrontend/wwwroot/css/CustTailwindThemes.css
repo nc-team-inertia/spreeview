@@ -25,13 +25,15 @@
         --color-linx: 55, 62, 71;
     } html[data-theme='neon'] {}*/
 
+
+        /*TODO only compiled to .min.css when detected in use*/
     *[data-theme='light']{
         --color-hBg: #E0E0E0;
         --color-hFg: #101010;
 
         --color-bBg: #FFFFFF;
         --color-bFg: #000000;
-        --color-accent: #8816fc;
+        --color-accent: #8816fc; 
         --color-ImgContainer: #888888;
 
         --color-fBg: #E0E0E0;
