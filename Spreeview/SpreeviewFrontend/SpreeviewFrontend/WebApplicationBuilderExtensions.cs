@@ -25,8 +25,10 @@ public static class WebApplicationBuilderExtensions
         // register the custom state provider
         builder.Services.AddScoped<AuthenticationStateProvider, ExampleCookieAuthenticationStateProvider>();
 
-        // Cascading authentication state
-        builder.Services.AddCascadingAuthenticationState();
+        // Cascading authentication state#
+        // This doesn't work correctly on dotnet 8.0 due to a bug. See https://github.com/dotnet/aspnetcore/issues/53075
+        // Using CascadingAuthenticationState for now.
+        // builder.Services.AddCascadingAuthenticationState();
 
         // register the account management interface (satisfy IAccountManagement dependency with our previously added AuthenticationStateProvider).
         builder.Services.AddScoped(sp => (IAccountManagement) sp.GetRequiredService<AuthenticationStateProvider>()); 
