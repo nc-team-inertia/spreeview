@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.DataProtection;
+using CommonLibrary.DataClasses.CommentModel;
+using CommonLibrary.DataClasses.ReviewModel;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,8 @@ namespace SpreeviewAPI.Database
     public class ApplicationDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int> 
         // use integer based primary key
     {
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         //Dependency inject env and user secrets to isolate and decouple
         private IWebHostEnvironment env;
