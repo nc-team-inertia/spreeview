@@ -1,9 +1,12 @@
-﻿using CommonLibrary.DataClasses.SeriesModel;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace SpreeviewAPI.Controllers.Interfaces;
+
 public interface ISeriesController
 {
+    Task<ActionResult> IndexPopular();
+    Task<ActionResult> IndexTopRated();
     Task<ActionResult> GetById(int id);
-    ActionResult Index();
+    Task<ActionResult> GetByKeywords(string query);
+    Task<ActionResult> GetRecommendationsById(int seriesId);
 }

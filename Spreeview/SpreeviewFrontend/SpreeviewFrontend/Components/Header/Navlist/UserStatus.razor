@@ -1,0 +1,17 @@
+﻿@if (signedIn == true)
+{
+    <div class="flex gap-4 items-center text-nowrap">
+        <a>Finn Moffett</a>
+        <div class="w-10 h-10 rounded-full bg-gray-500"></div>
+        <button class="button-purple">Sign out</button>
+    </div>
+} else
+{
+    <div class="flex gap-4 items-center text-nowrap">
+        <button class="button-purple">Sign in</button>
+    </div>
+}
+
+@code {
+    public bool signedIn { get; set; } = true;
+}

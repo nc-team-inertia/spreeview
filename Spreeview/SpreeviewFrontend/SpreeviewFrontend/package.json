@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "build": "tailwindcss -i wwwroot/css/app.css -o wwwroot/css/app.min.css",
+    "watch": "tailwindcss -i wwwroot/css/app.css -o wwwroot/css/app.min.css --watch"
+  },
   "dependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.1",

@@ -1,0 +1,25 @@
+﻿@using SpreeviewFrontend.Components.Header.Navlist
+@rendermode InteractiveServer
+
+@code {
+	private bool mobileNavbarVisible = false;
+
+	private void ToggleMobileNavbarVisible()
+	{
+		mobileNavbarVisible = !mobileNavbarVisible;
+	}
+}
+
+<header class="shadow-md">
+	<div class="text-black flex justify-between px-12 py-6">
+		<HeaderBrand/>
+		<div class="flex gap-12 items-center">
+			<Navlist/>
+			<NavlistToggle Active="mobileNavbarVisible" OnClick="() => ToggleMobileNavbarVisible()"/>
+		</div>
+	</div>
+	@if (mobileNavbarVisible)
+	{
+		<Navlist MobileMode="true"/>
+	}
+</header>
