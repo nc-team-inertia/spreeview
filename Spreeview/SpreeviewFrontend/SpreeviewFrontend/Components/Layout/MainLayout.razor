@@ -14,7 +14,8 @@
 }
 
 @* Example of dynamically setting html attributes via UserPreferences *@
-<main class="@(_preferences.Theme == Theme.Dark ? "dark" : "light")">
+@* <main class="@(_preferences.Theme == Theme.Dark ? "dark" : "light")"> *@
+<main>
 	<header>
 		<Navbar />
 	</header>
