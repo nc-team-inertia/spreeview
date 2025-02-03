@@ -25,8 +25,6 @@
         --color-linx: 55, 62, 71;
     } html[data-theme='neon'] {}*/
 
-
-        /*TODO only compiled to .min.css when detected in use*/
     *[data-theme='light']{
         --color-hBg: #E0E0E0;
         --color-hFg: #101010;
@@ -40,3 +38,24 @@
         --color-fFg: #101010;
     }
 }
+
+/*TODO inject razor and adjust css here?*/
+
+/*inside document root scope (Global)*/
+:root {
+    /*var(val, defaultVal)*/
+    --hBg: #e0e0e0; --hFg:#101010;
+
+    --accent: #8816fc;
+    --container: #888888;
+    --mBg:#FFFFFF; --mFg:#000000;
+
+    --fBg: #E0E0E0; --fFg: #101010;
+}
+
+/*actual CSS code here*/
+*[theme='light'] header{ background-color: var(--hBg); color: var(--hFg); }
+*[theme='light'] main { background-color: var(--mBg); color: var(--mFg); }
+*[theme='light'] img { background-color: var(--container); }
+*[theme='light'] button { background-color:var(--accent); }
+*[theme='light'] footer { background-color: var(--fBg); color: var(--fFg); }

@@ -12,9 +12,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.12" />
   </ItemGroup>
-
+    
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\Common\Button.razor" />
+      <Content Update="wwwroot\css\CustTailwindThemes.css">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
   </ItemGroup>
-
+    
 </Project>
