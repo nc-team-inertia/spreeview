@@ -1,16 +1,17 @@
 ﻿using CommonLibrary.DataClasses.ReviewModel;
 using SpreeviewAPI.Database;
+using SpreeviewAPI.Repository;
 using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Services.Implementations;
 
 public class ReviewService : IReviewService
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ReviewRepository _reviewRepository;
 
-    public ReviewService(ApplicationDbContext context)
+    public ReviewService(ReviewRepository reviewRepository)
     {
-        _context = context;
+        _reviewRepository = reviewRepository;
     }
     
     public async Task<IEnumerable<Review>?> Index()
