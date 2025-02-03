@@ -19,21 +19,15 @@
     <script src="https://unpkg.com/@@tailwindcss/browser@@4"></script>
     <HeadOutlet />
 
-    @* Build command to turn flowbite into .css else wont work!
-        npx postcss styles.css -o css/app.min.css 
-
-        TODO TODO TODO incorporate this install method into the build process of the .sln
-    *@
-
-
-
+    <!-- TODO is failing to link up external css! -->
+    <link rel="stylesheet" href="./css/CustTailwindThemes.css"/>
 </head>
 
-<body data-theme="light">
+<body theme="light">
     <!-- attempt to test cust theme -->
     <h2>Main Content</h2>
-    <p class="theme-bImgContainer">This is a paragraph with background and foreground colors.</p>
-    <div class="bg-light-accent text-bFg p-4">
+    <p>This is a paragraph with background and foreground colors.</p>
+    <div class="p-4" style="background-color: var(--accent)">
         <p>This is an image container with a custom background color.</p>
     </div>
 

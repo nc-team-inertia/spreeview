@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-console.log("Where is my root");
+//console.log("Where is my root"); //runs on compile
 
 module.exports = {
     
