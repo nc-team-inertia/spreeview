@@ -49,7 +49,7 @@ public class CookieAuthenticationStateProvider(
         
         // User is authenticated, so build the claims principal:
         var userJson = await userInfoResponse.Content.ReadAsStringAsync();
-        var userInfo = JsonSerializer.Deserialize<UserInfo>(userJson, _jsonSerializerOptions);
+        var userInfo = JsonSerializer.Deserialize<UserInfoModel>(userJson, _jsonSerializerOptions);
         
         // Check if user info exists:
         if (userInfo == null)
@@ -84,7 +84,7 @@ public class CookieAuthenticationStateProvider(
         var rolesJson = await rolesResponse.Content.ReadAsStringAsync();
         
         // deserialize the roles string into an array
-        var roles = JsonSerializer.Deserialize<RoleClaim[]>(rolesJson, _jsonSerializerOptions);
+        var roles = JsonSerializer.Deserialize<RoleClaimModel[]>(rolesJson, _jsonSerializerOptions);
         
         // add any roles to the claims collection
         if (roles?.Length > 0)
@@ -100,7 +100,7 @@ public class CookieAuthenticationStateProvider(
         }
         
         // set the principal
-        var id = new ClaimsIdentity(claims, nameof(ExampleCookieAuthenticationStateProvider));
+        var id = new ClaimsIdentity(claims, nameof(CookieAuthenticationStateProvider));
         var user = new ClaimsPrincipal(id);
         _isAuthenticated = true;
         return new AuthenticationState(user);

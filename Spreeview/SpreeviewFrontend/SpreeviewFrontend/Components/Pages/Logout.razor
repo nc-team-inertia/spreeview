@@ -1,0 +1,30 @@
+﻿@page "/logout"
+@using SpreeviewAPI.Wrappers
+@using SpreeviewFrontend.Client.Identity
+@inject IAccountManager AccountManager
+
+<PageTitle>Logout</PageTitle>
+
+<h1>Logout</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <p>Logging you out...</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>You're logged out. <a href="/login">Log in.</a></p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code
+{
+    private ServiceResponse logoutResponse = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (await AccountManager.CheckAuthenticatedAsync())
+        {
+            logoutResponse = await AccountManager.LogoutAsync();
+        }
+    }
+}
