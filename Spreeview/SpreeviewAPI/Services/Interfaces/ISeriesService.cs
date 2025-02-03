@@ -6,7 +6,7 @@ public interface ISeriesService
 {
     Task<List<Series>?> IndexPopularSeries();
     Task<List<Series>?> IndexTopRatedSeries();
-    Task<Series?> FindSeriesById(int id);
+    Task<Series?> FindSeriesById(int seriesId);
     Task<List<Series>?> FindSeriesByKeywords(string query);
     Task<List<Series>?> FindRecommendationsById(int seriesId);
 }

@@ -3,7 +3,7 @@ using Moq;
 using SpreeviewAPI.Services.Implementations;
 using SpreeviewAPI.Utilities;
 
-namespace SpreeviewTests.ControllerTests;
+namespace SpreeviewTests.ServiceTests;
 
 public class EpisodeServiceTests
 {

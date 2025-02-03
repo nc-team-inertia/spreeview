@@ -39,9 +39,9 @@ public class SeriesService: ISeriesService
         return returnedSeriesList;
     }
 
-    public async Task<Series?> FindSeriesById(int id)
+    public async Task<Series?> FindSeriesById(int seriesId)
     {
-        var urlSuffix = $"tv/{id}";
+        var urlSuffix = $"tv/{seriesId}";
         Series? returnedSeries = await _requestManager.TmdbGetAsync<Series>(urlSuffix);
         return returnedSeries;
     }
