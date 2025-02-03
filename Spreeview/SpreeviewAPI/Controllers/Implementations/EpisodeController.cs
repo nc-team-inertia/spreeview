@@ -23,12 +23,8 @@ public class EpisodeController : ControllerBase, IEpisodeController
     public async Task<ActionResult> GetEpisodeByIds(int seriesId, int seasonNumber, int episodeNumber)
     {
         Episode? episode = await _episodeService.FindEpisodeByIds(seriesId, seasonNumber, episodeNumber);
-
+        if (episode == null) return NotFound("There is no episode with the associated values.");
         EpisodeGetDTO episodeGetDto = _mapper.Map<EpisodeGetDTO>(episode);
-
-        if (episode == null)
-            return NotFound("There is no episode with the associated values.");
-
         return Ok(episodeGetDto);
     }
 }
