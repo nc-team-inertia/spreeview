@@ -59,9 +59,9 @@ body, html {
 }
 
 .button-purple {
-    @apply bg-purple-600 px-3 py-1 text-white;
+    @apply bg-purple-600 px-3 py-1 text-white rounded-lg;
 }
 
 .shadow-purple {
-    box-shadow: 0px 10px 10px rgba(147 51 234, 0.7);
+    box-shadow: 0px 10px 10px #805ad570;
 }
