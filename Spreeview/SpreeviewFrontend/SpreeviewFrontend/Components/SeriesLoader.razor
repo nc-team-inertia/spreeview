@@ -1,0 +1,49 @@
+﻿@using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Requests
+@rendermode InteractiveServer
+
+@if (series != null)
+{
+    @if (LoadingType == LoadingType.Trending)
+    {
+        <PopularSeriesDisplay series="series" />
+    }
+    else if (LoadingType == LoadingType.Carousel)
+    {
+        <MainCarousel series="series" />
+    }
+}
+else if (errorMessage != null)
+{
+    <div>
+        We faced an error when loading the series: @errorMessage
+    </div>
+}
+else
+{
+    <div>
+        Loading Series...
+    </div>
+}
+
+@code {
+    [Parameter]
+    public LoadingType LoadingType { get; set; }
+
+    private List<SeriesGetDTO> series;
+
+    private string errorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Backend backend = new Backend();
+        try
+        {
+            series = await backend.GetTrendingSeries();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+}

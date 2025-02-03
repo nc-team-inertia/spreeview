@@ -1,7 +1,10 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 
-<h1>Home</h1>
+
+<SeriesLoader LoadingType="@LoadingType.Carousel" />
+<SearchBar />
+<SeriesLoader LoadingType="@LoadingType.Trending" />
 
 @code {
 

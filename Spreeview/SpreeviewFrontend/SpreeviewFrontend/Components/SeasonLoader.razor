@@ -1,0 +1,54 @@
+﻿@using CommonLibrary.DataClasses.SeasonModel
+@using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Requests
+@rendermode InteractiveServer
+
+@if (season != null)
+{
+    @if (LoadingType == LoadingType.SeasonInfo)
+    {
+        <SeasonInfo season="season" />
+    }
+}
+else if (errorMessage != null)
+{
+    <div>
+        We faced an error when loading the season: @errorMessage
+    </div>
+}
+else
+{
+    <div>
+        Loading Season...
+    </div>
+}
+
+@code {
+    [Parameter]
+    public LoadingType LoadingType { get; set; }
+
+    [Parameter]
+    public int seriesId { get; set; }
+
+    [Parameter]
+    public int seasonNumber { get; set; }
+
+    private SeasonGetDTO season;
+
+    private string errorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Backend backend = new Backend();
+        try
+        {
+            Console.WriteLine(seriesId);
+            Console.WriteLine(seasonNumber);
+            season = await backend.GetSeasonById(seriesId, seasonNumber);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+    }
+}
