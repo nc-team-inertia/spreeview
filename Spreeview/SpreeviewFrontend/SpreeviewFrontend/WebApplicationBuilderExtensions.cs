@@ -23,7 +23,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddAuthorization();
 
         // register the custom state provider
-        builder.Services.AddScoped<AuthenticationStateProvider, CookieAuthenticationStateProvider>();
+        builder.Services.AddScoped<AuthenticationStateProvider, ExampleCookieAuthenticationStateProvider>();
 
         // Cascading authentication state
         builder.Services.AddCascadingAuthenticationState();

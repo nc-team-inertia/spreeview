@@ -3,5 +3,5 @@
 public enum ServiceResponseType
 {
     Success,
-    Faliure
+    Failure
 }
