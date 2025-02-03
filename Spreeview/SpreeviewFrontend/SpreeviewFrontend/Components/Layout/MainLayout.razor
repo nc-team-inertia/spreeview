@@ -16,13 +16,13 @@
 }
 
 @* Example of dynamically setting html attributes via UserPreferences *@
-<main class="@(_preferences.Theme == Theme.Dark ? "dark" : "light")">
+<div class="@(_preferences.Theme == Theme.Dark ? "dark" : "light") flex h-screen flex-col justify-between">
 	<Header />
-
-	@Body
-
+	<main class="mb-auto">
+		@Body
+	</main>
 	<Footer />
-</main>
+</div>
 
 @code {
 

@@ -1,0 +1,42 @@
+﻿@page "/register"
+@using RecordShop.Frontend.Client.Identity.Models
+@using SpreeviewAPI.Wrappers
+@using SpreeviewFrontend.Client.Identity
+@using SpreeviewFrontend.Components.Authentication
+@inject IAccountManager AccountManager
+
+
+<PageTitle>Register</PageTitle>
+
+<h1>Register</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="alert alert-success">You're already logged in as @context.User.Identity?.Name.</div>
+    </Authorized>
+    <NotAuthorized>
+        @if (registerResponse.Type == ServiceResponseType.Success)
+        {
+            <p>You successfully registered. Now you can <a href="login">login</a>.</p>
+        }
+        else
+        {
+            @foreach (var message in registerResponse.Messages)
+            {
+                <p>@message</p>
+            }
+            <RegisterForm OnSubmit="RegisterUserAsync"/>
+        }
+    </NotAuthorized>
+</AuthorizeView>
+
+@code
+{
+    private ServiceResponse registerResponse = new();
+
+    
+    public async Task RegisterUserAsync(RegisterFormModel formData)
+    {
+        registerResponse = await AccountManager.RegisterAsync(formData.Email, formData.Password);
+    }
+}

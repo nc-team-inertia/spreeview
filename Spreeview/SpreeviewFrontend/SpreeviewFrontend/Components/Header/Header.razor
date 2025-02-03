@@ -1,5 +1,4 @@
 ﻿@using SpreeviewFrontend.Components.Header.Navlist
-@rendermode InteractiveServer
 
 @code {
 	private bool mobileNavbarVisible = false;
@@ -11,7 +10,6 @@
 }
 
 @* TODO: We need cascading authnetications state here, as it is not read from Routes.razor for some reason. Look for a better option *@
-<CascadingAuthenticationState>
 <header class="shadow-md">
 	<div class="text-black flex justify-between px-12 py-6">
 		<HeaderBrand/>
@@ -25,4 +23,4 @@
 		<Navlist MobileMode="true"/>
 	}
 </header>
-</CascadingAuthenticationState>
+
