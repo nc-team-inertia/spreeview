@@ -1,29 +1,35 @@
-/* @type {import('tailwindcss').Config}
-TODO isnt reference my .css?
-*/
+/** @type {import('tailwindcss').Config} */
+
+console.log("Where is my root");
+
 module.exports = {
+    
+
     content: [
         "./**/*.{razor,html,cshtml}",
         "./node_modules/flowbite/**/*.js",
-        "./**/CustTailwindThemes.css"
     ],
     theme: {
         extend: {
             colors: {
+                    //TODO doesnt change by theme
+
                 hBg: 'var(--color-hBg)',
                 hFg: 'var(--color-hFg)',
 
                 bBg: 'var(--color-bBg)',
                 bFg: 'var(--color-bFg)',
                 accent: 'var(--color-accent)',
-                ImgContainer: '#FF0000',
+                ImgContainer: 'var(--color-ImgContainer)',
 
                 fBg: 'var(--color-fBg)',
                 fFg: 'var(--color-fFg)',
+
+                brand: { light:"#ffffff", dark:"#000000", red:"#FF0000" } //text-brand-light : #ffffff
             },
         },
         plugins: [
-            require('flowbite/plugin')
+            //require('flowbite/plugin') //TODO not found
         ],
     }
 }

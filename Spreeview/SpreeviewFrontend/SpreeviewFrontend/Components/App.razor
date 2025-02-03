@@ -5,7 +5,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
+
+
+        @* tailwind compiled css *@
     <link href="/css/app.min.css" rel="stylesheet" />
+
 @*     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" /> *@
     <link rel="icon" type="image/png" href="favicon.png" />
 
@@ -15,14 +19,20 @@
     <script src="https://unpkg.com/@@tailwindcss/browser@@4"></script>
     <HeadOutlet />
 
-    <!-- customTheme for tailwind -->
-    <link href="/css/custTailwind.css" rel="stylesheet">
+    @* Build command to turn flowbite into .css else wont work!
+        npx postcss styles.css -o css/app.min.css 
+
+        TODO TODO TODO incorporate this install method into the build process of the .sln
+    *@
+
+
+
 </head>
 
 <body data-theme="light">
     <!-- attempt to test cust theme -->
     <h2>Main Content</h2>
-    <p>This is a paragraph with background and foreground colors.</p>
+    <p class="bg-brand-red">This is a paragraph with background and foreground colors.</p>
     <div class="bg-ImgContainer p-4">
         <p>This is an image container with a custom background color.</p>
     </div>
