@@ -28,8 +28,8 @@
 
 
 /*dark theme*/
-*[theme='light'] main { background-color: var(--mBg); color: var(--mFg); }
-*[theme='light'] img { background-color: var(--container); }
-*[theme='light'] button { background-color:var(--accent); }
+main[theme='dark'], body[theme='dark'] { background-color: #222222; color: #CCCCCC; }
+*[theme='dark'] img { background-color: var(--container); }
+*[theme='dark'] button { background-color: #FC6C16; }
 
-*[theme='light'] header, *[theme='light'] footer { background-color: var(--oBg); color: var(--oFg); }
+*[theme='dark'] header, *[theme='dark'] footer { background-color: #101010; color: #E0E0E0; }
