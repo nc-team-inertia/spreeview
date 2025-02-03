@@ -4,7 +4,7 @@ using CommonLibrary.DataClasses.SeasonModel;
 
 namespace CommonLibrary.DataClasses.SeriesModel;
 
-public class Series : IEntity
+public class SeriesDTO : IEntity
 {
 	[JsonPropertyName("id")]
     public int Id { get; set; }

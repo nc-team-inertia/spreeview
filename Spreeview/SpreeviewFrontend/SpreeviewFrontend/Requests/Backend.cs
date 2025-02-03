@@ -5,13 +5,13 @@ namespace SpreeviewFrontend.Requests
 {
 	public class Backend
 	{
-		public async Task<List<Series>?> GetTrendingSeries()
+		public async Task<List<SeriesGetDTO>?> GetTrendingSeries()
 		{
 			try
 			{
 				var http = new HttpClient();
 
-				var response = await http.GetFromJsonAsync<List<Series>>(
+				var response = await http.GetFromJsonAsync<List<SeriesGetDTO>>(
 					$"https://localhost:7119/api/Series/trending");
 
 				if (response != null)
