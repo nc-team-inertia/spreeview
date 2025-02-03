@@ -1,61 +1,25 @@
-﻿@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/*
-    TODO tailwind not finding the file?
-    TODO Warning not using tailwind CLI
-
-    TODO test and implement online https://playcode.io/tailwind
-
-    @theme overrides defaults!
-
-*/
-
-@layer base {
-
-    /*
-        diff themes via html attribute
-        --color-esther => fg-esther || bg-esther  after fetched via tailwind.config.js
-    */
-
-    /*html[data-theme='default'] {
-        --color-esther: 34, 39, 46;
-        --color-maximus: 45, 51, 59;
-        --color-linx: 55, 62, 71;
-    } html[data-theme='neon'] {}*/
-
-    *[data-theme='light']{
-        --color-hBg: #E0E0E0;
-        --color-hFg: #101010;
-
-        --color-bBg: #FFFFFF;
-        --color-bFg: #000000;
-        --color-accent: #8816fc; 
-        --color-ImgContainer: #888888;
-
-        --color-fBg: #E0E0E0;
-        --color-fFg: #101010;
-    }
-}
-
-/*TODO inject razor and adjust css here?*/
+﻿/*TODO inject razor and adjust css here?*/
 
 /*inside document root scope (Global)*/
 :root {
     /*var(val, defaultVal)*/
-    --hBg: #e0e0e0; --hFg:#101010;
+    --hBg: #E0E0E0; --hFg:#101010;
 
-    --accent: #8816fc;
+    --accent: #8816FC;
     --container: #888888;
     --mBg:#FFFFFF; --mFg:#000000;
 
     --fBg: #E0E0E0; --fFg: #101010;
+
+    --oBg: #E0E0E0; --oFg:#101010;
 }
 
-/*actual CSS code here*/
-*[theme='light'] header{ background-color: var(--hBg); color: var(--hFg); }
+/*actual CSS code here - turn into razor ??*/
 *[theme='light'] main { background-color: var(--mBg); color: var(--mFg); }
 *[theme='light'] img { background-color: var(--container); }
 *[theme='light'] button { background-color:var(--accent); }
-*[theme='light'] footer { background-color: var(--fBg); color: var(--fFg); }
+
+*[theme='light'] header, *[theme='light'] footer { background-color: var(--oBg); color: var(--oFg); }
+
+/**[theme='light'] header { background-color: var(--hBg); color: var(--hFg); }
+*[theme='light'] footer { background-color: var(--fBg); color: var(--fFg); }*/
