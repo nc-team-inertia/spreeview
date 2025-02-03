@@ -1,0 +1,15 @@
+﻿@using CommonLibrary.DataClasses.SeriesModel
+@if (series != null)
+{
+	<section>
+		<h3>@series.Name</h3>
+		<p>@series.BannerPath</p>
+		<p>@series.ReleaseDate</p>
+		<img src=@(series.CoverPath == "" ? $"https://image.tmdb.org/t/p/original/{series.BannerPath}" : $"https://image.tmdb.org/t/p/original/{series.CoverPath}") alt="@series.Name" />
+	</section>
+}
+
+@code {
+	[Parameter]
+	public Series series { get; set; }
+}

@@ -1,0 +1,12 @@
+﻿@using CommonLibrary.DataClasses.SeriesModel
+<section class="p-10">
+	@foreach (Series series in series)
+	{
+		<SeriesCard series="series" />
+	}
+</section>
+
+@code {
+	[Parameter]
+	public List<Series> series { get; set; }
+}
