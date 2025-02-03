@@ -4,7 +4,13 @@
 
 @if (series != null)
 {
-    <PopularSeriesDisplay series="series" />
+    @if (LoadingType == LoadingType.Trending)
+    { 
+        <PopularSeriesDisplay series="series" />
+    } else if (LoadingType == LoadingType.Carousel)
+    {
+        <MainCarousel series="series" />
+    }
 }
 else if (errorMessage != null)
 {
@@ -20,6 +26,9 @@ else
 }
 
 @code {
+    [Parameter]
+    public LoadingType LoadingType { get; set; }
+
     private List<SeriesGetDTO> series;
 
     private string errorMessage { get; set; }

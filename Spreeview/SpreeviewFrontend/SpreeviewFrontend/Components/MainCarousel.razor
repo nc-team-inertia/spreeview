@@ -32,22 +32,10 @@
 @code {
 	public List<string> bannerUrls = new List<string>() { "/j8PrRaUPI19b1ZxsXaT03bQpjWm.jpg", "/7M0huD4pLqe15c3VSxBMCqzFMSW.jpg", "/oJdDWkRNkdWrYhOTNyooJDJEFoX.jpg" };
 
-	private List<SeriesGetDTO> series;
+	[Parameter]
+	public List<SeriesGetDTO> series { get; set; }
 
 	private string errorMessage { get; set; }
-
-	protected override async Task OnInitializedAsync()
-	{
-		Backend backend = new Backend();
-		try
-		{
-			series = await backend.GetTrendingSeries();
-		}
-		catch (Exception ex)
-		{
-			errorMessage = ex.Message;
-		}
-	}
 
 	private int currentIndex = 0;
 
