@@ -3,6 +3,7 @@
 	public enum LoadingType
 	{
 		Carousel,
-		Trending
+		Trending,
+		SeasonInfo
 	}
 }

@@ -1,4 +1,5 @@
-﻿using CommonLibrary.DataClasses.SeriesModel;
+﻿using CommonLibrary.DataClasses.SeasonModel;
+using CommonLibrary.DataClasses.SeriesModel;
 using System.Text.Json;
 
 namespace SpreeviewFrontend.Requests
@@ -50,5 +51,28 @@ namespace SpreeviewFrontend.Requests
 			}
 			return null;
 		}
-	}
+
+        public async Task<SeasonGetDTO?> GetSeasonById(int seriesId, int seasonNumber)
+        {
+            try
+            {
+                var http = new HttpClient();
+
+                var response = await http.GetFromJsonAsync<SeasonGetDTO>(
+                    $"https://localhost:7119/api/Season/{seriesId}/{seasonNumber}");
+
+                if (response != null)
+                {
+                    Console.WriteLine(response);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            return null;
+        }
+    }
 }

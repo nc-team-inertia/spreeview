@@ -1,4 +1,6 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
+@rendermode InteractiveServer
+
 <div class="flex gap-10 px-20 py-4">
 	<!--Bio section-->
 	<section class="flex-[2.5]">
@@ -7,16 +9,6 @@
 			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") width="100%" />
 		</section>
 		<section class="px-4">
-			<!--Episodes section-->
-			<div class="flex gap-4 items-center py-8">
-				<span>Episodes:</span>
-				<div class="flex gap-2 flex-wrap">
-					@for (var i = 1; i <= series.Seasons.Count; i++)
-					{
-						<div class="bg-black text-white px-3 py-1 rounded-lg">@i</div>
-					}
-				</div>
-			</div>
 			<!--Information section-->
 			<article>
 				<div class="flex gap-2 items-end">
@@ -27,15 +19,20 @@
 					@series.Overview
 				</p>
 			</article>
+			@if (seasonNumber > 0)
+			{
+				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seasonNumber="@seasonNumber" seriesId="@series.Id" />
+			}
 		</section>
 	</section>
 	<!--Seasons section-->
 	<section class="flex-[1] flex flex-col gap-4 items-center max-h-full">
 		@for (var i = 1; i <= series.Seasons.Count; i++)
 		{
-			<button class="w-4/5 h-36 flex justify-center items-center light-bg-secondary text-white">
+			var seasonNumber = i; // Capture i in a new variable
+			<button class="w-4/5 h-36 flex justify-center items-center light-bg-secondary text-white" @onclick="() => SetSeason(seasonNumber)">
 				@* <img src=@($"https://image.tmdb.org/t/p/original{series.Seasons[i-1].PosterPath}") /> *@
-				Season @i
+				Season @seasonNumber
 			</button>
 		}
 	</section>
@@ -44,5 +41,14 @@
 @code {
 	[Parameter]
 	public SeriesGetDTO series { get; set; }
+
+	public int seasonNumber { get; set; } = 0;
+
+	public void SetSeason(int i)
+	{
+		Console.WriteLine(i);
+		seasonNumber = i;
+		StateHasChanged();
+	}
 
 }
