@@ -8,5 +8,5 @@ public interface IReviewController
     ActionResult Delete(int id);
     ActionResult Edit(int id, Review review);
     ActionResult GetById(int id);
-    ActionResult Index();
+    Task<ActionResult> Index();
 }

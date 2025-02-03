@@ -5,7 +5,7 @@ namespace SpreeviewAPI.Services.Implementations;
 
 public class ReviewService : IReviewService
 {
-    public IEnumerable<Review>? Index()
+    public async Task<IEnumerable<Review>?> Index()
     {
         return new List<Review>();
     }

@@ -1,4 +1,5 @@
-﻿using CommonLibrary.DataClasses.ReviewModel;
+﻿using AutoMapper;
+using CommonLibrary.DataClasses.ReviewModel;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
 using SpreeviewAPI.Services.Interfaces;
@@ -9,16 +10,20 @@ namespace SpreeviewAPI.Controllers.Implementations;
 [Route("api/[controller]")]
 public class ReviewController : ControllerBase, IReviewController
 {
+    private readonly IMapper _mapper;
     private readonly IReviewService _reviewService;
-    public ReviewController(IReviewService reviewService)
+    public ReviewController(IReviewService reviewService, IMapper mapper)
     {
+        _mapper = mapper;
         _reviewService = reviewService;
     }
 
     [HttpGet]
-    public ActionResult Index()
+    public async Task<ActionResult> Index()
     {
-        return null;
+        var response = await _reviewService.Index();
+        if(response == null) return NotFound();
+        return Ok(response);
     }
 
     [HttpGet("{id}")]

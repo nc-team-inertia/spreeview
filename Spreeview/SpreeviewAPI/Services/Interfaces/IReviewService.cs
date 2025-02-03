@@ -7,5 +7,5 @@ public interface IReviewService
     Review? Delete(int id);
     Review? Edit(int id, Review review);
     Review? GetById(int id);
-    IEnumerable<Review>? Index();
+    Task<IEnumerable<Review>?> Index();
 }
