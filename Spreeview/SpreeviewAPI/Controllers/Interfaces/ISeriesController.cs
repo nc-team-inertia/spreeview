@@ -1,12 +1,12 @@
-﻿using CommonLibrary.DataClasses.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace SpreeviewAPI.Controllers.Interfaces;
+
 public interface ISeriesController
 {
-    ActionResult Create(Series series);
-    ActionResult Delete(int id);
-    ActionResult Details(int id);
-    ActionResult Edit(int id, Series series);
-    ActionResult Index();
+    Task<ActionResult> IndexPopular();
+    Task<ActionResult> IndexTopRated();
+    Task<ActionResult> GetById(int id);
+    Task<ActionResult> GetByKeywords(string query);
+    Task<ActionResult> GetRecommendationsById(int seriesId);
 }

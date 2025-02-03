@@ -1,40 +1,65 @@
-﻿using CommonLibrary.DataClasses.Entities;
-using Microsoft.AspNetCore.Http;
+﻿using CommonLibrary.DataClasses.SeriesModel;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
+using SpreeviewAPI.Services.Interfaces;
+using AutoMapper;
 
 namespace SpreeviewAPI.Controllers.Implementations;
+
 [ApiController]
 [Route("api/[controller]")]
-public class SeriesController : Controller, ISeriesController
+public class SeriesController : ControllerBase, ISeriesController
 {
-    [HttpGet]
-    public ActionResult Index()
+    private readonly IMapper _mapper;
+    private readonly ISeriesService _seriesService;
+    public SeriesController(ISeriesService seriesService, IMapper mapper)
     {
-        return View();
+        _seriesService = seriesService;
+        _mapper = mapper;
     }
 
-    [HttpGet("{id}")]
-    public ActionResult Details(int id)
+    [HttpGet("trending")]
+    public async Task<ActionResult> IndexPopular()
     {
-        return View();
+        var response = await _seriesService.IndexPopular();
+        if (response == null) return NotFound();
+        var dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+        return Ok(dtoList);
     }
 
-    [HttpPost]
-    public ActionResult Create(Series series)
+    [HttpGet("top")]
+    public async Task<ActionResult> IndexTopRated()
     {
-        return View();
+        var response = await _seriesService.IndexTopRated();
+        if (response == null) return NotFound();
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+        return Ok(dtoList);
     }
 
-    [HttpPut("{id}")]
-    public ActionResult Edit(int id, Series series)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult> GetById(int id)
     {
-        return View();
+        var response = await _seriesService.GetById(id);
+        if (response == null) return NotFound();
+        var dto = _mapper.Map<SeriesGetDTO>(response);
+        return Ok(dto);
     }
 
-    [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
+    [HttpGet("search")]
+    public async Task<ActionResult> GetByKeywords([FromQuery] string query)
     {
-        return View();
+        List<Series>? response = await _seriesService.FindByKeywords(query);
+        if (response == null) return NotFound();
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+        return Ok(dtoList);
+    }
+
+    [HttpGet("recommendations/{seriesId:int}")]
+    public async Task<ActionResult> GetRecommendationsById(int seriesId)
+    {
+        List<Series>? response = await _seriesService.FindRecommendationsById(seriesId);
+        if (response == null) return NotFound();
+        List<SeriesGetDTO> dtoList = _mapper.Map<List<SeriesGetDTO>>(response);
+        return Ok(dtoList);
     }
 }

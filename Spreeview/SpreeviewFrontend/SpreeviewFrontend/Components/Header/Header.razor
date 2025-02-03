@@ -1,0 +1,28 @@
+﻿@using SpreeviewFrontend.Components.Header.Navlist
+@rendermode InteractiveServer
+
+@code {
+	private bool mobileNavbarVisible = false;
+
+	private void ToggleMobileNavbarVisible()
+	{
+		mobileNavbarVisible = !mobileNavbarVisible;
+	}
+}
+
+@* TODO: We need cascading authnetications state here, as it is not read from Routes.razor for some reason. Look for a better option *@
+<CascadingAuthenticationState>
+<header class="shadow-md">
+	<div class="text-black flex justify-between px-12 py-6">
+		<HeaderBrand/>
+		<div class="flex gap-12 items-center">
+			<Navlist/>
+			<NavlistToggle Active="mobileNavbarVisible" OnClick="() => ToggleMobileNavbarVisible()"/>
+		</div>
+	</div>
+	@if (mobileNavbarVisible)
+	{
+		<Navlist MobileMode="true"/>
+	}
+</header>
+</CascadingAuthenticationState>
