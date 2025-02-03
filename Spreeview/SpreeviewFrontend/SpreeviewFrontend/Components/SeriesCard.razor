@@ -1,16 +1,12 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
 @if (series != null)
 {
-	<section>
-		<h3>@series.Name</h3>
-		<p>@series.Overview</p>
-		<p>@series.BannerPath</p>
-		<p>@series.ReleaseDate</p>
-		<img src=@(string.IsNullOrEmpty(series.CoverPath) ? $"https://image.tmdb.org/t/p/original{series.BannerPath}" : $"https://image.tmdb.org/t/p/original{series.CoverPath}") alt="@series.Name" />
-	</section>
+	<a class="h-[20rem] w-[12rem] shadow-purple" href=@($"/series/{series.Id}")>
+		<img class="h-full m-auto object-cover overflow-hidden display-block" src=@(string.IsNullOrEmpty(series.CoverPath) ? $"https://image.tmdb.org/t/p/original{series.BannerPath}" : $"https://image.tmdb.org/t/p/original{series.CoverPath}") alt="@series.Name" />
+	</a>
 }
 
 @code {
 	[Parameter]
-	public Series series { get; set; }
+	public SeriesGetDTO series { get; set; }
 }
