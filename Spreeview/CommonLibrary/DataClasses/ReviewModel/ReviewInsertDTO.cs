@@ -1,11 +1,13 @@
-﻿namespace CommonLibrary.DataClasses.ReviewModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CommonLibrary.DataClasses.ReviewModel
 {
     public class ReviewInsertDTO : IInsertDTO
     {
-		public string Contents { get; set; }
 		public int UserId { get; set; }
-		public int SeriesId { get; set; }
-		public int Season { get; set; }
-		public int Episode { get; set; }
+		public int EpisodeId { get; set; }
+		public string Contents { get; set; }
+		[Range(1, 10)]
+		public int Rating { get; set; }
 	}
 }
