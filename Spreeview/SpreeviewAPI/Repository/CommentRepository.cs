@@ -27,6 +27,8 @@ public class CommentRepository
     public async Task<Comment?> Create(Comment comment)
     {
         comment.DateAdded = DateTime.Now;
+        var review = _context.Reviews.FirstOrDefault(x => x.Id == comment.ReviewId);
+        if (review != null) return null;
         await _context.Comments.AddAsync(comment);
         await _context.SaveChangesAsync();
         return comment;
@@ -36,6 +38,7 @@ public class CommentRepository
     {
         var commentToUpdate = await GetById(commentDto.Id);
         commentToUpdate.Contents = commentDto.Contents;
+        _context.Comments.Update(commentToUpdate);
         await _context.SaveChangesAsync();
         return commentToUpdate;
     }
