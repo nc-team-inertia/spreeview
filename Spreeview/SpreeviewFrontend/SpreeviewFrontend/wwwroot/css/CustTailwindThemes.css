@@ -1,35 +1,44 @@
-﻿/*TODO inject razor and adjust css here?*/
-
-/*inside document root scope (Global)*/
-:root {
+﻿*[theme='light'] {
     /*var(val, defaultVal)*/
-    --hBg: #E0E0E0; --hFg:#101010;
-
+    --hBg: #E0E0E0;
+    --hFg: #101010;
     --accent: #8816FC;
     --container: #888888;
-    --mBg:#FFFFFF; --mFg:#000000;
-
-    --fBg: #E0E0E0; --fFg: #101010;
-
-    --oBg: #E0E0E0; --oFg:#101010;
+    --mBg: #FFFFFF;
+    --mFg: #000000;
+    --fBg: #E0E0E0;
+    --fFg: #101010;
+    --oBg: #E0E0E0;
+    --oFg: #101010;
+}
+*[theme='dark'] {
+    /*var(val, defaultVal)*/
+    --hBg: #E0E0E0;
+    --hFg: #101010;
+    --accent: #FC6C16;
+    --container: #888888;
+    --mBg: #FFFFFF;
+    --mFg: #000000;
+    --fBg: #E0E0E0;
+    --fFg: #101010;
+    --oBg: #E0E0E0;
+    --oFg: #101010;
 }
 
 /*actual CSS code here - turn into razor ??*/
-*[theme='light'] main { background-color: var(--mBg); color: var(--mFg); }
-*[theme='light'] img { background-color: var(--container); }
-*[theme='light'] button { background-color:var(--accent); }
 
-*[theme='light'] header, *[theme='light'] footer { background-color: var(--oBg); color: var(--oFg); }
+/*direct to general/child
+    > = ??
+    + = ??
+    ~ = ??
+*/
+
+*[theme] main { background-color: var(--mBg); color: var(--mFg); }
+*[theme] img { background-color: var(--container); }
+*[theme] button { background-color:var(--accent); }
+*[theme] header, *[theme='light'] footer { background-color: var(--oBg); color: var(--oFg); }
 
 /*
 *[theme='light'] header { background-color: var(--hBg); color: var(--hFg); }
 *[theme='light'] footer { background-color: var(--fBg); color: var(--fFg); }
 */
-
-
-/*dark theme*/
-main[theme='dark'], body[theme='dark'] { background-color: #222222; color: #CCCCCC; }
-*[theme='dark'] img { background-color: var(--container); }
-*[theme='dark'] button { background-color: #FC6C16; }
-
-*[theme='dark'] header, *[theme='dark'] footer { background-color: #101010; color: #E0E0E0; }
