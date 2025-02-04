@@ -1,5 +1,10 @@
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using SpreeviewAPI;
 using SpreeviewAPI.Models;
+using SpreeviewAPI.Database;
+using SpreeviewAPI.HealthChecks;
 using SpreeviewAPI.Repository;
 using SpreeviewAPI.Services.Implementations;
 using SpreeviewAPI.Services.Interfaces;
@@ -27,6 +32,16 @@ builder.Services.AddHttpClient("tmdb", tmdb =>
     tmdb.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"Bearer {tmdbAccessToken}");
 });
 
+builder.Services.AddHealthChecks()
+    .AddCheck<TmdbHealthCheck>("tmdb_health_check",
+        failureStatus: HealthStatus.Unhealthy,
+        tags: new[] { "api", "external", "tmdb" }
+        )
+    .AddDbContextCheck<ApplicationDbContext>("internal_db_health_check",
+        failureStatus: HealthStatus.Unhealthy,
+        tags: new[] { "api", "internal" }
+        );
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -45,6 +60,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapHealthChecks("/api/health", new HealthCheckOptions
+{
+    ResponseWriter = HealthCheckWriter.WriteHealthCheck
+});
 
 app.MapIdentityApi<ApplicationUser>();
 
