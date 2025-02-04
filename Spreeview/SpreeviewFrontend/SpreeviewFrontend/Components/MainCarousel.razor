@@ -1,5 +1,7 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Requests
+@inject NavigationManager NavManager
+
 @if (series != null)
 {
 	<div class="relative w-full max-w-screen max-h-[400px] mx-auto overflow-hidden">
@@ -7,7 +9,7 @@
 		<div class="flex w-full transition-transform duration-500 ease-in-out w-full" style="transform: translateX(@($"-{currentIndex * 100}%"))">
 			@foreach (SeriesGetDTO series in series)
 			{
-				<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") class="w-full flex-shrink-0 object-cover" alt="Banner Carousel" />
+				<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") class="w-full flex-shrink-0 object-cover" alt="Banner Carousel" @onclick="() => Redirect(series.Id)" />
 			}
 		</div>
 
@@ -40,12 +42,17 @@
 	private int currentIndex = 0;
 
 	private void Previous()
-    {
-        currentIndex = (currentIndex == 0) ? series.Count - 1 : currentIndex - 1;
-    }
+	{
+		currentIndex = (currentIndex == 0) ? series.Count - 1 : currentIndex - 1;
+	}
 
 	private void Next()
-    {
-        currentIndex = (currentIndex == series.Count - 1) ? 0 : currentIndex + 1;
-    }
+	{
+		currentIndex = (currentIndex == series.Count - 1) ? 0 : currentIndex + 1;
+	}
+
+	public void Redirect(int Id)
+	{
+		NavManager.NavigateTo($"/series/{Id}");
+	}
 }
