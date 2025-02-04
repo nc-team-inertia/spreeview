@@ -8,18 +8,12 @@
 
 <PageTitle>Login</PageTitle>
 
-<h1>Login</h1>
-
 <AuthorizeView>
     <Authorized>
         <div class="alert alert-success">You're logged in as @context.User.Identity?.Name.</div>
     </Authorized>
     <NotAuthorized>
-        @foreach (var message in loginResponse.Messages)
-        {
-            <p>@message</p>
-        }
-        <LoginForm OnSubmit="LoginUserAsync"/>
+        <LoginForm Messages="loginResponse.Messages" OnSubmit="LoginUserAsync"/>
     </NotAuthorized>
 </AuthorizeView>
 

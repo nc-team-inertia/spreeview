@@ -1,57 +1,70 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @using RecordShop.Frontend.Client.Identity.Models
-<EditForm Model="_input" method="post" OnValidSubmit="Submit"
+<EditForm class="form" Model="_input" method="post" OnValidSubmit="Submit"
           FormName="login" Context="editform_context">
-    <DataAnnotationsValidator />
-    <h2>Use a local account to log in.</h2>
-    <hr />
-    <div class="form-floating mb-3">
-        <InputText @bind-Value="_input.Email"
-                   id="Input.Email"
-                   class="form-control"
-                   autocomplete="username"
-                   aria-required="true"
-                   placeholder="name@example.com" />
-        <label for="Input.Email" class="form-label">
-            Email
-        </label>
-        <ValidationMessage For="() => _input.Email"
-                           class="text-danger" />
+    <DataAnnotationsValidator/>
+    
+    @* Title *@
+    <h1 class="text-3xl">Login</h1>
+
+    @* Messages *@
+    @foreach (var message in Messages)
+    {
+        <p>@message</p>
+    }
+
+    @* Email *@
+    <div class="grid grid-cols-2 grid-rows-2">
+        <div class="col-start-1 row-start-1"><label for="Input.Email" class="block">Email</label></div>
+        <div class="col-start-1 row-start-2">
+            <InputText class="text-input-box" @bind-Value="_input.Email"
+                       id="Input.Email"
+                       size="25"
+                       autocomplete="username"
+                       aria-required="true"
+                       placeholder="name@example.com"/>
+        </div>
+        <div class="col-start-2 row-start-2">
+            <ValidationMessage For="() => _input.Email"/>
+        </div>
     </div>
-    <div class="form-floating mb-3">
-        <InputText type="password"
-                   @bind-Value="_input.Password"
-                   id="Input.Password"
-                   class="form-control"
-                   autocomplete="current-password"
-                   aria-required="true"
-                   placeholder="password" />
-        <label for="Input.Password" class="form-label">
-            Password
-        </label>
-        <ValidationMessage For="() => _input.Password"
-                           class="text-danger" />
+
+    @* Password *@
+    <div class="grid grid-cols-2 grid-rows-2">
+        <div class="col-start-1 row-start-1"><label for="Input.Password" class="block">Password</label></div>
+        <div class="col-start-1 row-start-2">
+            <InputText type="password"
+                       @bind-Value="_input.Password"
+                       id="Input.Password"
+                       size="25"
+                       class="text-input-box"
+                       autocomplete="current-password"
+                       aria-required="true"
+                       placeholder="password"/>
+        </div>
+        <div class="col-start-2 row-start-2">
+            <ValidationMessage For="() => _input.Password"/>
+        </div>
     </div>
-    <div>
-        <button type="submit" class="w-100 btn btn-lg btn-primary">
-            Log in
-        </button>
-    </div>
-    <div class="mt-3">
-        <p>
-            <a href="register">Register as a new user</a>
-        </p>
+
+    <hr class="my-3"/>
+    
+    @* Buttons *@
+    <div class="flex flex-col gap-4">
+        <button type="submit" class="form-button">Log in</button>
+        <p>Don't have an account with us?</p>
+        <a href="register" class="form-button">Register</a>
     </div>
 </EditForm>
 
 @code
 {
-    [SupplyParameterFromForm]
-    private LoginFormModel _input { get; set; } = new();
-    
-    [Parameter]
-    public EventCallback<LoginFormModel> OnSubmit { get; set; }
-    
+    [SupplyParameterFromForm] private LoginFormModel _input { get; set; } = new();
+
+    [Parameter] public string[] Messages { get; set; } = [];
+
+    [Parameter] public EventCallback<LoginFormModel> OnSubmit { get; set; }
+
     private async Task Submit()
     {
         await OnSubmit.InvokeAsync(_input);
