@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.FileProviders;
+using SpreeviewAPI.Models;
 
 namespace SpreeviewAPI.Database
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int> 
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int> 
         // use integer based primary key
     {
         public DbSet<Review> Reviews { get; set; }
@@ -21,12 +22,11 @@ namespace SpreeviewAPI.Database
 
             //ctor for tests
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IWebHostEnvironment env) : base(options)
-        { this.env = env; Database.EnsureCreated(); }
+        { this.env = env; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IWebHostEnvironment env, IConfiguration config) : base(options)
         {
             this.env = env; this.config = config;
-            Database.EnsureCreated(); //Populates if seeding is used
         }
 
             //TODO test when it actually runs/is called

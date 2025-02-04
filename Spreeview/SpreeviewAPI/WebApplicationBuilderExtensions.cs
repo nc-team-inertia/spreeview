@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SpreeviewAPI.Database;
+using SpreeviewAPI.Models;
 
 namespace SpreeviewAPI
 {
@@ -22,8 +23,8 @@ namespace SpreeviewAPI
             
             // builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>().AddApiEndpoints().AddEntityFrameworkStores<ApplicationDbContext>(); // build in identity classes for now
             builder.Services
-                .AddIdentityCore<IdentityUser<int>>()
-                .AddRoles<IdentityRole<int>>()
+                .AddIdentityCore<ApplicationUser>()
+                .AddRoles<ApplicationRole>()
                 .AddApiEndpoints()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }
