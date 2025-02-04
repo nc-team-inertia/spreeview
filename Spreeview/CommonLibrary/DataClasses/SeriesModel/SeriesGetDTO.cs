@@ -10,6 +10,7 @@ namespace CommonLibrary.DataClasses.SeriesModel
 		public string Overview { get; set; }
 		public string BannerPath { get; set; }
 		public string CoverPath { get; set; }
-		public List<Season> Seasons { get; set; }
+        public string PosterPath { get; set; }
+        public List<Season> Seasons { get; set; }
 	}
 }
