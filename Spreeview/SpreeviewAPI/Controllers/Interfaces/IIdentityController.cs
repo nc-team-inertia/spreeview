@@ -4,5 +4,5 @@ namespace SpreeviewAPI.Controllers.Interfaces;
 
 public interface IIdentityController
 {
-    Task<ActionResult> Logout([FromBody] object empty);
+    Task<IActionResult> Logout([FromBody] object empty);
 }

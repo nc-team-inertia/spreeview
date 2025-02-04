@@ -51,6 +51,8 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
+app.AddRolesEndpoint();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
