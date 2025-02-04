@@ -22,12 +22,11 @@ namespace SpreeviewAPI.Database
 
             //ctor for tests
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IWebHostEnvironment env) : base(options)
-        { this.env = env; Database.EnsureCreated(); }
+        { this.env = env; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IWebHostEnvironment env, IConfiguration config) : base(options)
         {
             this.env = env; this.config = config;
-            Database.EnsureCreated(); //Populates if seeding is used
         }
 
             //TODO test when it actually runs/is called
