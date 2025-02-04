@@ -1,6 +1,19 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 
+
+@inject SpreeviewFrontend.Services.IUserPreferencesService UserPreferencesService
+
+@code {
+    private SpreeviewFrontend.Services.UserPreferences _preferences = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _preferences = await UserPreferencesService.GetUserPreferencesAsync();
+    }
+}
+
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,7 +35,7 @@
     <link rel="stylesheet" href="./css/CustTailwindThemes.css?v=1"/>
 </head>
 
-<body theme="dark">
+<body theme="@(_preferences.Theme.ToString().ToLower())">
     <!-- attempt to test cust theme -->
     <h2>Main Content</h2>
     <p>This is a paragraph with background and foreground colors.</p>
