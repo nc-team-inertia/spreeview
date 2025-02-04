@@ -1,0 +1,42 @@
+﻿@page "/login"
+@using RecordShop.Frontend.Client.Identity.Models
+@using SpreeviewAPI.Wrappers
+@using SpreeviewFrontend.Client.Identity
+@using SpreeviewFrontend.Components.Authentication
+@inject IAccountManager AccountManager
+@inject NavigationManager Navigation
+
+<PageTitle>Login</PageTitle>
+
+<h1>Login</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="alert alert-success">You're logged in as @context.User.Identity?.Name.</div>
+    </Authorized>
+    <NotAuthorized>
+        @foreach (var message in loginResponse.Messages)
+        {
+            <p>@message</p>
+        }
+        <LoginForm OnSubmit="LoginUserAsync"/>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code
+{
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+    
+    private ServiceResponse loginResponse = new();
+
+    public async Task LoginUserAsync(LoginFormModel formData)
+    {
+        loginResponse = await AccountManager.LoginAsync(formData.Email, formData.Password);
+        
+        if (loginResponse.Type == ServiceResponseType.Success && !string.IsNullOrEmpty(ReturnUrl))
+        {
+            Navigation.NavigateTo(ReturnUrl);
+        }
+    }
+}

@@ -1,0 +1,10 @@
+﻿@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public string href { get; set; } = "";
+}
+
+<div class="flex gap-4 rounded-2xl items-center hover:bg-black/10 active:bg-black/10 transition-colors">
+    <a class="p-2" href="@href">@ChildContent</a>
+</div>

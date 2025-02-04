@@ -1,4 +1,4 @@
-﻿namespace SpreeviewTests.ControllerTests;
+﻿namespace SpreeviewTests.ServiceTests;
 
 public class ReviewServiceTests
 {

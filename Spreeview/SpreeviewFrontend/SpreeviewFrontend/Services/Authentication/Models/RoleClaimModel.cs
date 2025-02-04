@@ -1,6 +1,6 @@
 namespace RecordShop.Frontend.Client.Identity.Models;
 
-public class RoleClaim
+public class RoleClaimModel
 {
     public string? Issuer { get; set; }
     public string? OriginalIssuer { get; set; }

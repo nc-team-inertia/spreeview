@@ -1,0 +1,16 @@
+﻿@code {
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+    
+    [Parameter]
+    public bool Active { get; set; }
+}
+
+<button @onclick="OnClick" class="block cursor-pointer rounded-2xl p-3 transition-colors hover:bg-gray-100 active:bg-gray-100 lg:hidden ">
+    @* We might want to change this icon, currently inline SVG data *@
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+         class="size-8">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"/>
+    </svg>
+</button>

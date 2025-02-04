@@ -1,0 +1,12 @@
+﻿@using CommonLibrary.DataClasses.SeriesModel
+<section class="p-10 grid grid-cols-5 m-auto gap-10">
+	@foreach (SeriesGetDTO series in series)
+	{
+		<SeriesCard series="series" />
+	}
+</section>
+
+@code {
+	[Parameter]
+	public List<SeriesGetDTO> series { get; set; }
+}
