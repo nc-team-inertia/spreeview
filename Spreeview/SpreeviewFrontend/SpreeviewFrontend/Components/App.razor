@@ -19,17 +19,17 @@
     <script src="https://unpkg.com/@@tailwindcss/browser@@4"></script>
     <HeadOutlet />
 
-    <!-- TODO is failing to link up external css! -->
-    <link rel="stylesheet" href="./css/CustTailwindThemes.css"/>
+    <link rel="stylesheet" href="./css/CustTailwindThemes.css?v=1"/>
 </head>
 
 <body theme="dark">
     <!-- attempt to test cust theme -->
     <h2>Main Content</h2>
     <p>This is a paragraph with background and foreground colors.</p>
-    <div class="p-4" style="background-color: var(--accent)"> <!--TODO ref light not dark!-->
+    <div class="p-4" style="background-color: var(--container)"> <!--TODO ref light not dark!-->
         <p>This is an image container with a custom background color.</p>
     </div>
+    <img style="width:50px;height:50px; background-color: var(--accent)" />
 
     <Routes />
     <script src="_framework/blazor.web.js"></script>
