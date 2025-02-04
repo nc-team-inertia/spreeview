@@ -37,7 +37,7 @@ else
 
     private string errorMessage { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         Backend backend = new Backend();
         try
@@ -50,5 +50,7 @@ else
         {
             errorMessage = ex.Message;
         }
+
+        StateHasChanged();
     }
 }
