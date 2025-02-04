@@ -21,16 +21,16 @@
 			</article>
 			@if (seasonNumber > 0)
 			{
-				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seasonNumber="@seasonNumber" seriesId="@series.Id" />
+				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seasonNumber="@seasonNumber" seriesId="@series.Id" series="@series" />
 			}
 		</section>
 	</section>
 	<!--Seasons section-->
-	<section class="flex-[1] flex flex-col gap-4 items-center max-h-full">
+	<section class="flex-[1] flex flex-col gap-4 items-center max-h-[300px] overflow-hidden scroll-y">
 		@for (var i = 1; i <= series.Seasons.Count; i++)
 		{
 			var seasonNumber = i; // Capture i in a new variable
-			<button class="w-4/5 h-36 flex justify-center items-center light-bg-secondary text-white" @onclick="() => SetSeason(seasonNumber)">
+			<button class="w-4/5 h-36 flex justify-center items-center light-bg-secondary text-white shrink-0" @onclick="() => SetSeason(seasonNumber)">
 				@* <img src=@($"https://image.tmdb.org/t/p/original{series.Seasons[i-1].PosterPath}") /> *@
 				Season @seasonNumber
 			</button>
@@ -47,6 +47,7 @@
 	public void SetSeason(int i)
 	{
 		Console.WriteLine(i);
+		Console.WriteLine(series.Seasons.Count);
 		seasonNumber = i;
 		StateHasChanged();
 	}

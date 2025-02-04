@@ -7,7 +7,7 @@
 {
     @if (LoadingType == LoadingType.SeasonInfo)
     {
-        <SeasonInfo season="season" />
+        <SeasonInfo season="season" series="series" />
     }
 }
 else if (errorMessage != null)
@@ -32,6 +32,9 @@ else
 
     [Parameter]
     public int seasonNumber { get; set; }
+
+    [Parameter]
+    public SeriesGetDTO series { get; set; }
 
     private SeasonGetDTO season;
 
