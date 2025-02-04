@@ -5,14 +5,17 @@
 
 <PageTitle>Logout</PageTitle>
 
-<h1>Logout</h1>
-
 <AuthorizeView>
     <Authorized>
-        <p>Logging you out...</p>
+        <div class="page-margin">
+            <h1 class="page-title">Logging out...</h1>
+        </div>
     </Authorized>
     <NotAuthorized>
-        <p>You're logged out. <a href="/login">Log in.</a></p>
+        <div class="page-margin">
+            <h1 class="page-title">You're logged out.</h1>
+            <a class="button-purple mt-4 inline-block" href="/login">Sign in</a>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 
