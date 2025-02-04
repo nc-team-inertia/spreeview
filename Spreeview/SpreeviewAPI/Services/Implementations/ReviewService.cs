@@ -1,40 +1,40 @@
 ﻿using CommonLibrary.DataClasses.ReviewModel;
 using SpreeviewAPI.Database;
+using SpreeviewAPI.Repository;
 using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Services.Implementations;
 
 public class ReviewService : IReviewService
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ReviewRepository _reviewRepository;
 
-    public ReviewService(ApplicationDbContext context)
+    public ReviewService(ReviewRepository reviewRepository)
     {
-        _context = context;
+        _reviewRepository = reviewRepository;
     }
     
     public async Task<IEnumerable<Review>?> Index()
-    {
-        return new List<Review>();
-    }
+        => await _reviewRepository.Index();
 
     public async Task<Review?> GetById(int id)
-    {
-        return new Review();
-    }
+        => await _reviewRepository.GetById(id); 
 
+    public async Task<IEnumerable<Review>?> GetByEpisodeId(int episodeId)
+        => await _reviewRepository.GetByEpisodeId(episodeId);
+
+    public async Task<IEnumerable<Review>?> GetBySeriesId(int seriesId)
+        => await _reviewRepository.GetBySeriesId(seriesId);
+    
+    public async Task<IEnumerable<Review>?> GetByUserId(int userId)
+        => await _reviewRepository.GetByUserId(userId);
+    
     public async Task<Review?> Create(Review review)
-    {
-        return new Review();
-    }
+        => await _reviewRepository.Create(review);
 
     public async Task<Review?> Edit(ReviewUpdateDTO reviewDto)
-    {
-        return new Review();
-    }
+        => await _reviewRepository.Edit(reviewDto);
 
     public async Task<bool> Delete(int id)
-    {
-        return true;
-    }
+        => await _reviewRepository.Delete(id);
 }
