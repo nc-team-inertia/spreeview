@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using SpreeviewAPI;
+using SpreeviewAPI.Controllers.Implementations;
 using SpreeviewAPI.Repository;
 using SpreeviewAPI.Services.Implementations;
 using SpreeviewAPI.Services.Interfaces;
@@ -10,7 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<CommentRepository>();
 builder.Services.AddScoped<ReviewRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IEpisodeService, EpisodeService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
