@@ -1,4 +1,6 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Components.Season
+@using SpreeviewFrontend.Components.Reviews
 @rendermode InteractiveServer
 
 <div class="flex gap-10 px-20 py-4">
@@ -46,7 +48,7 @@
 <button class="button-purple" @onclick="TogglePopup">Write a Review</button>
 @if (DisplayPopup == true)
 {
-	<WriteReviewPopup season="season" series="series" TogglePopup="TogglePopup" />
+	<WriteReviewPopup series="@series" TogglePopup="TogglePopup" />
 }
 
 @code {
@@ -65,7 +67,9 @@
 
 	public void TogglePopup()
 	{
+		Console.WriteLine("Toggle Triggered");
 		DisplayPopup = !DisplayPopup;
+		StateHasChanged();
 	}
 
 	public int EpisodeId { get; set; }
