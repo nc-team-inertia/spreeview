@@ -50,7 +50,6 @@ app.UseCors();
 
 app.UseHttpsRedirection();
 
-app.AddLogoutEndpoint();
 app.AddRolesEndpoint();
 
 app.UseAuthentication();
