@@ -1,5 +1,6 @@
 ﻿using CommonLibrary.DataClasses.SeasonModel;
 using CommonLibrary.DataClasses.SeriesModel;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace SpreeviewFrontend.Requests
@@ -74,5 +75,28 @@ namespace SpreeviewFrontend.Requests
             }
             return null;
         }
+
+		public async Task<List<SeriesGetDTO>?> FindSeriesByKeyword([FromQuery] string query)
+		{
+			try
+			{
+				var http = new HttpClient();
+
+				var response = await http.GetFromJsonAsync<List<SeriesGetDTO>>(
+					$"https://localhost:7119/api/Series/search?query={query}");
+
+				if (response != null)
+				{
+					Console.WriteLine(response);
+					return response;
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An error occurred: {ex.Message}");
+				throw new Exception(ex.Message);
+			}
+			return null;
+		}
     }
 }
