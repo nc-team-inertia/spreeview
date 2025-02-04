@@ -28,7 +28,7 @@ public class CommentRepository
     {
         comment.DateAdded = DateTime.Now;
         var review = _context.Reviews.FirstOrDefault(x => x.Id == comment.ReviewId);
-        if (review != null) return null;
+        if (review == null) return null;
         await _context.Comments.AddAsync(comment);
         await _context.SaveChangesAsync();
         return comment;

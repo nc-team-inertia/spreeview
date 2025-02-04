@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Identity;
 using SpreeviewAPI;
-using SpreeviewAPI.Controllers.Implementations;
 using SpreeviewAPI.Models;
 using SpreeviewAPI.Repository;
 using SpreeviewAPI.Services.Implementations;
