@@ -47,7 +47,7 @@ namespace SpreeviewAPI.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("CommonLibrary.DataClasses.ReviewModel.Review", b =>
@@ -83,7 +83,7 @@ namespace SpreeviewAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
