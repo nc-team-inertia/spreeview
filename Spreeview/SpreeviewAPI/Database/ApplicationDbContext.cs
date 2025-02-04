@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.FileProviders;
+using SpreeviewAPI.Models;
 
 namespace SpreeviewAPI.Database
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int> 
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int> 
         // use integer based primary key
     {
         public DbSet<Review> Reviews { get; set; }
