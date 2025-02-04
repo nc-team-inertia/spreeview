@@ -18,11 +18,17 @@ public class SeriesController : ControllerBase, ISeriesController
         _mapper = mapper;
     }
 
-    [HttpGet]
-    public ActionResult Index()
+    [HttpGet("trending")]
+    public async Task<ActionResult> IndexPopular()
     {
-        var response = _seriesService.Index();
-        return response != null ? Ok(response) : NotFound();
+        var response = await _seriesService.IndexPopular();
+        if (response == null) return NotFound();
+        var dtoList = new List<SeriesGetDTO>();
+        foreach (var series in response)
+        {
+            dtoList.Add(_mapper.Map<SeriesGetDTO>(series));
+        }
+        return Ok(dtoList);
     }
 
     [HttpGet("{id:int}")]
