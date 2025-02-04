@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SpreeviewAPI.Database;
+using SpreeviewAPI.Models;
 
 namespace SpreeviewAPI
 {
@@ -8,14 +10,7 @@ namespace SpreeviewAPI
     {
         public static void SetupDbContext(this WebApplicationBuilder builder)
         {
-            var applicationDbConnectionString = builder.Configuration.GetConnectionString("ApplicationDb");
-
-            if (applicationDbConnectionString == null)
-            {
-                throw new InvalidOperationException("ApplicationDb connection string not found. Please include this in usersecrets for development purposes.");
-            }
-
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(applicationDbConnectionString));
+            builder.Services.AddDbContext<ApplicationDbContext>();
         }
 
         public static void SetupIdentity(this WebApplicationBuilder builder)
@@ -28,8 +23,8 @@ namespace SpreeviewAPI
             
             // builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>().AddApiEndpoints().AddEntityFrameworkStores<ApplicationDbContext>(); // build in identity classes for now
             builder.Services
-                .AddIdentityCore<IdentityUser<int>>()
-                .AddRoles<IdentityRole<int>>()
+                .AddIdentityCore<ApplicationUser>()
+                .AddRoles<ApplicationRole>()
                 .AddApiEndpoints()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
         }

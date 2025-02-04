@@ -7,7 +7,17 @@ module.exports = {
 
     content: [
         "./**/*.{razor,html,cshtml}",
+<<<<<<< HEAD
         "./node_modules/flowbite/**/*.js",
+=======
+        // "./node_modules/flowbite/**/*.js"
+    ],
+  theme: {
+    extend: {},
+  },
+    plugins: [
+        // require('flowbite/plugin')
+>>>>>>> 40fc9b4a15231a3817a03d40480c7983e29aeb22
     ],
     theme: {
         extend: {

@@ -1,56 +1,46 @@
 ﻿@page "/series/{Id:int}"
+@using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Requests
 @rendermode InteractiveServer
 
-<div class="flex gap-10 px-20 py-4">
-	<!--Bio section-->
-	<section class="flex-[2.5]">
-		<!--Banner section-->
-		<section>
-			<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE-T3m2dlvJAiTtvxwq_vXgM_QW7jotBLyDA&s" width="100%" />
-		</section>
-		<section class="px-4">
-			<!--Episodes section-->
-			<div class="flex gap-4 items-center py-8">
-				<span>Episodes:</span>
-				<div class="flex gap-2">
-					@for (var i = 1; i <= numberOfEpisodes; i++)
-					{
-						<div class="bg-black text-white px-3 py-1 rounded-lg">@i</div>
-					}
-				</div>
-			</div>
-			<!--Information section-->
-			<article>
-				<div class="flex gap-2 items-end">
-					<h2 class="text-3xl">@seriesName</h2>
-					<h3>@releaseDate  Directed by <span class="text-purple-700">@director</span></h3>
-				</div>
-				<p class="mt-4">
-					@description
-				</p>
-			</article>
-		</section>
-	</section>
-	<!--Seasons section-->
-	<section class="flex-[1] flex flex-col gap-4 items-center max-h-full">
-		@for (var i = 1; i <= numberOfSeasons; i++)
-		{
-			<div class="w-4/5 h-36 flex justify-center items-center light-bg-secondary text-white">
-				Season @i
-			</div>
-		}
-	</section>
-</div>
-
+@if (series != null)
+{
+	<SeriesInfo series="series" />
+}
+else if (errorMessage != null)
+{
+	<div>
+		We faced an error when loading the series: @errorMessage
+	</div>
+}
+else
+{
+	<div>
+		Loading Series...
+	</div>
+}
 
 @code {
 	[Parameter]
 	public int Id { get; set; }
 
-	public int numberOfEpisodes { get; set; } = 10;
-	public string seriesName { get; set; } = "Breaking Bad";
-	public int releaseDate { get; set; } = 2023;
-	public string director { get; set; } = "Vince Gilligan";
-	public string description { get; set; } = "Walter White, a chemistry teacher, discovers that he has cancer and decides to get into the meth-making business to repay his medical debts. His priorities begin to change when he partners with Jesse.";
-	public int numberOfSeasons { get; set; } = 5;
+	[Parameter]
+	public LoadingType LoadingType { get; set; }
+
+	private SeriesGetDTO series;
+
+	private string errorMessage { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Backend backend = new Backend();
+		try
+		{
+			series = await backend.GetSeriesById(Id);
+		}
+		catch (Exception ex)
+		{
+			errorMessage = ex.Message;
+		}
+	}
 }

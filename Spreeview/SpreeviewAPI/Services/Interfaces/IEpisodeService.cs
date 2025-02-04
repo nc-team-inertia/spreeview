@@ -4,5 +4,5 @@ namespace SpreeviewAPI.Services.Interfaces;
 
 public interface IEpisodeService
 {
-    Task<Episode?> FindByIds(int seriesId, int seasonId, int episodeId);
+    Task<Episode?> FindEpisodeByIds(int seriesId, int seasonId, int episodeId);
 }
