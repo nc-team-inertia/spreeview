@@ -1,0 +1,30 @@
+﻿@using CommonLibrary.DataClasses.SeasonModel
+@using CommonLibrary.DataClasses.SeriesModel
+@rendermode InteractiveServer
+
+<section class="flex flex-col gap-4 justify-center items-center overflow-hidden">
+	<!--Episodes section-->
+	<div class="flex gap-4 items-center py-2">
+		<span>Episodes:</span>
+		<div class="flex gap-2 flex-wrap">
+			@for (var i = 1; i <= season.Episodes.Count; i++)
+			{
+				var episodeId = @season.Episodes[i - 1].Id;
+				<button class="bg-black text-white px-3 py-1 rounded-lg" @onclick="() => setEpisode(episodeId)">@i</button>
+			}
+		</div>
+	</div>
+</section>
+
+@code {
+	[Parameter]
+	public SeasonGetDTO season { get; set; }
+
+	[Parameter]
+	public EventCallback<int> SelectEpisode { get; set; }
+
+	private async Task setEpisode(int episodeId)
+	{
+		await SelectEpisode.InvokeAsync(episodeId);
+	}
+}

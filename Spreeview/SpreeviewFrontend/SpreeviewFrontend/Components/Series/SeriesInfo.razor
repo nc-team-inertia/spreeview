@@ -19,13 +19,14 @@
 					@series.Overview
 				</p>
 			</article>
+			<!-- Seasons section -->
 			@if (seasonNumber > 0)
 			{
-				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seasonNumber="@seasonNumber" seriesId="@series.Id" series="@series" />
+				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seasonNumber="@seasonNumber" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 			}
 		</section>
 	</section>
-	<!--Seasons section-->
+	<!--Seasons cards section-->
 	<section class="flex-[1] flex flex-col gap-4 items-center max-h-[300px] overflow-hidden scroll-y">
 		@for (var i = 1; i <= series.Seasons.Count; i++)
 		{
@@ -38,6 +39,16 @@
 	</section>
 </div>
 
+<!-- Reviews Section -->
+<ReviewLoader EpisodeId="EpisodeId" />
+
+<!-- Popup Version -->
+<button class="button-purple" @onclick="TogglePopup">Write a Review</button>
+@if (DisplayPopup == true)
+{
+	<WriteReviewPopup season="season" series="series" TogglePopup="TogglePopup" />
+}
+
 @code {
 	[Parameter]
 	public SeriesGetDTO series { get; set; }
@@ -46,10 +57,21 @@
 
 	public void SetSeason(int i)
 	{
-		Console.WriteLine(i);
-		Console.WriteLine(series.Seasons.Count);
 		seasonNumber = i;
 		StateHasChanged();
 	}
 
+	public bool DisplayPopup { get; set; } = false;
+
+	public void TogglePopup()
+	{
+		DisplayPopup = !DisplayPopup;
+	}
+
+	public int EpisodeId { get; set; }
+
+	public void SelectEpisode(int Id)
+	{
+		EpisodeId = Id;
+	}
 }

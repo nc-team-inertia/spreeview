@@ -7,7 +7,7 @@
 {
     @if (LoadingType == LoadingType.SeasonInfo)
     {
-        <SeasonInfo season="season" series="series" />
+        <SeasonInfo season="season" SelectEpisode="SelectEpisode" />
     }
 }
 else if (errorMessage != null)
@@ -34,7 +34,7 @@ else
     public int seasonNumber { get; set; }
 
     [Parameter]
-    public SeriesGetDTO series { get; set; }
+    public EventCallback<int> SelectEpisode { get; set; }
 
     private SeasonGetDTO season;
 
@@ -45,8 +45,6 @@ else
         Backend backend = new Backend();
         try
         {
-            Console.WriteLine(seriesId);
-            Console.WriteLine(seasonNumber);
             season = await backend.GetSeasonById(seriesId, seasonNumber);
         }
         catch (Exception ex)

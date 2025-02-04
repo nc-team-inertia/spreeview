@@ -1,0 +1,38 @@
+﻿@using CommonLibrary.DataClasses.SeasonModel
+@using CommonLibrary.DataClasses.SeriesModel
+<section class="fixed solid left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[80vh] w-[70vw] bg-white rounded-xl flex flex-col justify-between">
+	<div class="flex p-6 h-full gap-6">
+		<div class="h-full overflow-hidden max-w-64 shadow-purple">
+			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") class="h-full object-cover" />
+		</div>
+		<div class="flex flex-col gap-6 items-start w-full">
+			<button @onclick="ClosePopup" class="self-end">X</button>
+			<div>
+				<h2 class="text-2xl">@series.Name <span class="text-sm">@series.ReleaseDate</span></h2>
+				<h3>Season @season.SeasonNumber - Episode @EpisodeId</h3>
+			</div>
+		</div>
+	</div>
+
+	<div class="h-24 w-full bg-purple-600">
+	</div>
+</section>
+
+@code {
+	[Parameter]
+	public SeasonGetDTO season { get; set; }
+
+	[Parameter]
+	public SeriesGetDTO series { get; set; }
+
+	[Parameter]
+	public int EpisodeId { get; set; }
+
+	[Parameter]
+	public EventCallback TogglePopup { get; set; }
+
+	private async Task ClosePopup()
+	{
+		TogglePopup.InvokeAsync();
+	}
+}
