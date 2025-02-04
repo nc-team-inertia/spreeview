@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SpreeviewAPI;
 using SpreeviewAPI.Controllers.Implementations;
+using SpreeviewAPI.Models;
 using SpreeviewAPI.Repository;
 using SpreeviewAPI.Services.Implementations;
 using SpreeviewAPI.Services.Interfaces;
@@ -47,13 +48,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<IdentityUser<int>>();
+app.MapIdentityApi<ApplicationUser>();
 
 app.UseCors();
 
 app.UseHttpsRedirection();
 
-app.AddLogoutEndpoint();
 app.AddRolesEndpoint();
 
 app.UseAuthentication();
