@@ -12,7 +12,7 @@ using SpreeviewAPI.Database;
 namespace SpreeviewAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250203204329_ReviewsComments")]
+    [Migration("20250204091800_ReviewsComments")]
     partial class ReviewsComments
     {
         /// <inheritdoc />
@@ -76,6 +76,9 @@ namespace SpreeviewAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeriesId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")

@@ -23,6 +23,12 @@ public class ReviewService : IReviewService
     public async Task<IEnumerable<Review>?> GetByEpisodeId(int episodeId)
         => await _reviewRepository.GetByEpisodeId(episodeId);
 
+    public async Task<IEnumerable<Review>?> GetBySeriesId(int seriesId)
+        => await _reviewRepository.GetBySeriesId(seriesId);
+    
+    public async Task<IEnumerable<Review>?> GetByUserId(int userId)
+        => await _reviewRepository.GetByUserId(userId);
+    
     public async Task<Review?> Create(Review review)
         => await _reviewRepository.Create(review);
 

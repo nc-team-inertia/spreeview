@@ -23,15 +23,6 @@ public class ReviewController : ControllerBase, IReviewController
     {
         var response = await _reviewService.Index();
         if(response == null) return NotFound();
-        var responseDto = _mapper.Map<ReviewGetDTO>(response);
-        return Ok(responseDto);
-    }
-
-    [HttpGet("episode/{id:int}")]
-    public async Task<ActionResult> GetByEpisodeId(int episodeId)
-    {
-        var response = await _reviewService.GetByEpisodeId(episodeId);
-        if (response == null) return NotFound();
         var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
         return Ok(responseDto);
     }
@@ -42,6 +33,33 @@ public class ReviewController : ControllerBase, IReviewController
         var response = await _reviewService.GetById(id);
         if(response == null) return NotFound();
         var responseDto = _mapper.Map<ReviewGetDTO>(response);
+        return Ok(responseDto);
+    }
+    
+    [HttpGet("episode/{episodeId:int}")]
+    public async Task<ActionResult> GetByEpisodeId(int episodeId)
+    {
+        var response = await _reviewService.GetByEpisodeId(episodeId);
+        if (response == null) return NotFound();
+        var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
+        return Ok(responseDto);
+    }
+
+    [HttpGet("user/{userId:int}")]
+    public async Task<ActionResult> GetByUserId(int userId)
+    {
+        var response = await _reviewService.GetByUserId(userId);
+        if(response == null) return NotFound();
+        var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
+        return Ok(responseDto);
+    }
+
+    [HttpGet("series/{seriesId:int}")]
+    public async Task<ActionResult> GetBySeriesId(int seriesId)
+    {
+        var response = await _reviewService.GetBySeriesId(seriesId);
+        if(response == null) return NotFound();
+        var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
         return Ok(responseDto);
     }
 
@@ -59,6 +77,8 @@ public class ReviewController : ControllerBase, IReviewController
     public async Task<ActionResult> Edit(ReviewUpdateDTO reviewDto)
     {
         if(!ModelState.IsValid) return BadRequest();
+        var exists = await _reviewService.GetById(reviewDto.Id);
+        if(exists == null) return NotFound();
         var response = await _reviewService.Edit(reviewDto);
         if(response == null) return NotFound();
         var responseDto = _mapper.Map<ReviewGetDTO>(response);

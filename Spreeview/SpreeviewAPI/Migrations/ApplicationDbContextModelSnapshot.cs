@@ -75,6 +75,9 @@ namespace SpreeviewAPI.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 

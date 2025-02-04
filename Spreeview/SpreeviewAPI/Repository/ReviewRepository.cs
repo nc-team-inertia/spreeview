@@ -20,9 +20,16 @@ public class ReviewRepository
 
     public async Task<List<Review>?> GetByEpisodeId(int id)
         => _context.Reviews.Where(r => r.EpisodeId == id).ToList();
+    
+    public async Task<IEnumerable<Review>?> GetBySeriesId(int seriesId)
+        => _context.Reviews.Where(r => r.SeriesId == seriesId);
 
+    public async Task<IEnumerable<Review>?> GetByUserId(int userId)
+        => _context.Reviews.Where(r => r.UserId == userId);
+    
     public async Task<Review?> Create(Review review)
     {
+        review.DateAdded = DateTime.Now;
         await _context.Reviews.AddAsync(review);
         await _context.SaveChangesAsync();
         return review;

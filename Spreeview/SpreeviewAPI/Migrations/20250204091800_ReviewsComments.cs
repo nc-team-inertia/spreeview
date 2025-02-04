@@ -20,6 +20,7 @@ namespace SpreeviewAPI.Migrations
                     Contents = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     EpisodeId = table.Column<int>(type: "int", nullable: false),
+                    SeriesId = table.Column<int>(type: "int", nullable: false),
                     DateAdded = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Rating = table.Column<int>(type: "int", nullable: false),
                     Likes = table.Column<int>(type: "int", nullable: false)
