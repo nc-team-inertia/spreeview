@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using SpreeviewFrontend.Client.Identity;
+using SpreeviewFrontend.Services.AccountManagement;
 using SpreeviewFrontend.Services;
-using SpreeviewFrontend.Services.HealthCheck;
+using SpreeviewFrontend.Services.ApiHealth;
 
 namespace SpreeviewFrontend;
 

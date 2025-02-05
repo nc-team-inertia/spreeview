@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using RecordShop.Frontend.Client.Identity.Models;
 using SpreeviewAPI.Wrappers;
 
-namespace SpreeviewFrontend.Client.Identity;
+namespace SpreeviewFrontend.Services.AccountManagement;
 
 public class AccountManagementService(
     IHttpClientFactory httpClientFactory,

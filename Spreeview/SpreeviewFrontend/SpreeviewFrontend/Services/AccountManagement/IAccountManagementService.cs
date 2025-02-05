@@ -1,6 +1,6 @@
 ﻿using SpreeviewAPI.Wrappers;
 
-namespace SpreeviewFrontend.Client.Identity;
+namespace SpreeviewFrontend.Services.AccountManagement;
 
 public interface IAccountManagementService
 {
