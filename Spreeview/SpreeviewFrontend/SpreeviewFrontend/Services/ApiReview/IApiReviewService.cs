@@ -5,6 +5,7 @@ namespace SpreeviewFrontend.Services.ApiReview;
 
 public interface IApiReviewService
 {
+    Task<ServiceObjectResponse<List<ReviewGetDTO>>> GetEpisodeReviews(int episodeId);
     
     Task<ServiceObjectResponse<ReviewGetDTO?>> PostReviewAsync(ReviewInsertDTO review);
 }

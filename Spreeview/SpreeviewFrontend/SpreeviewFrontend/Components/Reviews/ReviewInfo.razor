@@ -1,0 +1,12 @@
+﻿@using CommonLibrary.DataClasses.ReviewModel
+
+<h1>Reviews</h1>
+@foreach (ReviewGetDTO review in reviews)
+{
+	<p>@review.Contents</p>
+}
+
+@code {
+	[Parameter]
+	public List<ReviewGetDTO> reviews { get; set; }
+}
