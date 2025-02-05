@@ -10,7 +10,8 @@
 			@for (var i = 1; i <= season.Episodes.Count; i++)
 			{
 				var episodeId = @season.Episodes[i - 1].Id;
-				<button class="bg-black text-white px-3 py-1 rounded-lg" @onclick="() => setEpisode(episodeId)">@i</button>
+				var episodeNumber = @season.Episodes[i - 1].EpisodeNumber;
+				<button class="bg-black text-white px-3 py-1 rounded-lg" @onclick="() => setEpisode((episodeId, episodeNumber))">@i</button>
 			}
 		</div>
 	</div>
@@ -21,10 +22,10 @@
 	public SeasonGetDTO season { get; set; }
 
 	[Parameter]
-	public EventCallback<int> SelectEpisode { get; set; }
+	public EventCallback<(int, int)> SelectEpisode { get; set; }
 
-	private async Task setEpisode(int episodeId)
+	private async Task setEpisode((int Id, int Number) episode)
 	{
-		await SelectEpisode.InvokeAsync(episodeId);
+		await SelectEpisode.InvokeAsync((episode.Id, episode.Number));
 	}
 }

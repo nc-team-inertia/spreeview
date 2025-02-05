@@ -34,7 +34,7 @@ else
     public int seasonNumber { get; set; }
 
     [Parameter]
-    public EventCallback<int> SelectEpisode { get; set; }
+    public EventCallback<(int, int)> SelectEpisode { get; set; }
 
     private SeasonGetDTO season;
 
