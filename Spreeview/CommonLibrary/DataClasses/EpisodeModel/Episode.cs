@@ -15,4 +15,10 @@ public class Episode : IEntity
 
     [JsonPropertyName("still_path")]
     public string StillPath { get; set; }
+
+	[JsonPropertyName("overview")]
+	public string Overview { get; set; }
+
+	[JsonPropertyName("runtime")]
+	public int Runtime { get; set; }
 }

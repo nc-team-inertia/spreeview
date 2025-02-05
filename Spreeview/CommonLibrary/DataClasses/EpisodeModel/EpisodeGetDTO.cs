@@ -6,4 +6,6 @@ public class EpisodeGetDTO : IGetDTO
 	public string Title { get; set; }
 	public int EpisodeNumber { get; set; }
     public string StillPath { get; set; }
+	public string Overview { get; set; }
+	public int Runtime { get; set; }
 }
