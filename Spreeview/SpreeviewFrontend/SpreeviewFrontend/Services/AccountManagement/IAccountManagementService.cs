@@ -1,8 +1,8 @@
 ﻿using SpreeviewAPI.Wrappers;
 
-namespace SpreeviewFrontend.Client.Identity;
+namespace SpreeviewFrontend.Services.AccountManagement;
 
-public interface IAccountManager
+public interface IAccountManagementService
 {
     /// <summary>
     /// Attempt to login a user with specified email and password.

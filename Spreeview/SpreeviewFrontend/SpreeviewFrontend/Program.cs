@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using SpreeviewFrontend;
 using SpreeviewFrontend.Components;
-using SpreeviewFrontend.Client.Identity;
+using SpreeviewFrontend.Services.AccountManagement;
 using SpreeviewFrontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +9,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.SetupRazorComponents();
 builder.SetupAuth();
 builder.SetupHttpClients();
-builder.SetupAPIServices();
 builder.SetupUserPreferences();
 
 var app = builder.Build();

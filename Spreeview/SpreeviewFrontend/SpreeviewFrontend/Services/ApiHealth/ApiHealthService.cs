@@ -3,7 +3,7 @@ using CommonLibrary.DataClasses.ApiHealthModel;
 using CommonLibrary.DataClasses.ApiHealthModel;
 using SpreeviewAPI.Wrappers;
 
-namespace SpreeviewFrontend.Services.HealthCheck;
+namespace SpreeviewFrontend.Services.ApiHealth;
 
 public class ApiHealthService : IApiHealthService
 {
@@ -14,24 +14,23 @@ public class ApiHealthService : IApiHealthService
     // json serializer options to use camelCase
     private readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    // TODO: Switch to using typed http client instead of named
-    public ApiHealthService(IHttpClientFactory httpClientFactory, ILogger<ApiHealthService> logger)
+    public ApiHealthService(HttpClient httpClient, ILogger<ApiHealthService> logger)
     {
-        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
+        _httpClient = httpClient;
         _logger = logger;
     }
 
-    public async Task<ServiceObjectResponse<ApiHealth>> GetHealthAsync()
+    public async Task<ServiceObjectResponse<CommonLibrary.DataClasses.ApiHealthModel.ApiHealth>> GetHealthAsync()
     {
         try
         {
             // Contact backend
-            var result = await _httpClient.GetAsync("api/health");
+            var result = await _httpClient.GetAsync("");
 
             // If not successful
             if (!result.IsSuccessStatusCode)
             {
-                return new ServiceObjectResponse<ApiHealth>()
+                return new ServiceObjectResponse<CommonLibrary.DataClasses.ApiHealthModel.ApiHealth>()
                 {
                     Type = ServiceResponseType.Failure,
                     Messages = ["Failed to get server health. Endpoint response did not indicate success."]
@@ -42,15 +41,15 @@ public class ApiHealthService : IApiHealthService
             var content = await result.Content.ReadAsStringAsync();
         
             // Deserialize the result
-            var health = JsonSerializer.Deserialize<ApiHealth>(content, _jsonSerializerOptions);
+            var health = JsonSerializer.Deserialize<CommonLibrary.DataClasses.ApiHealthModel.ApiHealth>(content, _jsonSerializerOptions);
         
             // Success
-            return new ServiceObjectResponse<ApiHealth>() { Type = ServiceResponseType.Success , Value = health};
+            return new ServiceObjectResponse<CommonLibrary.DataClasses.ApiHealthModel.ApiHealth>() { Type = ServiceResponseType.Success , Value = health};
         }
         catch (Exception e)
         {
             _logger.LogInformation("Could not check health due to server error.");
-            return new ServiceObjectResponse<ApiHealth>();
+            return new ServiceObjectResponse<CommonLibrary.DataClasses.ApiHealthModel.ApiHealth>();
         }
     }
 }

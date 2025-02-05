@@ -1,7 +1,8 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Components.Series
-@using SpreeviewFrontend.Requests
+@using SpreeviewFrontend.Services.ApiSeries
 @rendermode InteractiveServer
+@inject IApiSeriesService SeriesService
 
 <SearchBar OnSearchSubmitted="HandleSearch" />
 @if (series.Count > 0)
@@ -31,10 +32,10 @@ else
         Console.WriteLine($"Search submitted: {searchTerm}");
         SearchTerm = searchTerm;
 
-        Backend backend = new Backend();
+        // TODO: refactor this to handle errors using the ServiceObjectResponse instead of try catch
         try
         {
-            series = await backend.FindSeriesByKeyword(searchTerm);
+            series = (await SeriesService.FindSeriesByKeyword(searchTerm)).Value;
         }
         catch (Exception ex)
         {

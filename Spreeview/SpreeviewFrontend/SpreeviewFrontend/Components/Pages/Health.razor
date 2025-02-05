@@ -1,7 +1,7 @@
 ﻿@page "/Health"
 @using CommonLibrary.DataClasses.ApiHealthModel
 @using SpreeviewAPI.Wrappers
-@using SpreeviewFrontend.Services.HealthCheck
+@using SpreeviewFrontend.Services.ApiHealth
 @inject IApiHealthService ApiHealthService
 
 @if (_healthResponse is { Type: ServiceResponseType.Success, Value: not null })

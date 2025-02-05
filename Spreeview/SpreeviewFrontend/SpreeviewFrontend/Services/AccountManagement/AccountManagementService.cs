@@ -5,13 +5,12 @@ using Microsoft.AspNetCore.Components.Authorization;
 using RecordShop.Frontend.Client.Identity.Models;
 using SpreeviewAPI.Wrappers;
 
-namespace SpreeviewFrontend.Client.Identity;
+namespace SpreeviewFrontend.Services.AccountManagement;
 
-// TODO: Switch to using typed http client instead of named
-public class CookieAuthenticationStateProvider(
+public class AccountManagementService(
     IHttpClientFactory httpClientFactory,
-    ILogger<CookieAuthenticationStateProvider> logger)
-    : AuthenticationStateProvider, IAccountManager
+    ILogger<AccountManagementService> logger)
+    : AuthenticationStateProvider, IAccountManagementService
 {
     
     // http client pointing to authentication api
@@ -103,7 +102,7 @@ public class CookieAuthenticationStateProvider(
             }
             
             // set the principal
-            var id = new ClaimsIdentity(claims, nameof(CookieAuthenticationStateProvider));
+            var id = new ClaimsIdentity(claims, nameof(AccountManagementService));
             var user = new ClaimsPrincipal(id);
             _isAuthenticated = true;
             return new AuthenticationState(user);

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
-namespace SpreeviewFrontend.Client.Identity;
+namespace SpreeviewFrontend.Services.AccountManagement;
 
 /// <summary>
 /// Handler to ensure cookie credentials are automatically sent over with each request.

@@ -2,10 +2,10 @@
 using CommonLibrary.DataClasses.ApiHealthModel;
 using SpreeviewAPI.Wrappers;
 
-namespace SpreeviewFrontend.Services.HealthCheck;
+namespace SpreeviewFrontend.Services.ApiHealth;
 
 public interface IApiHealthService
 {
-    public Task<ServiceObjectResponse<ApiHealth>> GetHealthAsync();
+    public Task<ServiceObjectResponse<CommonLibrary.DataClasses.ApiHealthModel.ApiHealth>> GetHealthAsync();
 
 }

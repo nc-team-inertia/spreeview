@@ -1,6 +1,7 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Components.HomeComponents
-@using SpreeviewFrontend.Requests
+@using SpreeviewFrontend.Services.ApiSeries
+@inject IApiSeriesService SeriesService
 @rendermode InteractiveServer
 
 @if (series != null)
@@ -37,10 +38,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Backend backend = new Backend();
+        // TODO: refactor this to handle errors using the ServiceObjectResponse instead of try catch
         try
         {
-            series = await backend.GetTrendingSeries();
+            series = (await SeriesService.GetTrendingSeries()).Value;
         }
         catch (Exception ex)
         {
