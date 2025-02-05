@@ -7,6 +7,7 @@ using SpreeviewAPI.Wrappers;
 
 namespace SpreeviewFrontend.Client.Identity;
 
+// TODO: Switch to using typed http client instead of named
 public class CookieAuthenticationStateProvider(
     IHttpClientFactory httpClientFactory,
     ILogger<CookieAuthenticationStateProvider> logger)
