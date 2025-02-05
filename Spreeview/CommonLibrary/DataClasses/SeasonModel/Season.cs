@@ -14,7 +14,7 @@ public class Season : IEntity
 	public int SeasonNumber { get; set; }
 
 	[JsonPropertyName("air_date")]
-	public DateOnly ReleaseDate { get; set; }
+	public DateOnly? ReleaseDate { get; set; }
 
 	[JsonPropertyName("poster_path")]
 	public string PosterPath { get; set; }
