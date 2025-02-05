@@ -1,4 +1,8 @@
-﻿namespace SpreeviewFrontend.Services.ApiSeries;
+﻿using CommonLibrary.DataClasses.SeriesModel;
+using Microsoft.AspNetCore.Mvc;
+using SpreeviewAPI.Wrappers;
+
+namespace SpreeviewFrontend.Services.ApiSeries;
 
 public class ApiSeriesService : IApiSeriesService
 {
@@ -10,4 +14,73 @@ public class ApiSeriesService : IApiSeriesService
         _httpClient = httpClient;
         _logger = logger;
     }
+    
+    public async Task<ServiceObjectResponse<List<SeriesGetDTO>>> GetTrendingSeries()
+		{
+			try
+			{
+				var http = new HttpClient();
+
+				var response = await http.GetFromJsonAsync<List<SeriesGetDTO>>(
+					$"trending");
+
+				if (response != null)
+				{
+					Console.WriteLine(response[0].BannerPath);
+					return new ServiceObjectResponse<List<SeriesGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An error occurred: {ex.Message}");
+				throw new Exception(ex.Message);
+			}
+			return new ServiceObjectResponse<List<SeriesGetDTO>>() { Type = ServiceResponseType.Failure };
+		}
+
+		public async Task<ServiceObjectResponse<SeriesGetDTO>> GetSeriesById(int id)
+		{
+			try
+			{
+				var http = new HttpClient();
+
+				var response = await http.GetFromJsonAsync<SeriesGetDTO>(
+					$"Series/{id}");
+
+				if (response != null)
+				{
+					Console.WriteLine(response);
+					return new ServiceObjectResponse<SeriesGetDTO>() { Type = ServiceResponseType.Success, Value = response };
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An error occurred: {ex.Message}");
+				throw new Exception(ex.Message);
+			}
+			return new ServiceObjectResponse<SeriesGetDTO>() { Type = ServiceResponseType.Failure };
+		}
+
+		public async Task<ServiceObjectResponse<List<SeriesGetDTO>>> FindSeriesByKeyword([FromQuery] string query)
+		{
+			try
+			{
+				var http = new HttpClient();
+
+				var response = await http.GetFromJsonAsync<List<SeriesGetDTO>>(
+					$"https://localhost:7119/api/Series/search?query={query}");
+
+				if (response != null)
+				{
+					Console.WriteLine(response);
+					return new ServiceObjectResponse<List<SeriesGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"An error occurred: {ex.Message}");
+				throw new Exception(ex.Message);
+			}
+			return new ServiceObjectResponse<List<SeriesGetDTO>>() { Type = ServiceResponseType.Failure };
+		}
 }

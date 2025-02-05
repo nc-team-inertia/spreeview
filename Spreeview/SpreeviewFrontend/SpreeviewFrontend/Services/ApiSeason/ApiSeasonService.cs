@@ -1,4 +1,6 @@
-﻿using SpreeviewFrontend.Services.ApiReview;
+﻿using CommonLibrary.DataClasses.SeasonModel;
+using SpreeviewAPI.Wrappers;
+using SpreeviewFrontend.Services.ApiReview;
 
 namespace SpreeviewFrontend.Services.ApiSeason;
 
@@ -11,5 +13,28 @@ public class ApiSeasonService : IApiSeasonService
     {
         _httpClient = httpClient;
         _logger = logger;
+    }
+    
+    public async Task<ServiceObjectResponse<SeasonGetDTO>> GetSeasonById(int seriesId, int seasonNumber)
+    {
+        try
+        {
+            var http = new HttpClient();
+
+            var response = await http.GetFromJsonAsync<SeasonGetDTO>(
+                $"{seriesId}/{seasonNumber}");
+
+            if (response != null)
+            {
+                Console.WriteLine(response);
+                return new ServiceObjectResponse<SeasonGetDTO>() { Type = ServiceResponseType.Success, Value = response};
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            throw new Exception(ex.Message);
+        }
+        return null;
     }
 }
