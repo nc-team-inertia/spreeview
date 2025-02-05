@@ -32,6 +32,10 @@ body, html {
     border-color: #929292;
 }
 
+.load-message {
+    @apply text-center text-2xl py-4;
+}
+
 /*---------------Color Variables---------------*/
 
 .light-bg-primary {

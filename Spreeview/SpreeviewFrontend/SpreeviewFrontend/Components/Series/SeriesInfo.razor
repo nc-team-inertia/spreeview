@@ -1,4 +1,7 @@
-﻿@using CommonLibrary.DataClasses.SeriesModel
+﻿@inject NavigationManager Navigation
+
+@using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Components.Episode
 @using SpreeviewFrontend.Components.Season
 @using SpreeviewFrontend.Components.Reviews
 @rendermode InteractiveServer
@@ -24,7 +27,7 @@
 			<!-- Seasons section -->
 			@if (SeasonNumber > 0)
 			{
-				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seasonNumber="@SeasonNumber" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
+				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 			}
 		</section>
 	</section>
@@ -41,9 +44,6 @@
 	</section>
 </div>
 
-<!-- Reviews Section -->
-<ReviewLoader EpisodeId="EpisodeId" />
-
 <!-- Popup Version -->
 <button class="button-purple" @onclick="TogglePopup">Write a Review</button>
 @if (DisplayPopup == true)
@@ -51,7 +51,17 @@
 	<WriteReviewPopup series="@series" TogglePopup="TogglePopup" seasonNumber="@SeasonNumber" episodeNumber="@EpisodeNumber" />
 }
 
+@if (DisplayEpisode == true)
+{
+	<EpisodeLoader seriesId="@series.Id" />
+}
+
+
 @code {
+	private string GetSeasonUrl() => $"/series/{series.Id}?season={SeasonNumber}";
+
+	public bool DisplayEpisode { get; set; } = false;
+
 	[Parameter]
 	public SeriesGetDTO series { get; set; }
 
@@ -61,6 +71,7 @@
 	{
 		SeasonNumber = i;
 		StateHasChanged();
+		Navigation.NavigateTo(GetSeasonUrl());
 	}
 
 	public bool DisplayPopup { get; set; } = false;
@@ -73,12 +84,13 @@
 	}
 
 	public int EpisodeId { get; set; }
-	
+
 	public int EpisodeNumber { get; set; }
 
 	public void SelectEpisode((int Id, int number) episode)
 	{
 		EpisodeId = episode.Id;
 		EpisodeNumber = episode.number;
+		DisplayEpisode = true;
 	}
 }

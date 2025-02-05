@@ -1,45 +1,43 @@
 ﻿@inject NavigationManager Navigation
 
+@using CommonLibrary.DataClasses.EpisodeModel
 @using CommonLibrary.DataClasses.SeasonModel
 @using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Components.Reviews
 @using SpreeviewFrontend.Requests
 @rendermode InteractiveServer
 
-@if (season != null)
+@if (episode != null)
 {
-    @if (LoadingType == LoadingType.SeasonInfo)
-    {
-        <SeasonInfo season="season" SelectEpisode="SelectEpisode" seriesId="@SeriesId" />
-    }
+    <EpisodeInfo episode="@episode" />
+    <ReviewLoader episode="@episode" />
 }
 else if (errorMessage != null)
 {
-    <div>
-        We faced an error when loading the season: @errorMessage
+    <div class="load-message">
+        We faced an error when loading the episode: @errorMessage
     </div>
 }
 else
 {
-    <div>
-        Loading Season...
+    <div class="load-message">
+        Loading Episode...
     </div>
 }
 
 @code {
     [Parameter]
-    public LoadingType LoadingType { get; set; }
-
-    [Parameter]
-    public int SeriesId { get; set; }
-
-    [Parameter]
     [SupplyParameterFromQuery]
     public int SeasonNumber { get; set; }
 
     [Parameter]
-    public EventCallback<(int, int)> SelectEpisode { get; set; }
+    [SupplyParameterFromQuery]
+    public int EpisodeNumber { get; set; }
 
-    private SeasonGetDTO season;
+    [Parameter]
+    public int seriesId { get; set; }
+
+    private EpisodeGetDTO episode;
 
     private string errorMessage { get; set; }
 
@@ -55,13 +53,19 @@ else
             SeasonNumber = Int32.Parse(seasonNumber);
         }
 
+        if (queryParams.TryGetValue("episode", out var episodeNumber))
+        {
+            EpisodeNumber = Int32.Parse(episodeNumber);
+        }
+
         Backend backend = new Backend();
         try
         {
             Console.WriteLine("Paramaters set");
+            Console.WriteLine(seriesId);
+            Console.WriteLine(EpisodeNumber);
             Console.WriteLine(SeasonNumber);
-            Console.WriteLine(SeriesId);
-            season = await backend.GetSeasonById(SeriesId, SeasonNumber);
+            episode = await backend.GetIndividualEpisode(seriesId, SeasonNumber, EpisodeNumber);
         }
         catch (Exception ex)
         {
