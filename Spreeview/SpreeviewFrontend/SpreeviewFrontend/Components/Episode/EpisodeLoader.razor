@@ -4,7 +4,9 @@
 @using CommonLibrary.DataClasses.SeasonModel
 @using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Components.Reviews
-@using SpreeviewFrontend.Requests
+@using SpreeviewFrontend.Services.ApiEpisode
+@inject IApiEpisodeService EpisodeService
+
 @rendermode InteractiveServer
 
 @if (episode != null)
@@ -58,14 +60,15 @@ else
             EpisodeNumber = Int32.Parse(episodeNumber);
         }
 
-        Backend backend = new Backend();
         try
         {
             Console.WriteLine("Paramaters set");
             Console.WriteLine(seriesId);
             Console.WriteLine(EpisodeNumber);
             Console.WriteLine(SeasonNumber);
-            episode = await backend.GetIndividualEpisode(seriesId, SeasonNumber, EpisodeNumber);
+            
+            // TODO: refactor this to handle errors using the ServiceObjectResponse instead of try catch
+            episode = (await EpisodeService.GetIndividualEpisode(seriesId, SeasonNumber, EpisodeNumber)).Value;
         }
         catch (Exception ex)
         {

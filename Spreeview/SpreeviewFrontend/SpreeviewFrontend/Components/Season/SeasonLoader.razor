@@ -2,7 +2,8 @@
 
 @using CommonLibrary.DataClasses.SeasonModel
 @using CommonLibrary.DataClasses.SeriesModel
-@using SpreeviewFrontend.Requests
+@using SpreeviewFrontend.Services.ApiSeason
+@inject IApiSeasonService SeasonService
 @rendermode InteractiveServer
 
 @if (season != null)
@@ -54,14 +55,14 @@ else
         {
             SeasonNumber = Int32.Parse(seasonNumber);
         }
-
-        Backend backend = new Backend();
+        
+        // TODO: refactor this to handle errors using the ServiceObjectResponse instead of try catch
         try
         {
             Console.WriteLine("Paramaters set");
             Console.WriteLine(SeasonNumber);
             Console.WriteLine(SeriesId);
-            season = await backend.GetSeasonById(SeriesId, SeasonNumber);
+            season = (await SeasonService.GetSeasonById(SeriesId, SeasonNumber)).Value;
         }
         catch (Exception ex)
         {
