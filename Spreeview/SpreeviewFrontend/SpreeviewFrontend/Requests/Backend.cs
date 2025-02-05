@@ -6,6 +6,10 @@ using System.Text.Json;
 
 namespace SpreeviewFrontend.Requests
 {
+	// TODO: Update this to use typed http client instead of creating directly in this class
+	//  this allows for more granular configuration, and avoids hardcoding URIs.
+	// TODO: Consider splitting Season and Series functionality into separate service classes (different typed http clients)
+	// TODO: Use logger instead of ConsoleWriteLine - gives more specific error
 	public class Backend
 	{
 		public async Task<List<SeriesGetDTO>?> GetTrendingSeries()
