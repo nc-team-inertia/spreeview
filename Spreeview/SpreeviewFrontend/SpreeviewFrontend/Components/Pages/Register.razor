@@ -3,7 +3,7 @@
 @using SpreeviewAPI.Wrappers
 @using SpreeviewFrontend.Client.Identity
 @using SpreeviewFrontend.Components.Authentication
-@inject IAccountManager AccountManager
+@inject IAccountManagementService AccountManagementService
 
 <PageTitle>Register</PageTitle>
 
@@ -34,6 +34,6 @@
     
     public async Task RegisterUserAsync(RegisterFormModel formData)
     {
-        registerResponse = await AccountManager.RegisterAsync(formData.Email, formData.Password);
+        registerResponse = await AccountManagementService.RegisterAsync(formData.Email, formData.Password);
     }
 }

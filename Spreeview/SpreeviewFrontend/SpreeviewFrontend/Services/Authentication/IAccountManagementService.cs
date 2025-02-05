@@ -2,7 +2,7 @@
 
 namespace SpreeviewFrontend.Client.Identity;
 
-public interface IAccountManager
+public interface IAccountManagementService
 {
     /// <summary>
     /// Attempt to login a user with specified email and password.

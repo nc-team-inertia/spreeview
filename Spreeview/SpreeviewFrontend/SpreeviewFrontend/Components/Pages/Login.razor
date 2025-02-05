@@ -3,7 +3,7 @@
 @using SpreeviewAPI.Wrappers
 @using SpreeviewFrontend.Client.Identity
 @using SpreeviewFrontend.Components.Authentication
-@inject IAccountManager AccountManager
+@inject IAccountManagementService AccountManagementService
 @inject NavigationManager Navigation
 
 <PageTitle>Login</PageTitle>
@@ -29,7 +29,7 @@
 
     public async Task LoginUserAsync(LoginFormModel formData)
     {
-        loginResponse = await AccountManager.LoginAsync(formData.Email, formData.Password);
+        loginResponse = await AccountManagementService.LoginAsync(formData.Email, formData.Password);
         
         if (loginResponse.Type == ServiceResponseType.Success && !string.IsNullOrEmpty(ReturnUrl))
         {

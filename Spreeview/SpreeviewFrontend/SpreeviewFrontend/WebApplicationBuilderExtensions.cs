@@ -24,7 +24,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddAuthorization();
 
         // register the custom state provider
-        builder.Services.AddScoped<AuthenticationStateProvider, CookieAuthenticationStateProvider>();
+        builder.Services.AddScoped<AuthenticationStateProvider, AccountManagementService>();
 
         // Cascading authentication state#
         // This doesn't work correctly on dotnet 8.0 due to a bug. See https://github.com/dotnet/aspnetcore/issues/53075
@@ -32,7 +32,7 @@ public static class WebApplicationBuilderExtensions
         // builder.Services.AddCascadingAuthenticationState();
 
         // register the account management interface (satisfy IAccountManagement dependency with our previously added AuthenticationStateProvider).
-        builder.Services.AddScoped(sp => (IAccountManager) sp.GetRequiredService<AuthenticationStateProvider>()); 
+        builder.Services.AddScoped(sp => (IAccountManagementService) sp.GetRequiredService<AuthenticationStateProvider>()); 
     }
 
     public static void SetupHttpClients(this WebApplicationBuilder builder)
