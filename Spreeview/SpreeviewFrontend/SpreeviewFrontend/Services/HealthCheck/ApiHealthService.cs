@@ -14,10 +14,9 @@ public class ApiHealthService : IApiHealthService
     // json serializer options to use camelCase
     private readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    // TODO: Switch to using typed http client instead of named
-    public ApiHealthService(IHttpClientFactory httpClientFactory, ILogger<ApiHealthService> logger)
+    public ApiHealthService(HttpClient httpClient, ILogger<ApiHealthService> logger)
     {
-        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
+        _httpClient = httpClient;
         _logger = logger;
     }
 
@@ -26,7 +25,7 @@ public class ApiHealthService : IApiHealthService
         try
         {
             // Contact backend
-            var result = await _httpClient.GetAsync("api/health");
+            var result = await _httpClient.GetAsync("");
 
             // If not successful
             if (!result.IsSuccessStatusCode)
