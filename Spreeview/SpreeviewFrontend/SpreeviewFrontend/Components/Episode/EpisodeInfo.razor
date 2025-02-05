@@ -1,5 +1,7 @@
 ﻿@using CommonLibrary.DataClasses.EpisodeModel
-<h3>@episode.Title</h3>
+<h3 class="text-xl">@episode.EpisodeNumber: @episode.Title</h3>
+<p>Overview: @episode.Overview</p>
+<p>Runtime: @episode.Runtime</p>
 
 @code {
 	[Parameter]
