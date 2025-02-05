@@ -1,4 +1,6 @@
-﻿@using CommonLibrary.DataClasses.SeriesModel
+﻿@inject NavigationManager Navigation
+
+@using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Components.Season
 @using SpreeviewFrontend.Components.Reviews
 @rendermode InteractiveServer
@@ -24,7 +26,7 @@
 			<!-- Seasons section -->
 			@if (SeasonNumber > 0)
 			{
-				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seasonNumber="@SeasonNumber" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
+				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 			}
 		</section>
 	</section>
@@ -52,6 +54,8 @@
 }
 
 @code {
+	private string GetSeasonUrl() => $"/series/{series.Id}?season={SeasonNumber}";
+
 	[Parameter]
 	public SeriesGetDTO series { get; set; }
 
@@ -61,6 +65,7 @@
 	{
 		SeasonNumber = i;
 		StateHasChanged();
+		Navigation.NavigateTo(GetSeasonUrl());
 	}
 
 	public bool DisplayPopup { get; set; } = false;

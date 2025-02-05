@@ -1,4 +1,6 @@
-﻿@using CommonLibrary.DataClasses.SeasonModel
+﻿@inject NavigationManager Navigation
+
+@using CommonLibrary.DataClasses.SeasonModel
 @using CommonLibrary.DataClasses.SeriesModel
 @rendermode InteractiveServer
 
@@ -18,14 +20,24 @@
 </section>
 
 @code {
+	private string GetEpisodeUrl() => $"/series/{seriesId}?season={season.SeasonNumber}&episode={EpisodeId}";
+
 	[Parameter]
 	public SeasonGetDTO season { get; set; }
 
 	[Parameter]
 	public EventCallback<(int, int)> SelectEpisode { get; set; }
 
+	public int EpisodeId { get; set; }
+
+	[Parameter]
+	public int seriesId { get; set; }
+
 	private async Task setEpisode((int Id, int Number) episode)
 	{
+		EpisodeId = episode.Id;
 		await SelectEpisode.InvokeAsync((episode.Id, episode.Number));
+		StateHasChanged();
+		Navigation.NavigateTo(GetEpisodeUrl());
 	}
 }
