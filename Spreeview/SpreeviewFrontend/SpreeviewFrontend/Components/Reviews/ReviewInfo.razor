@@ -3,7 +3,8 @@
 <h1>Reviews</h1>
 @foreach (ReviewGetDTO review in reviews)
 {
-	<p>@review.Contents</p>
+	<h3>@review.Contents</h3>
+	<p>@review.Rating</p>
 }
 
 @code {

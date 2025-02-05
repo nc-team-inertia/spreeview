@@ -38,7 +38,7 @@ public class ApiReviewService : IApiReviewService
         try
         {
             var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>(
-                $"/episode/{episodeId}");
+                $"episode/{episodeId}");
 
             if (response != null)
             {
