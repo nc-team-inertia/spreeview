@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CommonLibrary.DataClasses.ReviewModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SpreeviewAPI.Controllers.Implementations;
 using SpreeviewAPI.MappingProfiles;
+using SpreeviewAPI.Models;
 using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewTests.ControllerTests;
@@ -16,6 +18,9 @@ public class ReviewControllerTests
     MapperConfiguration reviewMappingConfig;
     Mapper _mapper;
 
+    Mock<IUserStore<ApplicationUser>> _mockUserStore;
+    Mock<UserManager<ApplicationUser>> _mockUserManager;
+
     ReviewController reviewController;
 
     [SetUp]
@@ -27,7 +32,20 @@ public class ReviewControllerTests
         reviewMappingConfig = new MapperConfiguration(config => config.AddProfile(reviewMappingProfile));
         _mapper = new Mapper(reviewMappingConfig);
 
-        reviewController = new ReviewController(_mockReviewService.Object, _mapper);
+        _mockUserStore = new Mock<IUserStore<ApplicationUser>>();
+        _mockUserManager = new Mock<UserManager<ApplicationUser>>(_mockUserStore.Object, null!, null!, null!, null!, null!, null!, null!, null!);
+
+        reviewController = new ReviewController(_mockReviewService.Object, _mapper, _mockUserManager.Object);
+
+        var applicationUser = new ApplicationUser
+        {
+            Id = 1,
+            UserName = "testUser",
+            Email = "test@email.com"
+        };
+
+        _mockUserManager.Setup(mock => mock.GetUserAsync(It.IsAny<System.Security.Claims.ClaimsPrincipal>()))
+                        .ReturnsAsync(applicationUser);
     }
 
     #region IndexAllReviews method tests
@@ -491,10 +509,10 @@ public class ReviewControllerTests
     public async Task PostReview_CallsServiceMethodOnce()
     {
         // Arrange
-        ReviewInsertDTO inputReviewDto = new ReviewInsertDTO() { UserId = 1 };
+        ReviewInsertDTO inputReviewDto = new ReviewInsertDTO() { EpisodeId = 1 };
 
-        Review expectedServiceInput = new Review() { UserId = 1 };
-        Review expectedServiceReturn = new Review() { Id = 1, UserId = 1 };
+        Review expectedServiceInput = new Review() { UserId = 1, EpisodeId = 1 };
+        Review expectedServiceReturn = new Review() { Id = 1, UserId = 1, EpisodeId = 1 };
 
         _mockReviewService.Setup(mock => mock.CreateReview(It.Is<Review>(r =>
             r.UserId == expectedServiceInput.UserId)))
@@ -512,10 +530,10 @@ public class ReviewControllerTests
     public async Task PostReview_OnValidRequest_ReturnsOkObjectResult()
     {
         // Arrange
-        ReviewInsertDTO inputReviewDto = new ReviewInsertDTO() { UserId = 1 };
+        ReviewInsertDTO inputReviewDto = new ReviewInsertDTO() { EpisodeId = 1 };
 
-        Review expectedServiceInput = new Review() { UserId = 1 };
-        Review expectedServiceReturn = new Review() { Id = 1, UserId = 1 };
+        Review expectedServiceInput = new Review() { UserId = 1, EpisodeId = 1 };
+        Review expectedServiceReturn = new Review() { Id = 1, UserId = 1, EpisodeId = 1 };
 
         _mockReviewService.Setup(mock => mock.CreateReview(It.Is<Review>(r =>
             r.UserId == expectedServiceInput.UserId)))
@@ -532,10 +550,10 @@ public class ReviewControllerTests
     public async Task PostReview_OnValidRequest_ReturnsMappedReview()
     {
         // Arrange
-        ReviewInsertDTO inputReviewDto = new ReviewInsertDTO() { UserId = 1 };
+        ReviewInsertDTO inputReviewDto = new ReviewInsertDTO() { EpisodeId = 1 };
 
-        Review expectedServiceInput = new Review() { UserId = 1 };
-        Review expectedServiceReturn = new Review() { Id = 1, UserId = 1 };
+        Review expectedServiceInput = new Review() { UserId = 1, EpisodeId = 1 };
+        Review expectedServiceReturn = new Review() { Id = 1, UserId = 1, EpisodeId = 1 };
 
         _mockReviewService.Setup(mock => mock.CreateReview(It.Is<Review>(r =>
             r.UserId == expectedServiceInput.UserId)))
@@ -558,7 +576,7 @@ public class ReviewControllerTests
     {
         // Arrange
         reviewController.ModelState.AddModelError("Contents", "Required");
-        var inputReviewDto = new ReviewInsertDTO() { UserId = 1, SeriesId = 2, EpisodeId = 3, Rating = 4 };
+        var inputReviewDto = new ReviewInsertDTO() { SeriesId = 1, EpisodeId = 2, Rating = 3 };
 
         // Act
         var resultObject = await reviewController.PostReview(inputReviewDto);
@@ -697,12 +715,17 @@ public class ReviewControllerTests
 
     #region DeleteReview method tests
     [Test]
-    public async Task DeleteReview_CallsServiceMethodOnce()
+    public async Task DeleteReview_CallsBothServiceMethodsOnce()
     {
         // Arrange
         int testReviewId = 1;
 
         bool expectedServiceReturn = true;
+
+        Review expectedFirstServiceReturn = new Review() { UserId = 1 };
+
+        _mockReviewService.Setup(mock => mock.FindReviewById(testReviewId))
+                          .ReturnsAsync(expectedFirstServiceReturn);
 
         _mockReviewService.Setup(mock => mock.DeleteReview(testReviewId))
                           .ReturnsAsync(expectedServiceReturn);
@@ -711,6 +734,8 @@ public class ReviewControllerTests
         await reviewController.DeleteReview(testReviewId);
 
         // Assert
+        _mockReviewService.Verify(mock => mock.FindReviewById(testReviewId), Times.Once());
+
         _mockReviewService.Verify(mock => mock.DeleteReview(testReviewId), Times.Once());
     }
 
@@ -722,8 +747,13 @@ public class ReviewControllerTests
 
         bool expectedServiceReturn = true;
 
+        Review expectedFirstServiceReturn = new Review() { UserId = 1 };
+
+        _mockReviewService.Setup(mock => mock.FindReviewById(testReviewId))
+                          .ReturnsAsync(expectedFirstServiceReturn);
+
         _mockReviewService.Setup(mock => mock.DeleteReview(testReviewId))
-                           .ReturnsAsync(expectedServiceReturn);
+                          .ReturnsAsync(expectedServiceReturn);
 
         // Act
         var result = await reviewController.DeleteReview(testReviewId);

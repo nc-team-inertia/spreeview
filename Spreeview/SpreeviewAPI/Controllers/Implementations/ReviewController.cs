@@ -102,7 +102,7 @@ public class ReviewController : ControllerBase, IReviewController
         
         //Get the review if exists
         var exists = await _reviewService.FindReviewById(reviewDto.Id);
-        if(exists == null) return NotFound();
+        if (exists == null) return NotFound("There is no review with the associated ID.");
         
         // Get the current user
         var user = await _userManager.GetUserAsync(User);
@@ -112,7 +112,6 @@ public class ReviewController : ControllerBase, IReviewController
         if (exists.UserId != user.Id) return Unauthorized();
         
         var response = await _reviewService.UpdateReview(reviewDto);
-        if(response == null) return NotFound("There is no review with the associated ID.");
         var responseDto = _mapper.Map<ReviewGetDTO>(response);
         return Ok(responseDto);
     }
@@ -125,8 +124,8 @@ public class ReviewController : ControllerBase, IReviewController
         // We could do with check user owns review service method.
         
         //Get review if exists
-        var exists = await _reviewService.GetById(id);
-        if(exists == null) return NotFound("There is no review with the associated ID.");
+        var exists = await _reviewService.FindReviewById(id);
+        if (exists == null) return NotFound("There is no review with the associated ID.");
         
         // Get the current user
         var user = await _userManager.GetUserAsync(User);
