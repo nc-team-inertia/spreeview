@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CommonLibrary.DataClasses.ReviewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
 using SpreeviewAPI.Services.Interfaces;
@@ -63,6 +64,7 @@ public class ReviewController : ControllerBase, IReviewController
         return Ok(responseDto);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> Create(ReviewInsertDTO reviewDto)
     {
@@ -73,6 +75,7 @@ public class ReviewController : ControllerBase, IReviewController
         return Ok(_mapper.Map<ReviewGetDTO>(response));
     }
 
+    [Authorize]
     [HttpPut]
     public async Task<ActionResult> Edit(ReviewUpdateDTO reviewDto)
     {
@@ -85,6 +88,7 @@ public class ReviewController : ControllerBase, IReviewController
         return Ok(responseDto);
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {

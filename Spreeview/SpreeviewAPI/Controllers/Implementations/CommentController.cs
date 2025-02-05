@@ -1,5 +1,6 @@
 using AutoMapper;
 using CommonLibrary.DataClasses.CommentModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Services.Implementations;
 
@@ -54,6 +55,7 @@ public class CommentController : ControllerBase, ICommentController
         return Ok(responseDto);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult> Create(CommentInsertDTO commentDto)
     {
@@ -65,6 +67,7 @@ public class CommentController : ControllerBase, ICommentController
         return Ok(responseDto);
     }
 
+    [Authorize]
     [HttpPut]
     public async Task<ActionResult> Update(CommentUpdateDTO commentDto)
     {
@@ -76,7 +79,8 @@ public class CommentController : ControllerBase, ICommentController
         var responseDto = _mapper.Map<CommentGetDTO>(response);
         return Ok(responseDto);
     }
-
+    
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {
