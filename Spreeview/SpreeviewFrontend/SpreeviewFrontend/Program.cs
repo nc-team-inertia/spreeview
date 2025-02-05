@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.SetupRazorComponents();
 builder.SetupAuth();
 builder.SetupHttpClients();
+builder.SetupAPIServices();
 builder.SetupUserPreferences();
 
 var app = builder.Build();

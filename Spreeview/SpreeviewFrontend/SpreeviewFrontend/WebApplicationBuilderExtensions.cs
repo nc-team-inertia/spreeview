@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using SpreeviewFrontend.Client.Identity;
 using SpreeviewFrontend.Services;
+using SpreeviewFrontend.Services.HealthCheck;
 
 namespace SpreeviewFrontend;
 
@@ -48,6 +49,11 @@ public static class WebApplicationBuilderExtensions
             .AddHttpClient("SpreeviewAPI", client => client.BaseAddress = new Uri(backendUrl))
             .AddHttpMessageHandler<CookieHandler>();
 
+    }
+
+    public static void SetupAPIServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IHealthService, HealthService>();
     }
 
     public static void SetupUserPreferences(this WebApplicationBuilder builder)
