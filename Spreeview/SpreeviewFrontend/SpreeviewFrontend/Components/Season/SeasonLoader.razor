@@ -15,7 +15,7 @@
 }
 else if (errorMessage != null)
 {
-    <div>
+    <div class="load-message">
         We faced an error when loading the season: @errorMessage
     </div>
 }
@@ -40,7 +40,7 @@ else
     [Parameter]
     public EventCallback<(int, int)> SelectEpisode { get; set; }
 
-    private SeasonGetDTO season;
+    private SeasonGetDTO? season { get; set; }
 
     private string errorMessage { get; set; }
 
@@ -60,8 +60,6 @@ else
         try
         {
             Console.WriteLine("Paramaters set");
-            Console.WriteLine(SeasonNumber);
-            Console.WriteLine(SeriesId);
             season = (await SeasonService.GetSeasonById(SeriesId, SeasonNumber)).Value;
         }
         catch (Exception ex)

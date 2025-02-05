@@ -17,13 +17,13 @@
 }
 else if (errorMessage != null)
 {
-    <div>
+    <div class="load-message">
         We faced an error when loading the series: @errorMessage
     </div>
 }
 else
 {
-    <div>
+    <div class="load-message">
         Loading Series...
     </div>
 }
@@ -32,7 +32,7 @@ else
     [Parameter]
     public LoadingType LoadingType { get; set; }
 
-    private List<SeriesGetDTO> series;
+    private List<SeriesGetDTO> series { get; set; }
 
     private string errorMessage { get; set; }
 
