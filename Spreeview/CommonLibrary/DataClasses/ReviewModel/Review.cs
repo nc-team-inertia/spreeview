@@ -10,6 +10,7 @@ public class Review : IEntity
     public string Contents { get; set; } = "";
 	public int UserId { get; set; }
     public int EpisodeId { get; set; }
+    public int SeriesId { get; set; }
     public DateTime DateAdded { get; set; }
     [Range(1,10)]
     public int Rating { get; set; }

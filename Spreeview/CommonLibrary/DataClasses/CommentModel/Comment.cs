@@ -9,5 +9,4 @@ public class Comment : IEntity
 	public int UserId { get; set; }
 	public DateTime DateAdded { get; set; }
 	public int ReviewId { get; set; }
-	public Review Review { get; set; }
 }

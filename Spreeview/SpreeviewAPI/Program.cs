@@ -1,5 +1,11 @@
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using SpreeviewAPI;
+using SpreeviewAPI.Models;
+using SpreeviewAPI.Database;
+using SpreeviewAPI.HealthChecks;
+using SpreeviewAPI.Repository;
 using SpreeviewAPI.Services.Implementations;
 using SpreeviewAPI.Services.Interfaces;
 using SpreeviewAPI.Utilities;
@@ -9,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<CommentRepository>();
+builder.Services.AddScoped<ReviewRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IEpisodeService, EpisodeService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ISeriesService, SeriesService>();
@@ -22,6 +31,16 @@ builder.Services.AddHttpClient("tmdb", tmdb =>
     tmdb.BaseAddress = new Uri("https://api.themoviedb.org/3/");
     tmdb.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"Bearer {tmdbAccessToken}");
 });
+
+builder.Services.AddHealthChecks()
+    .AddCheck<TmdbHealthCheck>("tmdb_health_check",
+        failureStatus: HealthStatus.Unhealthy,
+        tags: new[] { "api", "external", "tmdb" }
+        )
+    .AddDbContextCheck<ApplicationDbContext>("internal_db_health_check",
+        failureStatus: HealthStatus.Unhealthy,
+        tags: new[] { "api", "internal" }
+        );
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -42,13 +61,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<IdentityUser<int>>();
+app.MapHealthChecks("/api/health", new HealthCheckOptions
+{
+    ResponseWriter = HealthCheckWriter.WriteHealthCheck
+});
+
+app.MapIdentityApi<ApplicationUser>();
 
 app.UseCors();
 
 app.UseHttpsRedirection();
 
-app.AddLogoutEndpoint();
 app.AddRolesEndpoint();
 
 app.UseAuthentication();
