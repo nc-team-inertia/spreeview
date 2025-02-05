@@ -15,7 +15,7 @@ public class HealthCheckWriter
         using (var jsonWriter = new Utf8JsonWriter(memoryStream, options))
         {
             jsonWriter.WriteStartObject();
-            jsonWriter.WriteString("overall_status", healthReport.Status.ToString());
+            jsonWriter.WriteString("overallStatus", healthReport.Status.ToString());
             jsonWriter.WriteStartObject("results");
 
             foreach (var healthReportEntry in healthReport.Entries)

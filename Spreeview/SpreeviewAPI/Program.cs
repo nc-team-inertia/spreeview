@@ -33,11 +33,11 @@ builder.Services.AddHttpClient("tmdb", tmdb =>
 });
 
 builder.Services.AddHealthChecks()
-    .AddCheck<TmdbHealthCheck>("tmdb_health_check",
+    .AddCheck<TmdbHealthCheck>("tmdbHealthCheck",
         failureStatus: HealthStatus.Unhealthy,
         tags: new[] { "api", "external", "tmdb" }
         )
-    .AddDbContextCheck<ApplicationDbContext>("internal_db_health_check",
+    .AddDbContextCheck<ApplicationDbContext>("internalDbHealthCheck",
         failureStatus: HealthStatus.Unhealthy,
         tags: new[] { "api", "internal" }
         );
