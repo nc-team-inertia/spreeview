@@ -53,7 +53,7 @@ public static class WebApplicationBuilderExtensions
 
     public static void SetupAPIServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddScoped<IHealthService, HealthService>();
+        builder.Services.AddScoped<IApiHealthService, ApiHealthService>();
     }
 
     public static void SetupUserPreferences(this WebApplicationBuilder builder)

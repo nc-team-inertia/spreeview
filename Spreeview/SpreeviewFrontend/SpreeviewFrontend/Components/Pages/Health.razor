@@ -1,8 +1,8 @@
 ﻿@page "/Health"
-@using CommonLibrary.DataClasses.HealthModel
+@using CommonLibrary.DataClasses.ApiHealthModel
 @using SpreeviewAPI.Wrappers
 @using SpreeviewFrontend.Services.HealthCheck
-@inject IHealthService HealthService
+@inject IApiHealthService ApiHealthService
 
 @if (_healthResponse is { Type: ServiceResponseType.Success, Value: not null })
 {
@@ -21,11 +21,11 @@ else
 }
 
 @code {
-    private ServiceObjectResponse<Health> _healthResponse = new();
+    private ServiceObjectResponse<ApiHealth> _healthResponse = new();
     
     protected override async Task OnInitializedAsync()
     {
-        _healthResponse = await HealthService.GetHealthAsync();
+        _healthResponse = await ApiHealthService.GetHealthAsync();
     }
 
 }
