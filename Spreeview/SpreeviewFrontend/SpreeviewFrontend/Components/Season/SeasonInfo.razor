@@ -6,14 +6,14 @@
 
 <section class="flex flex-col gap-4 justify-center items-center overflow-hidden">
 	<!--Episodes section-->
-	<div class="flex gap-4 items-center py-2">
+	<div class="flex gap-4 items-center py-5">
 		<span>Episodes:</span>
 		<div class="flex gap-2 flex-wrap">
 			@for (var i = 1; i <= season.Episodes.Count; i++)
 			{
 				var episodeId = @season.Episodes[i - 1].Id;
 				var episodeNumber = @season.Episodes[i - 1].EpisodeNumber;
-				<button class="bg-black text-white px-3 py-1 rounded-lg" @onclick="() => setEpisode((episodeId, episodeNumber))">@i</button>
+				<button class="bg-black text-white px-3 py-1 rounded-lg shadow-purple active:scale-90" @onclick="() => setEpisode((episodeId, episodeNumber))">@i</button>
 			}
 		</div>
 	</div>
