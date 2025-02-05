@@ -1,0 +1,31 @@
+﻿@page "/Health"
+@using CommonLibrary.DataClasses.HealthModel
+@using SpreeviewAPI.Wrappers
+@using SpreeviewFrontend.Services.HealthCheck
+@inject IHealthService HealthService
+
+@if (_healthResponse is { Type: ServiceResponseType.Success, Value: not null })
+{
+    
+    <p>Overall Status: @_healthResponse.Value.OverallStatus</p>
+    <hr/>
+    <p>Breakdown:</p>
+    @foreach (var check in _healthResponse.Value.Results)
+    {
+        <p>@check.Key: @check.Value.Status, @check.Value.Description</p>
+    }
+}
+else 
+{
+    <p>Health Status Unknown: Server not responding.</p>
+}
+
+@code {
+    private ServiceObjectResponse<Health> _healthResponse = new();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _healthResponse = await HealthService.GetHealthAsync();
+    }
+
+}

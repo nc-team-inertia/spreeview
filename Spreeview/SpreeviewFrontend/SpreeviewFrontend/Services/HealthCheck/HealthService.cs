@@ -48,8 +48,8 @@ public class HealthService : IHealthService
         }
         catch (Exception e)
         {
-            // Other error occurred. Return exception message as part of response.
-            return new ServiceObjectResponse<Health>() {Messages = [e.Message]};
+            _logger.LogInformation("Could not check health due to server error.");
+            return new ServiceObjectResponse<Health>();
         }
     }
 }
