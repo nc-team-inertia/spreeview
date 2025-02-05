@@ -57,12 +57,12 @@ public static class WebApplicationBuilderExtensions
             .AddHttpMessageHandler<CookieHandler>();
         
         // Create all http services for API endpoints:
-        builder.Services.AddHttpClient<IApiHealthService, ApiHealthService>(client => client.BaseAddress = new Uri(backendUrl + "/api/health"));
-        builder.Services.AddHttpClient<IApiCommentService, ApiCommentService>(client => client.BaseAddress = new Uri(backendUrl + "/api/comment"));
-        builder.Services.AddHttpClient<IApiEpisodeService, ApiEpisodeService>(client => client.BaseAddress = new Uri(backendUrl + "/api/episode"));
-        builder.Services.AddHttpClient<IApiReviewService, ApiReviewService>(client => client.BaseAddress = new Uri(backendUrl + "/api/review"));
-        builder.Services.AddHttpClient<IApiSeasonService, ApiSeasonService>(client => client.BaseAddress = new Uri(backendUrl + "/api/season"));
-        builder.Services.AddHttpClient<IApiSeriesService, ApiSeriesService>(client => client.BaseAddress = new Uri(backendUrl + "/api/series"));
+        builder.Services.AddHttpClient<IApiHealthService, ApiHealthService>(client => client.BaseAddress = new Uri(backendUrl + "/api/health/"));
+        builder.Services.AddHttpClient<IApiCommentService, ApiCommentService>(client => client.BaseAddress = new Uri(backendUrl + "/api/comment/"));
+        builder.Services.AddHttpClient<IApiEpisodeService, ApiEpisodeService>(client => client.BaseAddress = new Uri(backendUrl + "/api/episode/"));
+        builder.Services.AddHttpClient<IApiReviewService, ApiReviewService>(client => client.BaseAddress = new Uri(backendUrl + "/api/review/"));
+        builder.Services.AddHttpClient<IApiSeasonService, ApiSeasonService>(client => client.BaseAddress = new Uri(backendUrl + "/api/season/"));
+        builder.Services.AddHttpClient<IApiSeriesService, ApiSeriesService>(client => client.BaseAddress = new Uri(backendUrl + "/api/series/"));
 
 
     }

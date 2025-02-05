@@ -19,9 +19,7 @@ public class ApiSeasonService : IApiSeasonService
     {
         try
         {
-            var http = new HttpClient();
-
-            var response = await http.GetFromJsonAsync<SeasonGetDTO>(
+            var response = await _httpClient.GetFromJsonAsync<SeasonGetDTO>(
                 $"{seriesId}/{seasonNumber}");
 
             if (response != null)

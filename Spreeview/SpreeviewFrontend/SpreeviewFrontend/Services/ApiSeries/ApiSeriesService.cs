@@ -19,11 +19,11 @@ public class ApiSeriesService : IApiSeriesService
 		{
 			try
 			{
-				var http = new HttpClient();
-
-				var response = await http.GetFromJsonAsync<List<SeriesGetDTO>>(
+				var response = await _httpClient.GetFromJsonAsync<List<SeriesGetDTO>>(
 					$"trending");
 
+				Console.WriteLine(_httpClient.BaseAddress + "/trending");
+				
 				if (response != null)
 				{
 					Console.WriteLine(response[0].BannerPath);
@@ -42,10 +42,8 @@ public class ApiSeriesService : IApiSeriesService
 		{
 			try
 			{
-				var http = new HttpClient();
-
-				var response = await http.GetFromJsonAsync<SeriesGetDTO>(
-					$"Series/{id}");
+				var response = await _httpClient.GetFromJsonAsync<SeriesGetDTO>(
+					$"{id}");
 
 				if (response != null)
 				{
@@ -65,10 +63,8 @@ public class ApiSeriesService : IApiSeriesService
 		{
 			try
 			{
-				var http = new HttpClient();
-
-				var response = await http.GetFromJsonAsync<List<SeriesGetDTO>>(
-					$"https://localhost:7119/api/Series/search?query={query}");
+				var response = await _httpClient.GetFromJsonAsync<List<SeriesGetDTO>>(
+					$"search?query={query}");
 
 				if (response != null)
 				{

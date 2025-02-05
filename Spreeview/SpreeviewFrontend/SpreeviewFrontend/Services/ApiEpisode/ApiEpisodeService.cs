@@ -18,11 +18,9 @@ public class ApiEpisodeService : IApiEpisodeService
     {
         try
         {
-            var http = new HttpClient();
-
-            var response = await http.GetFromJsonAsync<EpisodeGetDTO>(
+            var response = await _httpClient.GetFromJsonAsync<EpisodeGetDTO>(
                 $"{seriesId}/{seasonNumber}/{episodeNumber}");
-
+            
             if (response != null)
             {
                 Console.WriteLine(response);
