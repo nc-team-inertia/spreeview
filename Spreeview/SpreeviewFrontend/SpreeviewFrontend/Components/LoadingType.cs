@@ -4,6 +4,7 @@
 	{
 		Carousel,
 		Trending,
-		SeasonInfo
+		SeasonInfo,
+		SearchResults
 	}
 }

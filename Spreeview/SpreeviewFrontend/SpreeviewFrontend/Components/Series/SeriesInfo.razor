@@ -1,0 +1,84 @@
+﻿@using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Components.Season
+@using SpreeviewFrontend.Components.Reviews
+@rendermode InteractiveServer
+
+<div class="flex gap-10 px-20 py-4">
+	<!--Bio section-->
+	<section class="flex-[2.5]">
+		<!--Banner section-->
+		<section>
+			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") width="100%" />
+		</section>
+		<section class="px-4">
+			<!--Information section-->
+			<article class="py-6">
+				<div class="flex gap-2 items-end">
+					<h2 class="text-3xl">@series.Name</h2>
+					<h3>@series.ReleaseDate  Directed by <span class="text-purple-700">Director Name</span></h3>
+				</div>
+				<p class="mt-4">
+					@series.Overview
+				</p>
+			</article>
+			<!-- Seasons section -->
+			@if (SeasonNumber > 0)
+			{
+				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seasonNumber="@SeasonNumber" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
+			}
+		</section>
+	</section>
+	<!--Seasons cards section-->
+	<section class="flex-[1] flex flex-col gap-4 items-center max-h-[300px] overflow-hidden scroll-y">
+		@for (var i = 1; i <= series.Seasons.Count; i++)
+		{
+			var seasonNumber = i; // Capture i in a new variable
+			<button class="w-4/5 h-36 flex justify-center items-center light-bg-secondary text-white shrink-0" @onclick="() => SetSeason(seasonNumber)">
+				@* <img src=@($"https://image.tmdb.org/t/p/original{series.Seasons[i-1].PosterPath}") /> *@
+				Season @seasonNumber
+			</button>
+		}
+	</section>
+</div>
+
+<!-- Reviews Section -->
+<ReviewLoader EpisodeId="EpisodeId" />
+
+<!-- Popup Version -->
+<button class="button-purple" @onclick="TogglePopup">Write a Review</button>
+@if (DisplayPopup == true)
+{
+	<WriteReviewPopup series="@series" TogglePopup="TogglePopup" seasonNumber="@SeasonNumber" episodeNumber="@EpisodeNumber" />
+}
+
+@code {
+	[Parameter]
+	public SeriesGetDTO series { get; set; }
+
+	public int SeasonNumber { get; set; } = 0;
+
+	public void SetSeason(int i)
+	{
+		SeasonNumber = i;
+		StateHasChanged();
+	}
+
+	public bool DisplayPopup { get; set; } = false;
+
+	public void TogglePopup()
+	{
+		Console.WriteLine("Toggle Triggered");
+		DisplayPopup = !DisplayPopup;
+		StateHasChanged();
+	}
+
+	public int EpisodeId { get; set; }
+	
+	public int EpisodeNumber { get; set; }
+
+	public void SelectEpisode((int Id, int number) episode)
+	{
+		EpisodeId = episode.Id;
+		EpisodeNumber = episode.number;
+	}
+}

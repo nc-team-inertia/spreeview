@@ -1,4 +1,4 @@
-﻿<form class="shadow-purple flex gap-4 py-6 justify-center items-stretch">
+﻿<form class="shadow-purple flex gap-4 py-6 justify-center items-stretch" @onsubmit="OnSearch">
 	<button type="submit">
 		<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0,0,256,256"
 			 style="fill:#805ad5;">
@@ -9,5 +9,16 @@
 </form>
 
 @code {
-	public string SearchInput { get; set; }
+	[Parameter]
+	public EventCallback<string> OnSearchSubmitted { get; set; }
+
+	public string SearchInput { get; set; } = string.Empty;
+
+	public async Task OnSearch()
+	{
+		if (OnSearchSubmitted.HasDelegate)
+		{
+			await OnSearchSubmitted.InvokeAsync(SearchInput);
+		}
+	}
 }

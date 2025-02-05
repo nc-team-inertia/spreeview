@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 .idea
 /**/.idea
+
+/**/app.min.css
+/Spreeview/SpreeviewFrontend/SpreeviewFrontend/wwwroot/css/app.min.css

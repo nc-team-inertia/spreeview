@@ -1,0 +1,46 @@
+﻿@using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Components.Series
+@using SpreeviewFrontend.Requests
+@rendermode InteractiveServer
+
+<SearchBar OnSearchSubmitted="HandleSearch" />
+@if (series.Count > 0)
+{
+    <PopularSeriesDisplay series="series" />
+}
+else if (errorMessage != null)
+{
+    <div>
+        We faced an error when loading the series: @errorMessage
+    </div>
+}
+else
+{
+	<SeriesLoader LoadingType="@LoadingType.Trending" />
+}
+
+@code {
+    public string SearchTerm { get; set; } = string.Empty;
+
+    private List<SeriesGetDTO> series { get; set; } = [];
+
+    private string errorMessage { get; set; }
+
+    private async Task HandleSearch(string searchTerm)
+    {
+        Console.WriteLine($"Search submitted: {searchTerm}");
+        SearchTerm = searchTerm;
+
+        Backend backend = new Backend();
+        try
+        {
+            series = await backend.FindSeriesByKeyword(searchTerm);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+
+        StateHasChanged();
+    }
+}

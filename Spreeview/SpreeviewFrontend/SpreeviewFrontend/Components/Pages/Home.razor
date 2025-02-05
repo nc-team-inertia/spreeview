@@ -1,10 +1,11 @@
 ﻿@page "/"
+@using SpreeviewFrontend.Components.HomeComponents
+@using SpreeviewFrontend.Components.Series
 @rendermode InteractiveServer
 
 
 <SeriesLoader LoadingType="@LoadingType.Carousel" />
-<SearchBar />
-<SeriesLoader LoadingType="@LoadingType.Trending" />
+<MainDisplay />
 
 @code {
 

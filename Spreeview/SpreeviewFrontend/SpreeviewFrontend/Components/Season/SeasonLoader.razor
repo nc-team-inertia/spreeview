@@ -7,7 +7,7 @@
 {
     @if (LoadingType == LoadingType.SeasonInfo)
     {
-        <SeasonInfo season="season" />
+        <SeasonInfo season="season" SelectEpisode="SelectEpisode" />
     }
 }
 else if (errorMessage != null)
@@ -33,22 +33,25 @@ else
     [Parameter]
     public int seasonNumber { get; set; }
 
+    [Parameter]
+    public EventCallback<(int, int)> SelectEpisode { get; set; }
+
     private SeasonGetDTO season;
 
     private string errorMessage { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         Backend backend = new Backend();
         try
         {
-            Console.WriteLine(seriesId);
-            Console.WriteLine(seasonNumber);
             season = await backend.GetSeasonById(seriesId, seasonNumber);
         }
         catch (Exception ex)
         {
             errorMessage = ex.Message;
         }
+
+        StateHasChanged();
     }
 }
