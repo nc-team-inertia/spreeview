@@ -4,7 +4,7 @@
 
 @if (series != null)
 {
-	<div class="relative w-full max-w-screen max-h-[400px] mx-auto overflow-hidden">
+	<div class="relative w-full max-w-screen max-h-[500px] mx-auto overflow-hidden">
 
 		<div class="flex w-full transition-transform duration-500 ease-in-out w-full" style="transform: translateX(@($"-{currentIndex * 100}%"))">
 			@foreach (SeriesGetDTO series in series)
@@ -16,13 +16,13 @@
 		<div class="w-36 absolute left-0 top-0 h-full bg-gradient-to-r from-black/100 to-black/0" />
 		<div class="w-36 absolute right-0 top-0 h-full bg-gradient-to-l from-black/100 to-black/0" />
 
-		<button @onclick="Previous" class="absolute left-2 top-[150px] text-white">
+		<button @onclick="Previous" class="absolute left-2 top-[200px] text-white">
 			<svg xmlns="http://www.w3.org/2000/svg" class="w-[100px] h-[100px]" viewBox="0 0 24 24" fill="currentColor">
 				<path d="m12.718 4.707-1.413-1.415L2.585 12l8.72 8.707 1.413-1.415L6.417 13H20v-2H6.416l6.302-6.293z" />
 			</svg>
 		</button>
 
-		<button @onclick="Next" class="absolute right-2 top-[150px] text-white">
+		<button @onclick="Next" class="absolute right-2 top-[200px] text-white">
 			<svg xmlns="http://www.w3.org/2000/svg" class="w-[100px] h-[100px]" viewBox="0 0 24 24" fill="currentColor">
 				<path d="M11.293 4.707 17.586 11H4v2h13.586l-6.293 6.293 1.414 1.414L21.414 12l-8.707-8.707-1.414 1.414z" />
 			</svg>
