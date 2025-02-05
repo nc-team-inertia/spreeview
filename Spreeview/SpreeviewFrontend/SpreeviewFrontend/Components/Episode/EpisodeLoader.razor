@@ -10,7 +10,7 @@
 @if (episode != null)
 {
     <EpisodeInfo episode="@episode" />
-    <ReviewLoader />
+    <ReviewLoader episode="@episode" />
 }
 else if (errorMessage != null)
 {
@@ -32,7 +32,10 @@ else
 
     [Parameter]
     [SupplyParameterFromQuery]
-    public int EpisodeId { get; set; }
+    public int EpisodeNumber { get; set; }
+
+    [Parameter]
+    public int seriesId { get; set; }
 
     private EpisodeGetDTO episode;
 
@@ -50,16 +53,19 @@ else
             SeasonNumber = Int32.Parse(seasonNumber);
         }
 
-        if (queryParams.TryGetValue("episode", out var episodeId))
+        if (queryParams.TryGetValue("episode", out var episodeNumber))
         {
-            EpisodeId = Int32.Parse(episodeId);
+            EpisodeNumber = Int32.Parse(episodeNumber);
         }
 
         Backend backend = new Backend();
         try
         {
             Console.WriteLine("Paramaters set");
-            episode = await backend.GetEpisodeById(episodeId);
+            Console.WriteLine(seriesId);
+            Console.WriteLine(EpisodeNumber);
+            Console.WriteLine(SeasonNumber);
+            episode = await backend.GetIndividualEpisode(seriesId, SeasonNumber, EpisodeNumber);
         }
         catch (Exception ex)
         {

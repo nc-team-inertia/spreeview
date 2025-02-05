@@ -1,4 +1,5 @@
-﻿using CommonLibrary.DataClasses.SeasonModel;
+﻿using CommonLibrary.DataClasses.EpisodeModel;
+using CommonLibrary.DataClasses.SeasonModel;
 using CommonLibrary.DataClasses.SeriesModel;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -98,5 +99,29 @@ namespace SpreeviewFrontend.Requests
 			}
 			return null;
 		}
+
+        public async Task<EpisodeGetDTO?> GetIndividualEpisode(int seriesId, int seasonNumber, int episodeNumber)
+        {
+            try
+            {
+                var http = new HttpClient();
+
+                var response = await http.GetFromJsonAsync<EpisodeGetDTO>(
+                    $"https://localhost:7119/api/Episode/{seriesId}/{seasonNumber}/{episodeNumber}");
+
+                if (response != null)
+                {
+                    Console.WriteLine(response);
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw new Exception(ex.Message);
+            }
+            return null;
+        }
+
     }
 }

@@ -1,37 +1,9 @@
-﻿<h3>ReviewLoader</h3>
+﻿@using CommonLibrary.DataClasses.EpisodeModel
+@inject NavigationManager Navigation
+
+<h3>@episode.EpisodeNumber</h3>
 
 @code {
 	[Parameter]
-	public int EpisodeId { get; set; }
-
-	[Parameter]
-	public int SeasonNumber { get; set; }
-
-    protected override async Task OnParametersSetAsync()
-    {
-        Console.WriteLine("Ran");
-
-        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
-        var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
-
-        if (queryParams.TryGetValue("season", out var seasonNumber))
-        {
-            SeasonNumber = Int32.Parse(seasonNumber);
-        }
-
-        Backend backend = new Backend();
-        try
-        {
-            Console.WriteLine("Paramaters set");
-            Console.WriteLine(SeasonNumber);
-            Console.WriteLine(SeriesId);
-            season = await backend.GetSeasonById(SeriesId, SeasonNumber);
-        }
-        catch (Exception ex)
-        {
-            errorMessage = ex.Message;
-        }
-
-        StateHasChanged();
-    }
+	public EpisodeGetDTO episode { get; set;  }
 }
