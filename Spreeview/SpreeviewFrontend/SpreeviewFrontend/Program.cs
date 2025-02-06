@@ -13,6 +13,9 @@ builder.SetupHttpClients();
 builder.SetupApiServices();
 builder.SetupUserPreferences();
 
+// Add signalR for chatroom functionality
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
