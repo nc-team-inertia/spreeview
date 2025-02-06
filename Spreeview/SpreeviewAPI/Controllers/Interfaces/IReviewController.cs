@@ -2,14 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace SpreeviewAPI.Controllers.Interfaces;
+
 public interface IReviewController
 {
-    Task<ActionResult> Create(ReviewInsertDTO dto);
-    Task<ActionResult> Delete(int id);
-    Task<ActionResult> Edit(ReviewUpdateDTO dto);
-    Task<ActionResult> GetByEpisodeId(int episodeId);
-    Task<ActionResult> GetBySeriesId(int seriesId);
-    Task<ActionResult> GetByUserId(int userId);
-    Task<ActionResult> GetById(int id);
-    Task<ActionResult> Index();
+    Task<ActionResult> PostReview(ReviewInsertDTO dto);
+    Task<ActionResult> DeleteReview(int id);
+    Task<ActionResult> PutReview(ReviewUpdateDTO dto);
+    Task<ActionResult> GetReviewsByEpisodeId(int episodeId);
+    Task<ActionResult> GetReviewsBySeriesId(int seriesId);
+    Task<ActionResult> GetReviewsByUserId(int userId);
+    Task<ActionResult> GetReviewById(int id);
+    Task<ActionResult> IndexAllReviews();
 }

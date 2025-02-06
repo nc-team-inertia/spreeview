@@ -1,22 +1,15 @@
-using System.Security.Claims;
-using System.Text;
 using CommonLibrary.DataClasses.CommentModel;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.Net.Http.Headers;
 
 namespace SpreeviewAPI.Controllers.Implementations;
 
 public interface ICommentController
 {
-    Task<ActionResult> Index();
-    Task<ActionResult> GetById(int id);
-    Task<ActionResult> GetByUserId(int userId);
-    Task<ActionResult> GetByReviewId(int reviewId);
-    Task<ActionResult> Create(CommentInsertDTO commentDto);
-    Task<ActionResult> Update(CommentUpdateDTO commentDto);
-    Task<ActionResult> Delete(int id);
+    Task<ActionResult> IndexAllComments();
+    Task<ActionResult> GetCommentById(int id);
+    Task<ActionResult> GetCommentsByUserId(int userId);
+    Task<ActionResult> GetCommentsByReviewId(int reviewId);
+    Task<ActionResult> PostComment(CommentInsertDTO commentDto);
+    Task<ActionResult> PutComment(CommentUpdateDTO commentDto);
+    Task<ActionResult> DeleteComment(int id);
 }
