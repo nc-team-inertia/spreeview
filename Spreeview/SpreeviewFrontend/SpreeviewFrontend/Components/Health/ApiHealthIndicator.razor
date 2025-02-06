@@ -1,0 +1,29 @@
+﻿@using System.Diagnostics
+@using CommonLibrary.DataClasses.ApiHealthModel
+@using SpreeviewAPI.Wrappers
+@using SpreeviewFrontend.Services.ApiHealth
+@inject IApiHealthService ApiHealthService
+
+
+<HealthIndicatorBox Status="_overallHealth" Title="Server status: ">
+    <HealthIndicator Status="_spreeviewDatabaseHealth">Spreeview Database</HealthIndicator>
+    <HealthIndicator Status="_tmdbStatusHealth">TMDB Status</HealthIndicator>
+</HealthIndicatorBox>
+
+
+@code {
+    private HealthStatus _overallHealth = HealthStatus.Unknown;
+    private HealthStatus _spreeviewDatabaseHealth = HealthStatus.Unknown;
+    private HealthStatus _tmdbStatusHealth = HealthStatus.Unknown;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var healthResponse = await ApiHealthService.GetHealthAsync();
+        if (healthResponse.Type == ServiceResponseType.Success)
+        {
+            _spreeviewDatabaseHealth = HealthStatusUtils.StringToHealthStatus(healthResponse.Value.Results["internalDbHealthCheck"].Status);
+            _tmdbStatusHealth = HealthStatusUtils.StringToHealthStatus(healthResponse.Value.Results["tmdbHealthCheck"].Status);
+            _overallHealth = HealthStatusUtils.StringToHealthStatus(healthResponse.Value.OverallStatus);
+        }
+    }
+}
