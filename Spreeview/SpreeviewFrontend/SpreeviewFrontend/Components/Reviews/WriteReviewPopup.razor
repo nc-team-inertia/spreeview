@@ -6,10 +6,10 @@
 @inject IApiReviewService ReviewService
 
 <div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center" @onclick="HandleBackgroundClick">
-	<div class="bg-white p-4 rounded shadow-lg w-1/3" @onclick:stopPropagation="true" @onclick:preventDefault="true">
+	<div class="bg-white p-8 rounded  shadow-lg w-1/3 h-1/2" @onclick:stopPropagation="true" @onclick:preventDefault="true">
 		<h2 class="text-xl font-bold mb-4">Add a Review</h2>
 
-		<textarea @bind="ReviewContent" class="w-full h-1/2 p-2 border rounded mb-3 resize-none !important" placeholder="Write your thoughts here..."></textarea>
+		<textarea @bind="ReviewContent" class="w-full h-64 p-2 border outline-none rounded mb-3 resize-none !important" placeholder="Write your thoughts here..."></textarea>
 		@if (IsContentEmpty)
 		{
 			<p class="text-gray-500 text-sm mb-3">Review content cannot be empty</p>
