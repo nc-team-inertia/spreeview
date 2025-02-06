@@ -4,6 +4,7 @@ using SpreeviewFrontend;
 using SpreeviewFrontend.Components;
 using SpreeviewFrontend.Services.AccountManagement;
 using SpreeviewFrontend.Services;
+using SpreeviewFrontend.Services.Chat;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +13,7 @@ builder.SetupAuth();
 builder.SetupHttpClients();
 builder.SetupApiServices();
 builder.SetupUserPreferences();
-
-// Add signalR for chatroom functionality
-builder.Services.AddSignalR();
+builder.SetupChatServices();
 
 var app = builder.Build();
 
@@ -39,5 +38,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(SpreeviewFrontend.Client._Imports).Assembly);
+
+app.MapHub<ChatHub>("chathub");
 
 app.Run();
