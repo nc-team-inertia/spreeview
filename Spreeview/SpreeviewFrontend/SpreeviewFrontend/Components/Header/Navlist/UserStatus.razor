@@ -1,14 +1,18 @@
-﻿        @code{
-            private bool display { get; set; } = false;
-        }
-
-
+﻿@code{ private bool display { get; set; } = false; }
 <AuthorizeView>
     <Authorized>
         <div class="flex gap-4 items-center text-nowrap">
             <NavLink>@context.User.Identity?.Name</NavLink>
             <div class="w-10 h-10 rounded-full bg-gray-500"></div>
             <NavLink class="button-purple" href="/logout">Sign out</NavLink>
+
+            @if (display)
+            {
+                //move into @Body ? dont want to handle re-navigations
+                <div id="UserPrefs">
+                    <UserPrefs />
+                </div>
+            }
         </div>
     </Authorized>
     <NotAuthorized>
