@@ -1,23 +1,35 @@
-﻿@using CommonLibrary.DataClasses.SeasonModel
+﻿@using CommonLibrary.DataClasses.ReviewModel
+@using CommonLibrary.DataClasses.SeasonModel
 @using CommonLibrary.DataClasses.SeriesModel
+@using SpreeviewFrontend.Services.ApiReview
+@rendermode InteractiveServer
+@inject IApiReviewService ReviewService
 
-<section class="fixed solid left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[80vh] w-[70vw] bg-white rounded-xl flex flex-col justify-between shadow-purple">
-	<div class="flex p-8 h-full gap-6">
-		<div class="h-full overflow-hidden max-w-64 shadow-purple">
-			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") class="h-full object-cover" />
-		</div>
-		<div class="flex flex-col gap-6 items-start w-full">
-			<button @onclick="ClosePopup" class="self-end">X</button>
-			<div>
-				<h2 class="text-2xl">@series.Name <span class="text-sm">@series.ReleaseDate</span></h2>
-				<h3>Season @seasonNumber  - Episode @episodeNumber</h3>
-			</div>
-		</div>
-	</div>
+<div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center" @onclick="HandleBackgroundClick">
+	<div class="bg-white p-4 rounded shadow-lg w-1/3" @onclick:stopPropagation="true" @onclick:preventDefault="true">
+		<h2 class="text-xl font-bold mb-4">Add a Review</h2>
 
-	<div class="h-24 w-full bg-purple-600">
+		<textarea @bind="ReviewContent" class="w-full p-2 border rounded mb-3" placeholder="Write your review here..."></textarea>
+		@if (IsContentEmpty)
+		{
+			<p class="text-gray-500 text-sm mb-3">Review content cannot be empty</p>
+		}
+
+		<div class="mb-4">
+			<label for="rating" class="block mb-2 font-bold">Rating: @Rating</label>
+			<input type="range" id="rating" @bind="Rating" min="1" max="10" step="1" class="w-full" />
+		</div>
+
+		<button @onclick="SubmitReview" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+			Submit
+		</button>
+		<button @onclick="ClosePopup" class="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+			Cancel
+		</button>
 	</div>
-</section>
+</div>
+
+
 
 @code {
 	[Parameter]
@@ -25,15 +37,61 @@
 
 	[Parameter]
 	public EventCallback TogglePopup { get; set; }
-	
+
 	[Parameter]
-    public int episodeNumber { get; set; }
-	
+	public int episodeNumber { get; set; }
+
 	[Parameter]
-    public int seasonNumber { get; set; }
+	public int seasonNumber { get; set; }
+
+	[Parameter]
+	public bool IsVisible { get; set; }
+
+	[Parameter]
+	public EventCallback<bool> OnClose { get; set; }
+
+	private string ReviewContent { get; set; } = string.Empty;
+
+	private int Rating { get; set; } = 1;
+
+	private bool IsContentEmpty { get; set; } = false;
+	private void HandleBackgroundClick()
+	{
+		ClosePopup();
+	}
+
+	private async void SubmitReview()
+	{
+		if (string.IsNullOrWhiteSpace(ReviewContent))
+		{
+			IsContentEmpty = true;
+			return;
+		}
+
+		IsContentEmpty = false;
+		try
+		{
+			var review = new ReviewInsertDTO
+			{
+				Contents = ReviewContent,
+				EpisodeId = episodeNumber,
+				SeriesId = series.Id,
+				Rating = Rating
+			};
+			await ReviewService.PostReviewAsync(review);
+			Console.WriteLine("posted");
+			ClosePopup();
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e.Message);
+			throw;
+		}
+	}
 
 	private async Task ClosePopup()
 	{
-		TogglePopup.InvokeAsync();
+		await TogglePopup.InvokeAsync();
 	}
 }
+

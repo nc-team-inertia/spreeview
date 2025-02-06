@@ -14,9 +14,10 @@ public class ApiHealthService : IApiHealthService
     // json serializer options to use camelCase
     private readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-    public ApiHealthService(HttpClient httpClient, ILogger<ApiHealthService> logger)
+    public ApiHealthService(IHttpClientFactory httpClientFactory, ILogger<ApiHealthService> logger)
     {
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
+        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/health/");
         _logger = logger;
     }
 
