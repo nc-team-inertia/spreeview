@@ -1,0 +1,27 @@
+﻿<div class="text-3xl">
+    @for (int i = 0; i < FullStars; i++)
+    {
+        <span style="color: gold;">★</span>
+    }
+
+    @if (HasHalfStar)
+    {
+        <span style="color: gold;">☆</span>
+    }
+
+    @for (int i = 0; i < EmptyStars; i++)
+    {
+        <span style="color: lightgray;">☆</span>
+    }
+    <span class="text-sm mx-2">@Rating/10</span>
+</div>
+
+@code {
+	[Parameter] public int Rating { get; set; }
+
+	private int FullStars => (int)((double)Rating / 2);
+	private bool HasHalfStar => ((double)Rating % 2) >= 1;
+	private int EmptyStars => 5 - FullStars - (HasHalfStar ? 1 : 0);
+
+
+}

@@ -36,6 +36,10 @@ body, html {
     @apply text-center text-2xl py-4;
 }
 
+.click-transition {
+    @apply active:scale-95 transition-transform duration-300 ease-in-out;
+}
+
 /*---------------Color Variables---------------*/
 
 .light-bg-primary {
@@ -68,6 +72,10 @@ body, html {
 
 .shadow-purple {
     box-shadow: 0px 10px 10px #805ad570;
+}
+
+.shadow-purple-small {
+    box-shadow: 0px 5px 5px #805ad570;
 }
 
 .text-input-box {

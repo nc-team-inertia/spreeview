@@ -1,4 +1,5 @@
 ﻿using CommonLibrary.DataClasses.ReviewModel;
+using CommonLibrary.DataClasses.SeriesModel;
 using SpreeviewAPI.Wrappers;
 
 namespace SpreeviewFrontend.Services.ApiReview;
@@ -30,5 +31,25 @@ public class ApiReviewService : IApiReviewService
             Console.WriteLine(ex.Message);
         }
         return new ServiceObjectResponse<ReviewGetDTO?>() { Type = ServiceResponseType.Failure };
+    }
+
+    public async Task<ServiceObjectResponse<List<ReviewGetDTO>>> GetEpisodeReviews(int episodeId)
+    {
+        try
+        {
+            var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>(
+                $"episode/{episodeId}");
+
+            if (response != null)
+            {
+                return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message}");
+            throw new Exception(ex.Message);
+        }
+        return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Failure };
     }
 }
