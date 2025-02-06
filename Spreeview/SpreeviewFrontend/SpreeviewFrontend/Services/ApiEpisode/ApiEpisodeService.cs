@@ -8,9 +8,10 @@ public class ApiEpisodeService : IApiEpisodeService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiEpisodeService> _logger;
 
-    public ApiEpisodeService(HttpClient httpClient, ILogger<ApiEpisodeService> logger)
+    public ApiEpisodeService(IHttpClientFactory httpClientFactory, ILogger<ApiEpisodeService> logger)
     {
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
+        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/episode/");
         _logger = logger;
     }
     

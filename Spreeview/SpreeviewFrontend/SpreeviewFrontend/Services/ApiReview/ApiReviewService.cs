@@ -8,17 +8,17 @@ public class ApiReviewService : IApiReviewService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiReviewService> _logger;
 
-    public ApiReviewService(HttpClient httpClient, ILogger<ApiReviewService> logger)
+    public ApiReviewService(IHttpClientFactory httpClientFactory, ILogger<ApiReviewService> logger)
     {
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
+        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/review/");
         _logger = logger;
-
     }
     public async Task<ServiceObjectResponse<ReviewGetDTO?>> PostReviewAsync(ReviewInsertDTO review)
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync(_httpClient.BaseAddress, review);
+            var response = await _httpClient.PostAsJsonAsync("", review);
             if (response != null)
             {
                 Console.WriteLine(response.Content);

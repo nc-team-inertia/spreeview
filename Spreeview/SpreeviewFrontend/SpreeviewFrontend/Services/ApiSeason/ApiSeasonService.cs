@@ -9,9 +9,10 @@ public class ApiSeasonService : IApiSeasonService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiSeasonService> _logger;
 
-    public ApiSeasonService(HttpClient httpClient, ILogger<ApiSeasonService> logger)
+    public ApiSeasonService(IHttpClientFactory httpClientFactory, ILogger<ApiSeasonService> logger)
     {
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
+        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/season/");
         _logger = logger;
     }
     

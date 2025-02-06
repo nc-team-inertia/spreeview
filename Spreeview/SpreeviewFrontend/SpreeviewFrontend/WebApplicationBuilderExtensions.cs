@@ -50,21 +50,20 @@ public static class WebApplicationBuilderExtensions
             throw new InvalidOperationException("BackendUrl not found in configuration.");
         }
 
-        // Create a named HTTP client connecting to the  backend - this is used for AccountManagementService, as 
-        // it cannot be used as a typed http client.
+        // Create a named HTTP client connecting to the backend. This is used for authentication and API services.
         builder.Services
             .AddHttpClient("SpreeviewAPI", client => client.BaseAddress = new Uri(backendUrl))
             .AddHttpMessageHandler<CookieHandler>();
-        
-        // Create all http services for API endpoints:
-        builder.Services.AddHttpClient<IApiHealthService, ApiHealthService>(client => client.BaseAddress = new Uri(backendUrl + "/api/health/"));
-        builder.Services.AddHttpClient<IApiCommentService, ApiCommentService>(client => client.BaseAddress = new Uri(backendUrl + "/api/comment/"));
-        builder.Services.AddHttpClient<IApiEpisodeService, ApiEpisodeService>(client => client.BaseAddress = new Uri(backendUrl + "/api/episode/"));
-        builder.Services.AddHttpClient<IApiReviewService, ApiReviewService>(client => client.BaseAddress = new Uri(backendUrl + "/api/review/"));
-        builder.Services.AddHttpClient<IApiSeasonService, ApiSeasonService>(client => client.BaseAddress = new Uri(backendUrl + "/api/season/"));
-        builder.Services.AddHttpClient<IApiSeriesService, ApiSeriesService>(client => client.BaseAddress = new Uri(backendUrl + "/api/series/"));
+    }
 
-
+    public static void SetupApiServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IApiHealthService, ApiHealthService>();
+        builder.Services.AddScoped<IApiCommentService, ApiCommentService>();
+        builder.Services.AddScoped<IApiEpisodeService, ApiEpisodeService>();
+        builder.Services.AddScoped<IApiSeasonService, ApiSeasonService>();
+        builder.Services.AddScoped<IApiSeriesService, ApiSeriesService>();
+        builder.Services.AddScoped<IApiReviewService, ApiReviewService>();
     }
 
     public static void SetupUserPreferences(this WebApplicationBuilder builder)
