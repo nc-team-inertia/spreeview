@@ -20,5 +20,5 @@ public class Episode : IEntity
 	public string Overview { get; set; }
 
 	[JsonPropertyName("runtime")]
-	public int Runtime { get; set; }
+	public int? Runtime { get; set; }
 }
