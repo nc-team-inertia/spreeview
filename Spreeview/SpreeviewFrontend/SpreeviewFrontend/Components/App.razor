@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
     <link href="/css/app.min.css" rel="stylesheet" />
-@*     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" /> *@
+    @*     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" /> *@
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,13 +20,15 @@
     <title>Spreeview</title>
 </head>
 
-@*TODO shift into Authorised component*@
+@*TODO shift into Authorised component ?? *@
 @using SpreeviewFrontend.Services
 @inject IUserPreferencesService UserPreferencesService;
 @code {
     private UserPreferences _preferences = new();
     protected override async Task OnInitializedAsync()
     { _preferences = await UserPreferencesService.GetUserPreferencesAsync(); }
+
+    public EventCallback<Theme> CurrTheme { get; set; }
 }
 
 <body theme="@( Enum.GetName(_preferences.Theme).ToLower() )">

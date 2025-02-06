@@ -1,3 +1,39 @@
-﻿<div style="background-color:#88888888">
+﻿@using SpreeviewFrontend.Services
+@inject IUserPreferencesService UserPreferencesService;
+@inject IJSRuntime JSR;
+@code {
+    private UserPreferences _preferences = new();
+    protected override async Task OnInitializedAsync()
+    { 
+        _preferences = await UserPreferencesService.GetUserPreferencesAsync();
+    }
 
+    private Theme theme;
+    public Theme Theme { 
+        get { return theme; } 
+        set {
+
+            //TODO  on change, update body attribute
+            _preferences.Theme = value;
+            JSR.InvokeVoidAsync("ThemeSwitch", Enum.GetName(Theme.GetType(), value));
+
+        theme = value; } 
+    }    
+}
+
+<script>
+    function ThemeSwitch(theme){
+        document.querySelector("body").setAttribute("theme",theme.toLowerCase());
+    }
+</script>
+
+<div style="background-color:#88888888; width:100%">
+    <form action="" method="">
+        <InputSelect @bind-Value="Theme" TValue="@Theme">
+            @foreach(var theme in Enum.GetValues(Theme.GetType())){
+                <option value="@theme">@Enum.GetName(Theme.GetType(),theme)</option>
+            }
+        </InputSelect>
+        <hr />
+    </form>
 </div>

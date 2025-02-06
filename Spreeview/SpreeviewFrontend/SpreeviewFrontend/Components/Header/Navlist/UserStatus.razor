@@ -1,4 +1,9 @@
-﻿<AuthorizeView>
+﻿        @code{
+            private bool display { get; set; } = false;
+        }
+
+
+<AuthorizeView>
     <Authorized>
         <div class="flex gap-4 items-center text-nowrap">
             <NavLink>@context.User.Identity?.Name</NavLink>
@@ -12,18 +17,3 @@
         </div>
     </NotAuthorized>
 </AuthorizeView>
-
-<script>
-    function HideMe(ele){ ele.style.display="none"; }
-    function Toggle(){
-        console.log("clicked");
-        //Pop-up display user PREFS
-        switch(document.getElementById("UserPrefs").style.display.toLowerCase()){
-            case "none":
-                document.getElementById("UserPrefs").style.display = "block";
-                break;
-            default:
-                document.getElementById("UserPrefs").style.display = "none";
-        }
-    }
-</script>
