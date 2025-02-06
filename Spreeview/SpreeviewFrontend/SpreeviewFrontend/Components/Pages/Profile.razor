@@ -1,0 +1,16 @@
+﻿@page "/profile"
+@inject NavigationManager Navigation
+
+<AuthorizeView>
+    <Authorized>
+        <p>Welcome to your profile!</p>
+    </Authorized>
+    <NotAuthorized>
+        @{Navigation.NavigateTo("login?returnUrl=profile");}
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    
+}
