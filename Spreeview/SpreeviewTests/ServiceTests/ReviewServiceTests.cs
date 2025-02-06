@@ -129,7 +129,7 @@ public class ReviewServiceTests
     }
     #endregion
 
-    #region FindReviewByUserId method tests
+    #region FindReviewsByUserId method tests
     [Test]
     public async Task FindReviewsByUserId_CallsRepositoryMethodOnce()
     {
@@ -178,22 +178,22 @@ public class ReviewServiceTests
     public async Task FindReviewsByUserId_OnInvalidRequest_ReturnsEmptyList()
     {
         // Arrange
-        int testReviewId = int.MaxValue;
+        int testUserId = int.MaxValue;
 
         List<Review> expectedRepositoryReturn = new List<Review>();
 
-        _mockRepository.Setup(mock => mock.FindReviewsByUserId(testReviewId))
+        _mockRepository.Setup(mock => mock.FindReviewsByUserId(testUserId))
                        .ReturnsAsync(expectedRepositoryReturn);
 
         // Act
-        var result = await reviewService.FindReviewsByUserId(testReviewId);
+        var result = await reviewService.FindReviewsByUserId(testUserId);
 
         // Assert
         Assert.That(result, Has.Count.EqualTo(0));
     }
     #endregion
 
-    #region FindReviewBySeriesId method tests
+    #region FindReviewsBySeriesId method tests
     [Test]
     public async Task FindReviewsBySeriesId_CallsRepositoryMethodOnce()
     {
@@ -257,7 +257,7 @@ public class ReviewServiceTests
     }
     #endregion
 
-    #region FindReviewByEpisodeId method tests
+    #region FindReviewsByEpisodeId method tests
     [Test]
     public async Task FindReviewsByEpisodeId_CallsRepositoryMethodOnce()
     {

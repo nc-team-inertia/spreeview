@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Models;
 using SpreeviewAPI.Services.Implementations;
-using SpreeviewAPI.Services.Interfaces;
 
 namespace SpreeviewAPI.Controllers.Implementations;
 
@@ -25,44 +24,44 @@ public class CommentController : ControllerBase, ICommentController
     }
 
     [HttpGet]
-    public async Task<ActionResult> Index()
+    public async Task<ActionResult> IndexAllComments()
     {
-        var response = await _commentService.Index();
-        if (response == null) return NotFound();
+        var response = await _commentService.IndexAllComments();
+        if (response == null) return NotFound("There were no comments found.");
         var responseDto = _mapper.Map<List<CommentGetDTO>>(response);
         return Ok(responseDto);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult> GetById(int id)
+    public async Task<ActionResult> GetCommentById(int id)
     {
-        var response = await _commentService.GetById(id);
-        if (response == null) return NotFound();
+        var response = await _commentService.FindCommentById(id);
+        if (response == null) return NotFound("There is no comment with the associated ID.");
         var responseDto = _mapper.Map<CommentGetDTO>(response);
         return Ok(responseDto);
     }
 
     [HttpGet("user/{userId:int}")]
-    public async Task<ActionResult> GetByUserId(int userId)
+    public async Task<ActionResult> GetCommentsByUserId(int userId)
     {
-        var response = await _commentService.GetByUserId(userId);
-        if (response == null) return NotFound();
+        var response = await _commentService.FindCommentsByUserId(userId);
+        if (response == null) return NotFound("There were no comments by the associated user ID.");
         var responseDto = _mapper.Map<List<CommentGetDTO>>(response);
         return Ok(responseDto);
     }
 
     [HttpGet("review/{reviewId:int}")]
-    public async Task<ActionResult> GetByReviewId(int reviewId)
+    public async Task<ActionResult> GetCommentsByReviewId(int reviewId)
     {
-        var response = await _commentService.GetByReviewId(reviewId);
-        if (response == null) return NotFound();
+        var response = await _commentService.FindCommentsByReviewId(reviewId);
+        if (response == null) return NotFound("There were no comments with the associated review ID.");
         var responseDto = _mapper.Map<List<CommentGetDTO>>(response);
         return Ok(responseDto);
     }
 
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult> Create(CommentInsertDTO commentDto)
+    public async Task<ActionResult> PostComment(CommentInsertDTO commentDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
@@ -75,7 +74,7 @@ public class CommentController : ControllerBase, ICommentController
         // Set the user id from the current user
         comment.UserId = user.Id;
         
-        var response = await _commentService.Create(comment);
+        var response = await _commentService.CreateComment(comment);
         if (response == null) return BadRequest();
         var responseDto = _mapper.Map<CommentGetDTO>(response);
         return Ok(responseDto);
@@ -83,7 +82,7 @@ public class CommentController : ControllerBase, ICommentController
 
     [Authorize]
     [HttpPut]
-    public async Task<ActionResult> Update(CommentUpdateDTO commentDto)
+    public async Task<ActionResult> PutComment(CommentUpdateDTO commentDto)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         
@@ -91,8 +90,8 @@ public class CommentController : ControllerBase, ICommentController
         // We could do with check user owns review service method.
         
         //Get the comment if exists
-        var exists = await _commentService.GetById(commentDto.Id);
-        if (exists == null) return NotFound();
+        var exists = await _commentService.FindCommentById(commentDto.Id);
+        if (exists == null) return NotFound("There were no comments with the associated ID.");
         
         // Get the current user
         var user = await _userManager.GetUserAsync(User);
@@ -101,22 +100,21 @@ public class CommentController : ControllerBase, ICommentController
         // Check if user owns the comment
         if (exists.UserId != user.Id) return Unauthorized();
         
-        var response = await _commentService.Update(commentDto);
-        if (response == null) return BadRequest(); //TODO: this should maybe be NotFound to match ReviewController
+        var response = await _commentService.UpdateComment(commentDto);
         var responseDto = _mapper.Map<CommentGetDTO>(response);
         return Ok(responseDto);
     }
     
     [Authorize]
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<ActionResult> DeleteComment(int id)
     {
         //TODO: Optimize this service / repository call path to avoid multiple database calls. 
         // We could do with check user owns review service method.
         
         //Get comment if exists
-        var exists = await _commentService.GetById(id);
-        if(exists == null) return NotFound();
+        var exists = await _commentService.FindCommentById(id);
+        if (exists == null) return NotFound("There were no comments with the associated ID.");
         
         // Get the current user
         var user = await _userManager.GetUserAsync(User);
@@ -125,7 +123,7 @@ public class CommentController : ControllerBase, ICommentController
         // Check if user owns the review
         if (exists.UserId != user.Id) return Unauthorized();
         
-        var response = await _commentService.Delete(id);
-        return response ? NoContent() : NotFound();
+        var response = await _commentService.DeleteComment(id);
+        return response ? NoContent() : NotFound("There were no comments with the associated ID.");
     }
 }

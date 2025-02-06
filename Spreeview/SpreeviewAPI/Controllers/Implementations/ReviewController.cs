@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-using AutoMapper;
-using Azure.Core;
+﻿using AutoMapper;
 using CommonLibrary.DataClasses.ReviewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -75,7 +73,7 @@ public class ReviewController : ControllerBase, IReviewController
     [HttpPost]
     public async Task<ActionResult> PostReview(ReviewInsertDTO reviewDto)
     {
-        if(!ModelState.IsValid) return BadRequest("There are missing fields from the provided review information.");
+        if(!ModelState.IsValid) return BadRequest(ModelState);
         
         // Get the current user
         var user = await _userManager.GetUserAsync(User);
@@ -95,7 +93,7 @@ public class ReviewController : ControllerBase, IReviewController
     [HttpPut]
     public async Task<ActionResult> PutReview(ReviewUpdateDTO reviewDto)
     {
-        if(!ModelState.IsValid) return BadRequest("There are missing fields from the provided review information.");
+        if(!ModelState.IsValid) return BadRequest(ModelState);
         
         //TODO: Optimize this service / repository call path to avoid multiple database calls. 
         // We could do with check user owns review service method.
