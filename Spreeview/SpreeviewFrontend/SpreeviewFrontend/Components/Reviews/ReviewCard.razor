@@ -1,0 +1,117 @@
+﻿@using CommonLibrary.DataClasses.CommentModel
+@using CommonLibrary.DataClasses.ReviewModel
+@using SpreeviewFrontend.Services.ApiCommentService
+@inject IApiCommentService CommentService
+
+@if (review != null)
+{
+	int timeFromNow = (DateTime.Now - @review.DateAdded).Days;
+
+	<div class="p-6 flex flex-col gap-2 w-[60vw] m-auto font-semibold text-white bg-purple-600 rounded-2xl">
+		<StarRating Rating="@review.Rating" />
+		<p class="text-lg">"@review.Contents"</p>
+		<div>
+			<p>User @review.UserId</p>
+			<p class="text-sm">@timeFromNow days ago</p>
+		</div>
+		@if (DisplayedComments.Contains(review.Id) == false)
+		{
+			<button class="h-8 w-8 self-end" @onclick="() => ToggleComments(review.Id)">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+					<!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+					<path fill="#ffffff" d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6C73.6 471.1 44.7 480 16 480c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c0 0 0 0 0 0s0 0 0 0s0 0 0 0c0 0 0 0 0 0l.3-.3c.3-.3 .7-.7 1.3-1.4c1.1-1.2 2.8-3.1 4.9-5.7c4.1-5 9.6-12.4 15.2-21.6c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z" />
+				</svg>
+			</button>
+		}
+
+		<div class="flex flex-col overflow-hidden transition-all ease-in-out duration-500 @(DisplayedComments.Contains(review.Id) == true ? "max-h-[500px] opacity-100 pt-4" : "h-0 opacity-0")">
+			<InputText @bind-Value="CommentInput" class="mb-2 text-purple-600 pl-2 bg-white" />
+			<div class="self-end">
+				<button @onclick="() => ToggleComments(review.Id)">Cancel</button>
+				<button @onclick="() => SubmitComment(review.Id)" class="bg-white p-2 text-purple-600 rounded-md ml-2">Send</button>
+			</div>
+		</div>
+
+		@if (comments != null)
+		{
+			@foreach (var comment in comments)
+			{
+				<p class="text-center">@comment.Contents</p>
+			}
+		}
+
+	</div>
+}
+
+
+@code {
+	[Parameter]
+	public ReviewGetDTO review { get; set; }
+
+	public List<CommentGetDTO> comments { get; set; }
+
+	public List<int> DisplayedComments { get; set; } = [];
+
+	public string CommentInput { get; set; }
+
+	public bool IsContentEmpty { get; set; } = true;
+
+	public void ToggleComments(int reviewId)
+	{
+		if (DisplayedComments.Contains(reviewId) == true)
+		{
+			DisplayedComments.Remove(reviewId);
+		}
+		else
+		{
+			DisplayedComments.Add(reviewId);
+		}
+	}
+
+	private async void SubmitComment(int reviewId)
+	{
+		if (string.IsNullOrWhiteSpace(CommentInput))
+		{
+			IsContentEmpty = true;
+			return;
+		}
+
+		IsContentEmpty = false;
+
+		Console.WriteLine(CommentInput);
+		Console.WriteLine(reviewId);
+
+		try
+		{
+			var comment = new CommentInsertDTO
+				{
+					Contents = CommentInput,
+					ReviewId = reviewId,
+					DateAdded = DateTime.Now
+				};
+			await CommentService.PostReviewComment(comment);
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e.Message);
+			Console.WriteLine("failed");
+			throw;
+		}
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		Console.WriteLine("getting comments");
+		try
+		{
+			comments = (await CommentService.GetReviewComments(review.Id)).Value;
+			Console.WriteLine("successfully loaded");
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine(e.Message);
+			Console.WriteLine("failed");
+			throw;
+		}
+	}
+}
