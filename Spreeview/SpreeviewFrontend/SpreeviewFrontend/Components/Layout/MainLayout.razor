@@ -3,19 +3,9 @@
 @using SpreeviewFrontend.Components.Header
 @using SpreeviewFrontend.Components.Footer
 @inherits LayoutComponentBase
-@inject IUserPreferencesService UserPreferencesService
-
-@code {
-	private UserPreferences _preferences = new();
-
-	protected override async Task OnInitializedAsync()
-	{
-		_preferences = await UserPreferencesService.GetUserPreferencesAsync();
-	}
-}
 
 @* Example of dynamically setting html attributes via UserPreferences *@
-<div class="@(_preferences.Theme == Theme.Dark ? "dark" : "light") flex h-screen flex-col justify-between">
+<div class="flex h-screen flex-col justify-between">
 	<Header />
 	<main class="mb-auto">
 		@Body
