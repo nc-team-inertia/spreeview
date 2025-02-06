@@ -257,6 +257,73 @@ public class ReviewServiceTests
     }
     #endregion
 
+    #region FindReviewsForSeriesSeason method tests
+    [Test]
+    public async Task FindReviewsForSeriesSeason_CallsRepositoryMethodOnce()
+    {
+        // Arrange
+        int testSeriesId = 1;
+        int testSeasonId = 1;
+
+        List<Review> expectedRepositoryReturn = new List<Review>()
+        {
+            new Review() { Id = 1, SeriesId = 1, SeasonNumber = 1 },
+            new Review() { Id = 2, SeriesId = 1, SeasonNumber = 1 }
+        };
+
+        _mockRepository.Setup(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonId))
+                       .ReturnsAsync(expectedRepositoryReturn);
+
+        // Act
+        await reviewService.FindReviewsForSeriesSeason(testSeriesId, testSeasonId);
+
+        // Assert
+        _mockRepository.Verify(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonId), Times.Once());
+    }
+
+    [Test]
+    public async Task FindReviewsForSeriesSeason_OnValidRequest_ReturnsReviewListType()
+    {
+        // Arrange
+        int testSeriesId = 1;
+        int testSeasonId = 1;
+
+        List<Review> expectedRepositoryReturn = new List<Review>()
+        {
+            new Review() { Id = 1, SeriesId = 1, SeasonNumber = 1 },
+            new Review() { Id = 2, SeriesId = 1, SeasonNumber = 1 }
+        };
+
+        _mockRepository.Setup(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonId))
+                       .ReturnsAsync(expectedRepositoryReturn);
+
+        // Act
+        var result = await reviewService.FindReviewsForSeriesSeason(testSeriesId, testSeasonId);
+
+        // Assert
+        Assert.That(result, Is.TypeOf<List<Review>>());
+    }
+
+    [Test]
+    public async Task FindReviewsForSeriesSeason_OnInvalidRequest_ReturnsEmptyList()
+    {
+        // Arrange
+        int testSeriesId = int.MaxValue;
+        int testSeasonId = int.MaxValue;
+
+        List<Review> expectedRepositoryReturn = new List<Review>();
+
+        _mockRepository.Setup(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonId))
+                       .ReturnsAsync(expectedRepositoryReturn);
+
+        // Act
+        var result = await reviewService.FindReviewsForSeriesSeason(testSeriesId, testSeasonId);
+
+        // Assert
+        Assert.That(result, Has.Count.EqualTo(0));
+    }
+    #endregion
+
     #region FindReviewsByEpisodeId method tests
     [Test]
     public async Task FindReviewsByEpisodeId_CallsRepositoryMethodOnce()

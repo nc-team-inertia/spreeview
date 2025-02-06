@@ -8,6 +8,7 @@ public interface IReviewService
     Task<Review?> FindReviewById(int id);
     Task<List<Review>?> FindReviewsByEpisodeId(int episodeId);
     Task<List<Review>?> FindReviewsBySeriesId(int seriesId);
+    Task<List<Review>?> FindReviewsForSeriesSeason(int seriesId, int seasonNumber);
     Task<List<Review>?> FindReviewsByUserId(int userId);
     Task<Review?> CreateReview(Review review);
     Task<Review?> UpdateReview(ReviewUpdateDTO review);
