@@ -13,7 +13,7 @@
 			{
 				var episodeId = @season.Episodes[i - 1].Id;
 				var episodeNumber = @season.Episodes[i - 1].EpisodeNumber;
-				<button class="bg-black text-white px-3 py-1 rounded-lg shadow-purple active:scale-90" @onclick="() => setEpisode((episodeId, episodeNumber))">@i</button>
+				<button class="bg-black text-white px-3 py-1 rounded-lg shadow-purple-small click-transition" @onclick="() => setEpisode((episodeId, episodeNumber))">@i</button>
 			}
 		</div>
 	</div>

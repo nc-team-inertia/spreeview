@@ -4,20 +4,20 @@
 @inject IApiReviewService ReviewService
 @inject NavigationManager Navigation
 
-@if (reviews != null)
+@if (reviews != null && reviews.Count > 0)
 {
     <ReviewInfo reviews="reviews" />
 }
 else if (errorMessage != null)
 {
     <div class="load-message">
-        We faced an error when loading the series: @errorMessage
+        We faced an error when loading the reviews: @errorMessage
     </div>
 }
 else
 {
     <div class="load-message">
-        Loading Series...
+        Loading Reviews...
     </div>
 }
 

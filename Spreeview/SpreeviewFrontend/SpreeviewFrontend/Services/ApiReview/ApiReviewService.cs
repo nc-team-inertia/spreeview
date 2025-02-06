@@ -42,7 +42,6 @@ public class ApiReviewService : IApiReviewService
 
             if (response != null)
             {
-                Console.WriteLine(response[0].Contents);
                 return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
             }
         }
