@@ -39,6 +39,9 @@
 	public EventCallback TogglePopup { get; set; }
 
 	[Parameter]
+	public int episodeId { get; set; }
+
+	[Parameter]
 	public int episodeNumber { get; set; }
 
 	[Parameter]
@@ -74,8 +77,10 @@
 			var review = new ReviewInsertDTO
 			{
 				Contents = ReviewContent,
-				EpisodeId = episodeNumber,
 				SeriesId = series.Id,
+				SeasonNumber = seasonNumber,
+				EpisodeNumber = episodeNumber,
+				EpisodeId = episodeId,
 				Rating = Rating
 			};
 			await ReviewService.PostReviewAsync(review);
