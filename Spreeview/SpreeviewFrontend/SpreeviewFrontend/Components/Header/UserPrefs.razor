@@ -6,19 +6,18 @@
     protected override async Task OnInitializedAsync()
     { 
         _preferences = await UserPreferencesService.GetUserPreferencesAsync();
+            //Defaults to light ?? TODO static/cookie
+
     }
 
-    private Theme theme;
     public Theme Theme { 
-        get { return theme; } 
+        get { return _preferences.Theme; } 
         set {
-
             //TODO  on change, update body attribute
-            _preferences.Theme = value;
             JSR.InvokeVoidAsync("ThemeSwitch", Enum.GetName(Theme.GetType(), value));
-
-        theme = value; } 
-    }    
+            _preferences.Theme = value;
+        } 
+    }
 }
 
 <script>
@@ -28,8 +27,9 @@
 </script>
 
 <div style="background-color:#88888888; width:100%">
-    <form action="" method="">
-        <InputSelect @bind-Value="Theme" TValue="@Theme">
+    <form action="">
+        <label>Themes</label>
+        <InputSelect @bind-Value="Theme">
             @foreach(var theme in Enum.GetValues(Theme.GetType())){
                 <option value="@theme">@Enum.GetName(Theme.GetType(),theme)</option>
             }
