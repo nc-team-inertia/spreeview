@@ -1,0 +1,36 @@
+﻿@using System.Diagnostics
+
+@{
+    var color = Status switch
+    {
+        HealthStatus.Unknown => "bg-blue-100",
+        HealthStatus.Unhealthy => "bg-red-100",
+        HealthStatus.Healthy => "bg-green-100",
+        _ => "bg-blue-100",
+
+    };
+    
+    var text = Status switch
+    {
+        HealthStatus.Unknown => "Unknown",
+        HealthStatus.Unhealthy => "Unhealthy",
+        HealthStatus.Healthy => "Healthy",
+        _ => "Unknown"
+    };
+}
+
+<div class="@color p-4 rounded-2xl w-fit">
+    <p class="page-title">@Title@text</p>
+    <div class="flex flex-col gap-4 p-5">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    
+    [Parameter] public HealthStatus Status { get; set; } = HealthStatus.Unknown;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+}
