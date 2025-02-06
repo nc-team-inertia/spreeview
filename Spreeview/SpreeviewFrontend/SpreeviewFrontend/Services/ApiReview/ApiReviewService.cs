@@ -1,6 +1,9 @@
-﻿namespace SpreeviewFrontend.Services.ApiReview;
+﻿using CommonLibrary.DataClasses.ReviewModel;
+using SpreeviewAPI.Wrappers;
 
-public class ApiReviewService : IApiReviewService
+namespace SpreeviewFrontend.Services.ApiReview;
+
+public class ApiReviewService : IApiReviewService 
 {
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiReviewService> _logger;
@@ -9,5 +12,23 @@ public class ApiReviewService : IApiReviewService
     {
         _httpClient = httpClient;
         _logger = logger;
+
+    }
+    public async Task<ServiceObjectResponse<ReviewGetDTO?>> PostReviewAsync(ReviewInsertDTO review)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("https://localhost:7119/api/review", review);
+            if (response != null)
+            {
+                Console.WriteLine(response.Content);
+                return new ServiceObjectResponse<ReviewGetDTO?>() { Type = ServiceResponseType.Success };
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        return new ServiceObjectResponse<ReviewGetDTO?>() { Type = ServiceResponseType.Failure };
     }
 }
