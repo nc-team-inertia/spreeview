@@ -93,6 +93,10 @@ body, html {
     @apply bg-purple-600 px-3 py-1 text-white rounded-lg text-center hover:bg-purple-700 active:bg-purple-700;
 }
 
+.form-button-cancel{
+    @apply bg-gray-400 px-3 py-1 text-white rounded-lg text-center hover:bg-gray-800 active:bg-gray-800;
+}
+
 .page-margin {
     @apply px-12 py-6;
 }
