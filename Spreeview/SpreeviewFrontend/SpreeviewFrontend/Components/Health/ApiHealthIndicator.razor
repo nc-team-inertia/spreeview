@@ -23,8 +23,7 @@
         {
             _spreeviewDatabaseHealth = HealthStatusUtils.StringToHealthStatus(healthResponse.Value.Results["internalDbHealthCheck"].Status);
             _tmdbStatusHealth = HealthStatusUtils.StringToHealthStatus(healthResponse.Value.Results["tmdbHealthCheck"].Status);
-            _overallHealth = HealthStatusUtils.StringToHealthStatus(healthResponse.Value.Results["internalDbHealthCheck"].Status);
+            _overallHealth = HealthStatusUtils.StringToHealthStatus(healthResponse.Value.OverallStatus);
         }
     }
 }
-

@@ -1,13 +1,10 @@
 ﻿using System.Text.Json;
-using CommonLibrary.DataClasses.ApiHealthModel;
-using CommonLibrary.DataClasses.ApiHealthModel;
 using SpreeviewAPI.Wrappers;
 
 namespace SpreeviewFrontend.Services.ApiHealth;
 
 public class ApiHealthService : IApiHealthService
 {
-
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiHealthService> _logger;
     
@@ -28,15 +25,16 @@ public class ApiHealthService : IApiHealthService
             // Contact backend
             var result = await _httpClient.GetAsync("");
 
-            // If not successful
-            if (!result.IsSuccessStatusCode)
-            {
-                return new ServiceObjectResponse<CommonLibrary.DataClasses.ApiHealthModel.ApiHealth>()
-                {
-                    Type = ServiceResponseType.Failure,
-                    Messages = ["Failed to get server health. Endpoint response did not indicate success."]
-                };
-            }
+            // Commented out, due to 503 status code of "/api/health" Unhealthy responses
+            //// If not successful
+            //if (!result.IsSuccessStatusCode)
+            //{
+            //    return new ServiceObjectResponse<CommonLibrary.DataClasses.ApiHealthModel.ApiHealth>()
+            //    {
+            //        Type = ServiceResponseType.Failure,
+            //        Messages = ["Failed to get server health. Endpoint response did not indicate success."]
+            //    };
+            //}
         
             // Read response contents
             var content = await result.Content.ReadAsStringAsync();
