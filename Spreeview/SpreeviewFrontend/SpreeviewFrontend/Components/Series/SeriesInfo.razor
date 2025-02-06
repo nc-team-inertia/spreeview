@@ -30,6 +30,17 @@
 				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 			}
 		</section>
+		<!-- Popup Version -->
+		<AuthorizeView>
+			<Authorized>
+				<button class="button-purple " @onclick="TogglePopup">Write a Review</button>
+			</Authorized>
+			<NotAuthorized>
+				<a href="/login">
+					<button class="button-purple">Login to review</button>
+				</a>
+			</NotAuthorized>
+		</AuthorizeView>
 	</section>
 
 	<!--Seasons cards section-->
@@ -63,17 +74,6 @@
 
 </div>
 
-<!-- Popup Version -->
-<AuthorizeView>
-	<Authorized>
-		<button class="button-purple " @onclick="TogglePopup">Write a Review</button>
-	</Authorized>
-	<NotAuthorized>
-		<a href="/login">
-			<button class="button-purple">Login to review</button>
-		</a>
-	</NotAuthorized>
-</AuthorizeView>
 @if (DisplayPopup == true)
 {
 	<WriteReviewPopup series="@series" TogglePopup="TogglePopup" seasonNumber="@SeasonNumber" episodeNumber="@EpisodeNumber" />
