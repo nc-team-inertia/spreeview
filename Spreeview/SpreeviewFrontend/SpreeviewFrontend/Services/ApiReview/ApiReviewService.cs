@@ -18,7 +18,7 @@ public class ApiReviewService : IApiReviewService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync("https://localhost:7119/api/review", review);
+            var response = await _httpClient.PostAsJsonAsync(_httpClient.BaseAddress, review);
             if (response != null)
             {
                 Console.WriteLine(response.Content);
