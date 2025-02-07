@@ -1,6 +1,4 @@
-﻿using CommonLibrary.DataClasses.ReviewModel;
-
-namespace CommonLibrary.DataClasses.CommentModel;
+﻿namespace CommonLibrary.DataClasses.CommentModel;
 
 public class Comment : IEntity
 {
@@ -9,4 +7,7 @@ public class Comment : IEntity
 	public int UserId { get; set; }
 	public DateTime DateAdded { get; set; }
 	public int ReviewId { get; set; }
+	public int SeriesId { get; set; }
+	public int SeasonNumber { get; set; }
+	public int EpisodeNumber { get; set; }
 }

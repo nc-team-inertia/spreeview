@@ -37,7 +37,16 @@ namespace SpreeviewAPI.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("EpisodeNumber")
+                        .HasColumnType("int");
+
                     b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeasonNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeriesId")
                         .HasColumnType("int");
 
                     b.Property<int>("UserId")
