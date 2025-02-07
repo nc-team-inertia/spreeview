@@ -69,6 +69,15 @@ public class ReviewController : ControllerBase, IReviewController
         return Ok(responseDto);
     }
 
+    [HttpGet("series/{seriesId:int}/season/{seasonNumber:int}")]
+    public async Task<ActionResult> GetReviewsForSeriesSeason(int seriesId, int seasonNumber)
+    {
+        var response = await _reviewService.FindReviewsForSeriesSeason(seriesId, seasonNumber);
+        if (response == null) return NotFound("There were no reviews with the associated series ID and season number.");
+        var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
+        return Ok(responseDto);
+    }
+
     [Authorize]
     [HttpPost]
     public async Task<ActionResult> PostReview(ReviewInsertDTO reviewDto)

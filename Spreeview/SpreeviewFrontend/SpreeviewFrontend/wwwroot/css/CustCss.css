@@ -12,18 +12,18 @@
     --oFg: #101010;
 }
 
-*[theme='dark'] {
-    --hFg: #E0E0E0;
-    --hBg: #101010;
-    --accent: #FC6C16;
-    --container: #888888;
-    --mFg: #FFFFFF;
-    --mBg: #161616;
-    --fFg: #E0E0E0;
-    --fBg: #101010;
-    --oFg: #E0E0E0;
-    --oBg: #101010;
-}
+/**[theme='dark'] {*/
+/*    --hFg: #E0E0E0;*/
+/*    --hBg: #101010;*/
+/*    --accent: #FC6C16;*/
+/*    --container: #888888;*/
+/*    --mFg: #FFFFFF;*/
+/*    --mBg: #161616;*/
+/*    --fFg: #E0E0E0;*/
+/*    --fBg: #101010;*/
+/*    --oFg: #E0E0E0;*/
+/*    --oBg: #101010;*/
+/*}*/
 
 /*actual CSS code here - turn into razor ??*/
 

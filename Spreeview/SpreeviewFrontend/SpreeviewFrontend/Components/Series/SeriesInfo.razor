@@ -10,8 +10,8 @@
 	<!--Bio section-->
 	<section class="flex-[2.5]">
 		<!--Banner section-->
-		<section class="h-[400px] overflow-hidden">
-			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") width="100%" />
+		<section class="h-[375px] overflow-hidden relative">
+			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") width="100%" class="absolute bottom-0" />
 		</section>
 		<section class="px-4">
 			<!--Information section-->
@@ -25,7 +25,7 @@
 				</p>
 			</article>
 			<!-- Seasons section -->
-			@if (SeasonNumber > 0)
+			@if (SeasonNumber >= 0)
 			{
 				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 			}

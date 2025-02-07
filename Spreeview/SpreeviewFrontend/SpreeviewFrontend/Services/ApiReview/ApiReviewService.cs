@@ -15,6 +15,24 @@ public class ApiReviewService : IApiReviewService
         _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/review/");
         _logger = logger;
     }
+
+    public async Task<ServiceObjectResponse<List<ReviewGetDTO>>> GetReviewsByUserId(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>($"user/{userId}");
+            if (response != null)
+            {
+                return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Failure };
+    }
+    
     public async Task<ServiceObjectResponse<ReviewGetDTO?>> PostReviewAsync(ReviewInsertDTO review)
     {
         try

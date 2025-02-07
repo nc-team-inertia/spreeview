@@ -4,6 +4,7 @@ using SpreeviewFrontend.Services;
 using SpreeviewFrontend.Services.ApiCommentService;
 using SpreeviewFrontend.Services.ApiEpisode;
 using SpreeviewFrontend.Services.ApiHealth;
+using SpreeviewFrontend.Services.ApiIdentity;
 using SpreeviewFrontend.Services.ApiReview;
 using SpreeviewFrontend.Services.ApiSeason;
 using SpreeviewFrontend.Services.ApiSeries;
@@ -58,6 +59,7 @@ public static class WebApplicationBuilderExtensions
 
     public static void SetupApiServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddScoped<IApiIdentityService, ApiIdentityService>();
         builder.Services.AddScoped<IApiHealthService, ApiHealthService>();
         builder.Services.AddScoped<IApiCommentService, ApiCommentService>();
         builder.Services.AddScoped<IApiEpisodeService, ApiEpisodeService>();

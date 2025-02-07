@@ -17,28 +17,44 @@ else if (errorMessage != null)
 else
 {
     <div class="load-message">
-        Loading Reviews...
+        There are currently no reviews for this episode, please write a review!
     </div>
 }
 
 @code {
     [Parameter]
-    public List<ReviewGetDTO> reviews { get; set;  }
+    public List<ReviewGetDTO> reviews { get; set; } = new();
 
     private string errorMessage { get; set; }
 
     [Parameter]
     public EpisodeGetDTO episode { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
+        if (episode == null)
+        {
+            errorMessage = "Episode data is missing.";
+            return;
+        }
+
         try
         {
             reviews = (await ReviewService.GetEpisodeReviews(episode.Id)).Value;
+
+            if (reviews.Count == 0)
+            {
+                Console.WriteLine("No reviews found.");
+            }
+            else
+            {
+                Console.WriteLine($"Loaded {reviews.Count} reviews.");
+            }
         }
         catch (Exception ex)
         {
             errorMessage = ex.Message;
         }
+        StateHasChanged();
     }
 }

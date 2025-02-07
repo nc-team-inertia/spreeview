@@ -3,7 +3,9 @@
     <Authorized>
         <div class="flex gap-4 items-center text-nowrap">
             <NavLink>@context.User.Identity?.Name</NavLink>
-            <div class="w-10 h-10 rounded-full bg-gray-500" ></div>
+            <NavLink href="/profile">
+                <div class="w-10 h-10 rounded-full bg-gray-500"></div>
+            </NavLink>
             <NavLink class="button-purple" href="/logout">Sign out</NavLink>
         </div>
     </Authorized>

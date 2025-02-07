@@ -1,16 +1,87 @@
 ﻿@page "/profile"
-@inject NavigationManager Navigation
-
+@using CommonLibrary.DataClasses.CommentModel
+@using CommonLibrary.DataClasses.ReviewModel
+@using SpreeviewFrontend.Services.ApiCommentService
+@using SpreeviewFrontend.Services.ApiIdentity
+@using SpreeviewFrontend.Services.ApiReview
+@using SpreeviewFrontend.Services.ApiSeries
+@rendermode InteractiveServer
+@inject IApiIdentityService IdentityService
+@inject IApiReviewService ReviewService
+@inject IApiCommentService CommentService
+@inject IApiSeriesService SeriesService
 <AuthorizeView>
-    <Authorized>
-        <p>Welcome to your profile!</p>
-    </Authorized>
-    <NotAuthorized>
-        @{Navigation.NavigateTo("login?returnUrl=profile");}
-    </NotAuthorized>
+    
+    <PageTitle>User Profile</PageTitle>
+    
+    <div class="max-w-4xl p-6 bg-white shadow-lg rounded-lg">
+    
+        <!-- Profile Header -->
+        <div class="flex items-center space-x-6">
+            <div>
+                <div class="w-10 h-10 flex-row rounded-full bg-gray-500"></div>
+                <h2 class="text-2xl font-bold">@context.User.Identity?.Name</h2>
+            </div>
+        </div>
+    
+        <!-- Recent Reviews -->
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold">Recent Reviews</h3>
+            @if (Reviews != null && Reviews.Any())
+            {
+                <ul class="space-y-4 mt-4">
+                    @foreach (var review in Reviews)
+                    {
+                        <li class="bg-gray-100 p-4 rounded-lg shadow-md">
+                            <p class="text-sm text-gray-600">Rating: @review.Rating</p>
+                            <p class="mt-2">@review.Contents</p>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="mt-4 text-gray-500">No recent reviews found.</p>
+            }
+        </div>
+    
+        <!-- Recent Comments -->
+        <div class="mt-8">
+            <h3 class="text-xl font-semibold">Recent Comments</h3>
+            @if (Comments != null && Comments.Any())
+            {
+                <ul class="space-y-4 mt-4">
+                    @foreach (var comment in Comments)
+                    {
+                        <li class="bg-gray-100 p-4 rounded-lg shadow-md">
+                            <p class="text-sm text-gray-600">On post: <span class="font-medium">@comment.DateAdded</span></p>
+                            <p class="mt-2">@comment.Contents</p>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="mt-4 text-gray-500">No recent comments found.</p>
+            }
+        </div>
+    </div>
 </AuthorizeView>
 
-
 @code {
-    
+    public int UserId { get; set; }
+
+    private List<ReviewGetDTO> Reviews { get; set; }
+    private List<CommentGetDTO> Comments { get; set; }
+    private async Task<int> GetUserId()
+    {
+        return await IdentityService.GetUserIdAsync();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        UserId = await GetUserId();
+        Reviews = (await ReviewService.GetReviewsByUserId(UserId)).Value;
+        Comments = (await CommentService.GetCommentsByUserId(UserId)).Value;
+        StateHasChanged();
+    }
 }

@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.OutputCaching;
 using SpreeviewFrontend;
 using SpreeviewFrontend.Components;
+using SpreeviewFrontend.Hubs.Chat;
 using SpreeviewFrontend.Services.AccountManagement;
 using SpreeviewFrontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSignalR(); // needed for chat functionality
 
 builder.SetupRazorComponents();
 builder.SetupAuth();
@@ -36,5 +39,8 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(SpreeviewFrontend.Client._Imports).Assembly);
+
+app.MapHub<ChatHub>("/chatHub"); // Map the chat hub to application routing
+
 
 app.Run();
