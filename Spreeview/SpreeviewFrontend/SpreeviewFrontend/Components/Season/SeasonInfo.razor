@@ -5,9 +5,9 @@
 @rendermode InteractiveServer
 
 <!--Episodes section-->
-<div class="flex gap-4 items-center py-4">
+<div class="flex gap-4 items-center py-4 flex-col">
 	<span class="px-3 py-1 bg-purple-600 shadow-purple-small text-white rounded-lg">Episodes</span>
-	<div class="flex gap-2 flex-wrap">
+	<div class="flex gap-2 flex-wrap justify-center">
 		@for (var i = 1; i <= season.Episodes.Count; i++)
 		{
 			var episodeId = @season.Episodes[i - 1].Id;
