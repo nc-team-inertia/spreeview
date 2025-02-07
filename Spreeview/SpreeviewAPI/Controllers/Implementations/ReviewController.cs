@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-using AutoMapper;
-using Azure.Core;
+﻿using AutoMapper;
 using CommonLibrary.DataClasses.ReviewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -27,55 +25,64 @@ public class ReviewController : ControllerBase, IReviewController
     }
 
     [HttpGet]
-    public async Task<ActionResult> Index()
+    public async Task<ActionResult> IndexAllReviews()
     {
-        var response = await _reviewService.Index();
-        if(response == null) return NotFound();
+        var response = await _reviewService.IndexAllReviews();
+        if(response == null) return NotFound("There were no reviews found.");
         var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
         return Ok(responseDto);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult> GetById(int id)
+    public async Task<ActionResult> GetReviewById(int id)
     {
-        var response = await _reviewService.GetById(id);
-        if(response == null) return NotFound();
+        var response = await _reviewService.FindReviewById(id);
+        if(response == null) return NotFound("There is no review with the associated ID.");
         var responseDto = _mapper.Map<ReviewGetDTO>(response);
         return Ok(responseDto);
     }
     
     [HttpGet("episode/{episodeId:int}")]
-    public async Task<ActionResult> GetByEpisodeId(int episodeId)
+    public async Task<ActionResult> GetReviewsByEpisodeId(int episodeId)
     {
-        var response = await _reviewService.GetByEpisodeId(episodeId);
-        if (response == null) return NotFound();
+        var response = await _reviewService.FindReviewsByEpisodeId(episodeId);
+        if (response == null) return NotFound("There were no reviews with the associated episode ID.");
         var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
         return Ok(responseDto);
     }
 
     [HttpGet("user/{userId:int}")]
-    public async Task<ActionResult> GetByUserId(int userId)
+    public async Task<ActionResult> GetReviewsByUserId(int userId)
     {
-        var response = await _reviewService.GetByUserId(userId);
-        if(response == null) return NotFound();
+        var response = await _reviewService.FindReviewsByUserId(userId);
+        if(response == null) return NotFound("There were no reviews with the associated user ID.");
         var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
         return Ok(responseDto);
     }
 
     [HttpGet("series/{seriesId:int}")]
-    public async Task<ActionResult> GetBySeriesId(int seriesId)
+    public async Task<ActionResult> GetReviewsBySeriesId(int seriesId)
     {
-        var response = await _reviewService.GetBySeriesId(seriesId);
-        if(response == null) return NotFound();
+        var response = await _reviewService.FindReviewsBySeriesId(seriesId);
+        if(response == null) return NotFound("There were no reviews with the associated series ID.");
+        var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
+        return Ok(responseDto);
+    }
+
+    [HttpGet("series/{seriesId:int}/season/{seasonNumber:int}")]
+    public async Task<ActionResult> GetReviewsForSeriesSeason(int seriesId, int seasonNumber)
+    {
+        var response = await _reviewService.FindReviewsForSeriesSeason(seriesId, seasonNumber);
+        if (response == null) return NotFound("There were no reviews with the associated series ID and season number.");
         var responseDto = _mapper.Map<List<ReviewGetDTO>>(response);
         return Ok(responseDto);
     }
 
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult> Create(ReviewInsertDTO reviewDto)
+    public async Task<ActionResult> PostReview(ReviewInsertDTO reviewDto)
     {
-        if(!ModelState.IsValid) return BadRequest();
+        if(!ModelState.IsValid) return BadRequest(ModelState);
         
         // Get the current user
         var user = await _userManager.GetUserAsync(User);
@@ -86,23 +93,23 @@ public class ReviewController : ControllerBase, IReviewController
         // Set the user id from the current user
         review.UserId = user.Id;
         
-        var response = await _reviewService.Create(review);
+        var response = await _reviewService.CreateReview(review);
         if(response == null) return NotFound();
         return Ok(_mapper.Map<ReviewGetDTO>(response));
     }
 
     [Authorize]
     [HttpPut]
-    public async Task<ActionResult> Edit(ReviewUpdateDTO reviewDto)
+    public async Task<ActionResult> PutReview(ReviewUpdateDTO reviewDto)
     {
-        if(!ModelState.IsValid) return BadRequest();
+        if(!ModelState.IsValid) return BadRequest(ModelState);
         
         //TODO: Optimize this service / repository call path to avoid multiple database calls. 
         // We could do with check user owns review service method.
         
         //Get the review if exists
-        var exists = await _reviewService.GetById(reviewDto.Id);
-        if(exists == null) return NotFound();
+        var exists = await _reviewService.FindReviewById(reviewDto.Id);
+        if (exists == null) return NotFound("There is no review with the associated ID.");
         
         // Get the current user
         var user = await _userManager.GetUserAsync(User);
@@ -111,22 +118,21 @@ public class ReviewController : ControllerBase, IReviewController
         // Check if user owns the review
         if (exists.UserId != user.Id) return Unauthorized();
         
-        var response = await _reviewService.Edit(reviewDto);
-        if(response == null) return NotFound();
+        var response = await _reviewService.UpdateReview(reviewDto);
         var responseDto = _mapper.Map<ReviewGetDTO>(response);
         return Ok(responseDto);
     }
 
     [Authorize]
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> Delete(int id)
+    public async Task<ActionResult> DeleteReview(int id)
     {
         //TODO: Optimize this service / repository call path to avoid multiple database calls. 
         // We could do with check user owns review service method.
         
         //Get review if exists
-        var exists = await _reviewService.GetById(id);
-        if(exists == null) return NotFound();
+        var exists = await _reviewService.FindReviewById(id);
+        if (exists == null) return NotFound("There is no review with the associated ID.");
         
         // Get the current user
         var user = await _userManager.GetUserAsync(User);
@@ -135,7 +141,7 @@ public class ReviewController : ControllerBase, IReviewController
         // Check if user owns the review
         if (exists.UserId != user.Id) return Unauthorized();
         
-        var response = await _reviewService.Delete(id);
-        return response ? NoContent() : NotFound();
+        var response = await _reviewService.DeleteReview(id);
+        return response ? NoContent() : NotFound("There is no review with the associated ID.");
     }
 }

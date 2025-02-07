@@ -25,11 +25,22 @@
 				</p>
 			</article>
 			<!-- Seasons section -->
-			@if (SeasonNumber > 0)
+			@if (SeasonNumber >= 0)
 			{
 				<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 			}
 		</section>
+		<!-- Popup Version -->
+		<AuthorizeView>
+			<Authorized>
+				<button class="button-purple form-button" @onclick="TogglePopup">Write a Review</button>
+			</Authorized>
+			<NotAuthorized>
+				<a href="/login">
+					<button class="button-purple form-button">Login to review</button>
+				</a>
+			</NotAuthorized>
+		</AuthorizeView>
 	</section>
 
 	<!--Seasons cards section-->
@@ -63,11 +74,9 @@
 
 </div>
 
-<!-- Popup Version -->
-<button class="button-purple " @onclick="TogglePopup">Write a Review</button>
 @if (DisplayPopup == true)
 {
-	<WriteReviewPopup series="@series" TogglePopup="TogglePopup" seasonNumber="@SeasonNumber" episodeNumber="@EpisodeNumber" />
+	<WriteReviewPopup series="@series" TogglePopup="TogglePopup" seasonNumber="@SeasonNumber" episodeNumber="@EpisodeNumber" episodeId="@EpisodeId" />
 }
 
 @if (DisplayEpisode == true)

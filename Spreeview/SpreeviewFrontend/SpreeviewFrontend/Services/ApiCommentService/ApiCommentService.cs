@@ -3,6 +3,7 @@ using CommonLibrary.DataClasses.ReviewModel;
 using SpreeviewAPI.Wrappers;
 using System.Globalization;
 
+
 namespace SpreeviewFrontend.Services.ApiCommentService;
 
 public class ApiCommentService : IApiCommentService
@@ -56,4 +57,22 @@ public class ApiCommentService : IApiCommentService
 		}
 		return new ServiceObjectResponse<List<CommentGetDTO>>() { Type = ServiceResponseType.Failure };
 	}
+    
+    public async Task<ServiceObjectResponse<List<CommentGetDTO>>> GetCommentsByUserId(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.GetFromJsonAsync<List<CommentGetDTO>>($"user/{userId}");
+            if (response != null)
+            {
+                Console.WriteLine(response[0].Contents);
+                return new ServiceObjectResponse<List<CommentGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        return new ServiceObjectResponse<List<CommentGetDTO>>() { Type = ServiceResponseType.Failure };
+    }
 }

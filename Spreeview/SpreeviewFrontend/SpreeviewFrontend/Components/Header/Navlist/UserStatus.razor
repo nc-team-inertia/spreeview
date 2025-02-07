@@ -1,14 +1,16 @@
 ﻿<AuthorizeView>
     <Authorized>
         <div class="flex gap-4 items-center text-nowrap">
-            <a>@context.User.Identity?.Name</a>
-            <div class="w-10 h-10 rounded-full bg-gray-500"></div>
-            <a class="button-purple" href="/logout">Sign out</a>
+            <NavLink>@context.User.Identity?.Name</NavLink>
+            <NavLink href="/profile">
+                <div class="w-10 h-10 rounded-full bg-gray-500"></div>
+            </NavLink>
+            <NavLink class="button-purple" href="/logout">Sign out</NavLink>
         </div>
     </Authorized>
     <NotAuthorized>
         <div class="flex gap-4 items-center text-nowrap">
-            <a class="button-purple" href="/login">Sign in</a>
+            <NavLink class="button-purple" href="/login">Sign in</NavLink>
         </div>
     </NotAuthorized>
 </AuthorizeView>

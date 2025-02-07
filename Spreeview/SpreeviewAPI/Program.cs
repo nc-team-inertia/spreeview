@@ -1,22 +1,22 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using SpreeviewAPI;
 using SpreeviewAPI.Models;
 using SpreeviewAPI.Database;
 using SpreeviewAPI.HealthChecks;
-using SpreeviewAPI.Repository;
 using SpreeviewAPI.Services.Implementations;
 using SpreeviewAPI.Services.Interfaces;
 using SpreeviewAPI.Utilities;
+using SpreeviewAPI.Repository.Implementations;
+using SpreeviewAPI.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<CommentRepository>();
-builder.Services.AddScoped<ReviewRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IEpisodeService, EpisodeService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();

@@ -8,4 +8,5 @@ public interface IApiCommentService
 {
 	Task<ServiceObjectResponse<List<CommentGetDTO>>> GetReviewComments(int episodeId);
 	Task<ServiceObjectResponse<CommentGetDTO?>> PostReviewComment(CommentInsertDTO comment);
+  Task<ServiceObjectResponse<List<CommentGetDTO>>> GetCommentsByUserId(int userId);
 }
