@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace SpreeviewFrontend.Services.Chat;
+namespace SpreeviewFrontend.Hubs;
 
 public class ChatHub : Hub
 {

@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.OutputCaching;
 using SpreeviewFrontend;
 using SpreeviewFrontend.Components;
+using SpreeviewFrontend.Hubs;
 using SpreeviewFrontend.Services.AccountManagement;
 using SpreeviewFrontend.Services;
-using SpreeviewFrontend.Services.Chat;
 
 var builder = WebApplication.CreateBuilder(args);
 
