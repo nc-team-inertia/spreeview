@@ -23,7 +23,10 @@ public class ReviewService : IReviewService
 
     public async Task<List<Review>?> FindReviewsBySeriesId(int seriesId)
         => await _reviewRepository.FindReviewsBySeriesId(seriesId);
-    
+
+    public async Task<List<Review>?> FindReviewsForSeriesSeason(int seriesId, int seasonNumber)
+        => await _reviewRepository.FindReviewsForSeriesSeason(seriesId, seasonNumber);
+
     public async Task<List<Review>?> FindReviewsByUserId(int userId)
         => await _reviewRepository.FindReviewsByUserId(userId);
     

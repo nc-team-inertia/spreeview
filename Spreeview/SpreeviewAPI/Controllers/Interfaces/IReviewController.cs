@@ -10,6 +10,7 @@ public interface IReviewController
     Task<ActionResult> PutReview(ReviewUpdateDTO dto);
     Task<ActionResult> GetReviewsByEpisodeId(int episodeId);
     Task<ActionResult> GetReviewsBySeriesId(int seriesId);
+    Task<ActionResult> GetReviewsForSeriesSeason(int seriesId, int seasonNumber);
     Task<ActionResult> GetReviewsByUserId(int userId);
     Task<ActionResult> GetReviewById(int id);
     Task<ActionResult> IndexAllReviews();

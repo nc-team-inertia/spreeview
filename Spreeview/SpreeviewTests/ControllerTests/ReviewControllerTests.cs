@@ -504,6 +504,109 @@ public class ReviewControllerTests
     }
     #endregion
 
+    #region GetReviewsForSeriesSeason method tests
+    [Test]
+    public async Task GetReviewsForSeriesSeason_CallsServiceMethodOnce()
+    {
+        // Arrange
+        int testSeriesId = 1;
+        int testSeasonNumber = 1;
+
+        List<Review> expectedServiceReturn = new List<Review>() {
+            new Review() { Id = 1, UserId = 1, SeriesId = 1, SeasonNumber = 1 },
+            new Review() { Id = 2, UserId = 2, SeriesId = 1, SeasonNumber = 1 }
+        };
+
+        _mockReviewService.Setup(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonNumber))
+                          .ReturnsAsync(expectedServiceReturn);
+
+        // Act
+        await reviewController.GetReviewsForSeriesSeason(testSeriesId, testSeasonNumber);
+
+        // Assert
+        _mockReviewService.Verify(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonNumber), Times.Once());
+    }
+
+    [Test]
+    public async Task GetReviewsForSeriesSeason_OnValidRequest_ReturnsOkObjectResult()
+    {
+        // Arrange
+        int testSeriesId = 1;
+        int testSeasonNumber = 1;
+
+        List<Review> expectedServiceReturn = new List<Review>() {
+            new Review() { Id = 1, UserId = 1, SeriesId = 1, SeasonNumber = 1 },
+            new Review() { Id = 2, UserId = 2, SeriesId = 1, SeasonNumber = 1 }
+        };
+
+        _mockReviewService.Setup(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonNumber))
+                          .ReturnsAsync(expectedServiceReturn);
+
+        // Act
+        var resultObject = await reviewController.GetReviewsForSeriesSeason(testSeriesId, testSeasonNumber);
+
+        // Assert
+        Assert.That(resultObject, Is.TypeOf<OkObjectResult>());
+    }
+
+    [Test]
+    public async Task GetReviewsForSeriesSeason_OnValidRequest_ReturnsMappedReviewList()
+    {
+        // Arrange
+        int testSeriesId = 1;
+        int testSeasonNumber = 1;
+
+        List<Review> expectedServiceReturn = new List<Review>() {
+            new Review() { Id = 1, UserId = 1, SeriesId = 1, SeasonNumber = 1 },
+            new Review() { Id = 2, UserId = 2, SeriesId = 1, SeasonNumber = 1 }
+        };
+
+        List<ReviewGetDTO> expectedControllerReturn = new List<ReviewGetDTO>() {
+            new ReviewGetDTO() { Id = 1, UserId = 1, SeriesId = 1, SeasonNumber = 1 },
+            new ReviewGetDTO() { Id = 2, UserId = 2, SeriesId = 1, SeasonNumber = 1 }
+        };
+
+        _mockReviewService.Setup(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonNumber))
+                          .ReturnsAsync(expectedServiceReturn);
+
+        // Act
+        var resultObject = await reviewController.GetReviewsForSeriesSeason(testSeriesId, testSeasonNumber) as OkObjectResult;
+        var resultValue = resultObject!.Value as List<ReviewGetDTO>;
+
+        // Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(resultValue![0].Id, Is.EqualTo(expectedControllerReturn[0].Id));
+            Assert.That(resultValue[0].UserId, Is.EqualTo(expectedControllerReturn[0].UserId));
+            Assert.That(resultValue[0].SeriesId, Is.EqualTo(expectedControllerReturn[0].SeriesId));
+            Assert.That(resultValue[0].SeasonNumber, Is.EqualTo(expectedControllerReturn[0].SeasonNumber));
+            Assert.That(resultValue![1].Id, Is.EqualTo(expectedControllerReturn[1].Id));
+            Assert.That(resultValue[1].UserId, Is.EqualTo(expectedControllerReturn[1].UserId));
+            Assert.That(resultValue[1].SeriesId, Is.EqualTo(expectedControllerReturn[1].SeriesId));
+            Assert.That(resultValue[1].SeasonNumber, Is.EqualTo(expectedControllerReturn[1].SeasonNumber));
+        });
+    }
+
+    [Test]
+    public async Task GetReviewsForSeriesSeason_OnInvalidRequest_ReturnsNotFoundObjectResult()
+    {
+        // Arrange
+        int testSeriesId = int.MaxValue;
+        int testSeasonNumber = int.MaxValue;
+
+        List<Review>? expectedServiceReturn = null;
+
+        _mockReviewService.Setup(mock => mock.FindReviewsForSeriesSeason(testSeriesId, testSeasonNumber))
+                          .ReturnsAsync(expectedServiceReturn);
+
+        // Act
+        var resultObject = await reviewController.GetReviewsForSeriesSeason(testSeriesId, testSeasonNumber);
+
+        // Assert
+        Assert.That(resultObject, Is.TypeOf<NotFoundObjectResult>());
+    }
+    #endregion
+
     #region PostReview method tests
     [Test]
     public async Task PostReview_CallsServiceMethodOnce()

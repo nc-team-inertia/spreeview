@@ -9,6 +9,7 @@ public interface IReviewRepository
     Task<Review?> FindReviewById(int id);
     Task<List<Review>?> FindReviewsByEpisodeId(int id);
     Task<List<Review>?> FindReviewsBySeriesId(int seriesId);
+    Task<List<Review>?> FindReviewsForSeriesSeason(int seriesId, int seasonNumber);
     Task<List<Review>?> FindReviewsByUserId(int userId);
     Task<List<Review>?> IndexAllReviews();
     Task<Review?> UpdateReview(ReviewUpdateDTO reviewDto);

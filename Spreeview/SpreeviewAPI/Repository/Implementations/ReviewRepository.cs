@@ -24,6 +24,10 @@ public class ReviewRepository : IReviewRepository
     public async Task<List<Review>?> FindReviewsBySeriesId(int seriesId)
         => _context.Reviews.Where(r => r.SeriesId == seriesId).ToList();
 
+    public async Task<List<Review>?> FindReviewsForSeriesSeason(int seriesId, int seasonNumber)
+        => _context.Reviews.Where(r => r.SeriesId == seriesId &&
+                                       r.SeasonNumber == seasonNumber).ToList();
+
     public async Task<List<Review>?> FindReviewsByUserId(int userId)
         => _context.Reviews.Where(r => r.UserId == userId).ToList();
 
