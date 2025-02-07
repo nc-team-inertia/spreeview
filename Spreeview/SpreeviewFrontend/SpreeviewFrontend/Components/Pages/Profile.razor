@@ -1,6 +1,7 @@
 ﻿@page "/profile"
 @using CommonLibrary.DataClasses.CommentModel
 @using CommonLibrary.DataClasses.ReviewModel
+@using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Services.ApiCommentService
 @using SpreeviewFrontend.Services.ApiIdentity
 @using SpreeviewFrontend.Services.ApiReview
@@ -14,7 +15,7 @@
     
     <PageTitle>User Profile</PageTitle>
     
-    <div class="max-w-4xl p-6 bg-white shadow-lg rounded-lg">
+    <div class="max-w-4xl p-6 m-auto mt-2 bg-white rounded-lg">
     
         <!-- Profile Header -->
         <div class="flex items-center space-x-6">
@@ -25,46 +26,52 @@
         </div>
     
         <!-- Recent Reviews -->
-        <div class="mt-8">
-            <h3 class="text-xl font-semibold">Recent Reviews</h3>
-            @if (Reviews != null && Reviews.Any())
-            {
-                <ul class="space-y-4 mt-4">
-                    @foreach (var review in Reviews)
-                    {
-                        <li class="bg-gray-100 p-4 rounded-lg shadow-md">
-                            <p class="text-sm text-gray-600">Rating: @review.Rating</p>
-                            <p class="mt-2">@review.Contents</p>
-                        </li>
-                    }
-                </ul>
-            }
-            else
-            {
-                <p class="mt-4 text-gray-500">No recent reviews found.</p>
-            }
+        <div class="flex mt-8 gap-4 sm:flex-row flex-col">
+            <div class="flex-1 bg-white p-4 rounded shadow-md">
+                <h3 class="text-xl font-semibold">Recent Reviews</h3>
+                @if (Reviews != null && Reviews.Any())
+                {
+                    <ul class="space-y-4 mt-4">
+                        @foreach (var review in Reviews)
+                        {
+                            var season = review.SeasonNumber;
+                            if (season == 0) season = 1;
+                            var path = $"/series/{review.SeriesId}?season={review.SeasonNumber}&episode={review.EpisodeNumber}";
+                            <li class="bg-gray-100 p-4 rounded-lg shadow-md">
+                                <p class="text-sm text-gray-600"><NavLink href="@path">@review.EpisodeId Season: @season Episode: @review.EpisodeNumber</NavLink></p>
+                                <p class="text-sm text-gray-600">Rating: @review.Rating</p>
+                                <p class="mt-2">@review.Contents</p>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="mt-4 text-gray-500">No recent reviews found.</p>
+                }
+            </div>
+            <div class="flex-1 bg-white p-4 rounded shadow-md">
+                <h3 class="text-xl font-semibold">Recent Comments</h3>
+                @if (Comments != null && Comments.Any())
+                {
+                    <ul class="space-y-4 mt-4">
+                        @foreach (var comment in Comments)
+                        {
+                            <li class="bg-gray-100 p-4 rounded-lg shadow-md">
+                                <p class="text-sm text-gray-600">On post: <span class="font-medium">@comment.DateAdded</span></p>
+                                <p class="mt-2">@comment.Contents</p>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="mt-4 text-gray-500">No recent comments found.</p>
+                }
+            </div>
         </div>
     
         <!-- Recent Comments -->
-        <div class="mt-8">
-            <h3 class="text-xl font-semibold">Recent Comments</h3>
-            @if (Comments != null && Comments.Any())
-            {
-                <ul class="space-y-4 mt-4">
-                    @foreach (var comment in Comments)
-                    {
-                        <li class="bg-gray-100 p-4 rounded-lg shadow-md">
-                            <p class="text-sm text-gray-600">On post: <span class="font-medium">@comment.DateAdded</span></p>
-                            <p class="mt-2">@comment.Contents</p>
-                        </li>
-                    }
-                </ul>
-            }
-            else
-            {
-                <p class="mt-4 text-gray-500">No recent comments found.</p>
-            }
-        </div>
     </div>
 </AuthorizeView>
 
@@ -73,6 +80,11 @@
 
     private List<ReviewGetDTO> Reviews { get; set; }
     private List<CommentGetDTO> Comments { get; set; }
+
+    private async Task<SeriesGetDTO> GetSeriesAsync(int id)
+    {
+        return SeriesService.GetSeriesById(id).Result.Value;
+    }
     private async Task<int> GetUserId()
     {
         return await IdentityService.GetUserIdAsync();
@@ -82,6 +94,8 @@
         UserId = await GetUserId();
         Reviews = (await ReviewService.GetReviewsByUserId(UserId)).Value;
         Comments = (await CommentService.GetCommentsByUserId(UserId)).Value;
+        Comments.Reverse();
+        Reviews.Reverse();
         StateHasChanged();
     }
 }
