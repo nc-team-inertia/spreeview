@@ -1,0 +1,78 @@
+﻿@page "/chat"
+@inject NavigationManager Navigation
+@using Microsoft.AspNetCore.SignalR.Client
+@using SpreeviewFrontend.Hubs.Chat
+@implements IAsyncDisposable
+
+<PageTitle>Chat</PageTitle>
+
+<div class="form-group">
+    <label>
+        User:
+        <input @bind="_usernameInput" />
+    </label>
+</div>
+<div class="form-group">
+    <label>
+        Message:
+        <input @bind="_messageInput" size="50" />
+    </label>
+</div>
+<button @onclick="SendMessageAsync" disabled="@(!IsConnected)">Send</button>
+
+<hr>
+
+<ul id="messagesList">
+    @foreach (var message in _messages)
+    {
+        <li>@message.Time : @message.User : @message.Message</li>
+    }
+</ul>
+
+@code {
+
+    private HubConnection? _hubConnection; // the hub connection
+    private List<ChatMessage> _messages = []; // list of messages in chit
+    private string? _usernameInput; // username
+    private string? _messageInput; // message
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Setup a new HubConnection to chat hub
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/chatHub"))
+            .Build();
+
+        // Register OnRecieveMessage method
+        _hubConnection.On<ChatMessage>("ReceiveMessage", OnRecieveMessageAsync);
+
+        await _hubConnection.StartAsync();
+    }
+
+    // Executed anytime a message is received from the users in the hub
+    private async Task OnRecieveMessageAsync(ChatMessage message)
+    {
+        _messages.Add(message);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SendMessageAsync()
+    {
+        // If hub connection exists
+        if (_hubConnection is not null)
+        {
+            var message = new ChatMessage() { Message = _messageInput, User = _usernameInput, Time = TimeOnly.FromDateTime(DateTime.Now) };
+            await _hubConnection.SendAsync("SendMessage", message);
+        }
+    }
+    
+    public bool IsConnected => _hubConnection?.State == HubConnectionState.Connected;    
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_hubConnection is not null)
+        {
+            await _hubConnection.DisposeAsync();
+        }
+    }
+}
