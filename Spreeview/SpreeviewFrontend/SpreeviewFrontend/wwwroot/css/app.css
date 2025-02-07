@@ -147,3 +147,25 @@ body, html {
 .page-title {
     @apply text-3xl mb-3;
 }
+
+/* Scrollbar styling */
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    @apply bg-purple-500;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    @apply bg-purple-600;
+}
