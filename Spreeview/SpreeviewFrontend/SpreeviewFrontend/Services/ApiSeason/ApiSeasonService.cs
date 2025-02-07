@@ -9,10 +9,9 @@ public class ApiSeasonService : IApiSeasonService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiSeasonService> _logger;
 
-    public ApiSeasonService(IHttpClientFactory httpClientFactory, ILogger<ApiSeasonService> logger)
+    public ApiSeasonService(HttpClient httpClient, ILogger<ApiSeasonService> logger)
     {
-        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
-        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/season/");
+        _httpClient = httpClient;
         _logger = logger;
     }
     
@@ -21,7 +20,7 @@ public class ApiSeasonService : IApiSeasonService
         try
         {
             var response = await _httpClient.GetFromJsonAsync<SeasonGetDTO>(
-                $"{seriesId}/{seasonNumber}");
+                $"api/season/{seriesId}/{seasonNumber}");
 
             if (response != null)
             {

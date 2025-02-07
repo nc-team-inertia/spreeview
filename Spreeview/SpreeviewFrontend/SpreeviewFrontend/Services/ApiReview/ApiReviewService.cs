@@ -9,10 +9,9 @@ public class ApiReviewService : IApiReviewService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiReviewService> _logger;
 
-    public ApiReviewService(IHttpClientFactory httpClientFactory, ILogger<ApiReviewService> logger)
+    public ApiReviewService(HttpClient httpClient, ILogger<ApiReviewService> logger)
     {
-        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
-        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/review/");
+        _httpClient = httpClient;
         _logger = logger;
     }
 
@@ -20,7 +19,7 @@ public class ApiReviewService : IApiReviewService
     {
         try
         {
-            var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>($"user/{userId}");
+            var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>($"api/review/user/{userId}");
             if (response != null)
             {
                 return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
@@ -37,7 +36,7 @@ public class ApiReviewService : IApiReviewService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync("", review);
+            var response = await _httpClient.PostAsJsonAsync("api/review/", review);
             if (response != null)
             {
                 Console.WriteLine(response.Content);
@@ -56,7 +55,7 @@ public class ApiReviewService : IApiReviewService
         try
         {
             var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>(
-                $"episode/{episodeId}");
+                $"api/review/episode/{episodeId}");
 
             if (response != null)
             {
