@@ -24,7 +24,7 @@ public class ApiCommentService : IApiCommentService
             var response = await _httpClient.GetFromJsonAsync<List<CommentGetDTO>>($"user/{userId}");
             if (response != null)
             {
-                Console.WriteLine(response);
+                Console.WriteLine(response[0].Contents);
                 return new ServiceObjectResponse<List<CommentGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
             }
         }

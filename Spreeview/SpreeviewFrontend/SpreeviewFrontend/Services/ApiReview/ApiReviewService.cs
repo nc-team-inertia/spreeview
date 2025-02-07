@@ -20,10 +20,9 @@ public class ApiReviewService : IApiReviewService
     {
         try
         {
-            var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>($"api/review/user/{userId}");
+            var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>($"user/{userId}");
             if (response != null)
             {
-                Console.WriteLine(response);
                 return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
             }
         }
