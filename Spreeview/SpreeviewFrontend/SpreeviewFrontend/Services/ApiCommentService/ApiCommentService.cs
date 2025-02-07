@@ -31,6 +31,7 @@ public class ApiCommentService : IApiCommentService
 		}
 		catch (Exception ex)
 		{
+			Console.WriteLine("failed");
 			Console.WriteLine(ex.Message);
 		}
 		return new ServiceObjectResponse<CommentGetDTO?>() { Type = ServiceResponseType.Failure };

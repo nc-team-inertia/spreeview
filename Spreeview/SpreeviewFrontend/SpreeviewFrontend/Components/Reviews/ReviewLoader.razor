@@ -14,6 +14,12 @@ else if (errorMessage != null)
         We faced an error when loading the reviews: @errorMessage
     </div>
 }
+else if (reviews.Count == 0)
+{
+    <div class="load-message">
+        There are currently no reviews for this episode, please write a review!
+    </div>
+}
 else
 {
     <div class="load-message">
@@ -30,7 +36,7 @@ else
     [Parameter]
     public EpisodeGetDTO episode { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         try
         {
@@ -40,5 +46,6 @@ else
         {
             errorMessage = ex.Message;
         }
+        StateHasChanged();
     }
 }
