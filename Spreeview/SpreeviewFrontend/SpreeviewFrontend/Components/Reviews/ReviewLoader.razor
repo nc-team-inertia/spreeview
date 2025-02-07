@@ -14,22 +14,16 @@ else if (errorMessage != null)
         We faced an error when loading the reviews: @errorMessage
     </div>
 }
-else if (reviews.Count == 0)
+else
 {
     <div class="load-message">
         There are currently no reviews for this episode, please write a review!
     </div>
 }
-else
-{
-    <div class="load-message">
-        Loading Reviews...
-    </div>
-}
 
 @code {
     [Parameter]
-    public List<ReviewGetDTO> reviews { get; set;  }
+    public List<ReviewGetDTO> reviews { get; set; } = new();
 
     private string errorMessage { get; set; }
 
@@ -38,9 +32,24 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
+        if (episode == null)
+        {
+            errorMessage = "Episode data is missing.";
+            return;
+        }
+
         try
         {
             reviews = (await ReviewService.GetEpisodeReviews(episode.Id)).Value;
+
+            if (reviews.Count == 0)
+            {
+                Console.WriteLine("No reviews found.");
+            }
+            else
+            {
+                Console.WriteLine($"Loaded {reviews.Count} reviews.");
+            }
         }
         catch (Exception ex)
         {

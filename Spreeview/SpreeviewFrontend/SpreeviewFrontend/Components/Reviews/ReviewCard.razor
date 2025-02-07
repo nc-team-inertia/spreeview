@@ -43,13 +43,20 @@
 			</div>
 		</div>
 
+		
 		@if (DisplayedComments.Contains(review.Id) == true) {
 			@if (comments != null)
 			{
-				@foreach (var comment in comments)
-				{
-					<p class="text-center">@comment.Contents</p>
-				}
+				<div class="flex flex-col gap-2 max-h-[300px] overflow-y-scroll">
+					@foreach (var comment in comments)
+					{
+						int commentTimeFromNow = (DateTime.Now - @comment.DateAdded).Days;
+						<div class="py-2 px-6 bg-white rounded-xl text-purple-600 self-center">
+							<p class="font-bold">User @comment.UserId <span class="text-sm font-light">@commentTimeFromNow days ago</span></p>
+							<p>@comment.Contents</p>
+						</div>
+					}
+				</div>
 			}
 		}
 
