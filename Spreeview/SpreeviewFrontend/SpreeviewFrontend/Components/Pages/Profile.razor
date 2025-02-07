@@ -34,11 +34,15 @@
                     <ul class="space-y-4 mt-4">
                         @foreach (var review in Reviews)
                         {
+                            var seriesName = Task.Run(() => GetSeriesAsync(review.SeriesId)).Result.Name;
                             var season = review.SeasonNumber;
+                            var episode = review.EpisodeNumber;
+                            if (episode == 0) episode = 1;
                             if (season == 0) season = 1;
+                            
                             var path = $"/series/{review.SeriesId}?season={review.SeasonNumber}&episode={review.EpisodeNumber}";
                             <li class="bg-gray-100 p-4 rounded-lg shadow-md">
-                                <p class="text-sm text-gray-600"><NavLink href="@path">@review.EpisodeId Season: @season Episode: @review.EpisodeNumber</NavLink></p>
+                                <p class="text-sm text-gray-600"><NavLink href="@path">@seriesName | Season @season Episode @episode</NavLink></p>
                                 <p class="text-sm text-gray-600">Rating: @review.Rating</p>
                                 <p class="mt-2">@review.Contents</p>
                             </li>
@@ -57,8 +61,15 @@
                     <ul class="space-y-4 mt-4">
                         @foreach (var comment in Comments)
                         {
+                            var seriesName = Task.Run(() => GetSeriesAsync(comment.SeriesId)).Result.Name;
+                            var season = comment.SeasonNumber;
+                            var episode = comment.EpisodeNumber;
+                            if (episode == 0) episode = 1;
+                            if (season == 0) season = 1;
+                            var path = $"/series/{comment.SeriesId}?season={comment.SeasonNumber}&episode={comment.EpisodeNumber}";
                             <li class="bg-gray-100 p-4 rounded-lg shadow-md">
-                                <p class="text-sm text-gray-600">On post: <span class="font-medium">@comment.DateAdded</span></p>
+                                <p class="text-sm text-gray-600">On post: <NavLink href="@path"><span class="font-medium">@comment.DateAdded</span></NavLink></p>
+                                <p class="text-sm text-gray-600"><NavLink href="@path">@seriesName | Season @season Episode @episode</NavLink></p>
                                 <p class="mt-2">@comment.Contents</p>
                             </li>
                         }
@@ -79,16 +90,19 @@
     public int UserId { get; set; }
 
     private List<ReviewGetDTO> Reviews { get; set; }
+    
     private List<CommentGetDTO> Comments { get; set; }
 
     private async Task<SeriesGetDTO> GetSeriesAsync(int id)
     {
         return SeriesService.GetSeriesById(id).Result.Value;
     }
+    
     private async Task<int> GetUserId()
     {
         return await IdentityService.GetUserIdAsync();
     }
+    
     protected override async Task OnInitializedAsync()
     {
         UserId = await GetUserId();
