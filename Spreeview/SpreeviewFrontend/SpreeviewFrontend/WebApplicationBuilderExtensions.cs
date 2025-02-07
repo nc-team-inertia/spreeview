@@ -70,9 +70,4 @@ public static class WebApplicationBuilderExtensions
     {
         builder.Services.AddScoped<IUserPreferencesService, UserPreferencesService>();
     }
-
-    public static void SetupChatServices(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddSignalR();
-    }
 }

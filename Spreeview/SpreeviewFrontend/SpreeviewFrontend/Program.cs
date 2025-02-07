@@ -8,12 +8,13 @@ using SpreeviewFrontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSignalR(); // needed for chat functionality
+
 builder.SetupRazorComponents();
 builder.SetupAuth();
 builder.SetupHttpClients();
 builder.SetupApiServices();
 builder.SetupUserPreferences();
-builder.SetupChatServices();
 
 var app = builder.Build();
 
@@ -39,6 +40,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(SpreeviewFrontend.Client._Imports).Assembly);
 
-app.MapHub<ChatHub>("chathub");
+app.MapHub<ChatHub>("/chatHub"); // Map the chat hub to application routing
+
 
 app.Run();
