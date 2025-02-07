@@ -39,18 +39,18 @@
     color: var(--mFg) !important;
 }
 
-    *[theme] img {
-        background-color: var(--container) !important;
-    }
+*[theme] img {
+    background-color: var(--container) !important;
+}
 
-    *[theme] button {
-        background-color: var(--accent) !important;
-    }
+*[theme] button {
+    background-color: var(--accent) !important;
+}
 
-    *[theme] header, *[theme] footer {
-        background-color: var(--oBg) !important;
-        color: var(--oFg) !important;
-    }
+*[theme] header, *[theme] footer {
+    background-color: var(--oBg) !important;
+    color: var(--oFg) !important;
+}
 
 /*
 *[theme='light'] header { background-color: var(--hBg); color: var(--hFg); }

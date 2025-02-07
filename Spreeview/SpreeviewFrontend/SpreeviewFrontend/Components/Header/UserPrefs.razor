@@ -7,7 +7,6 @@
     { 
         _preferences = await UserPreferencesService.GetUserPreferencesAsync();
             //Defaults to light ?? TODO static/cookie
-
     }
 
     public Theme Theme { 
@@ -26,9 +25,8 @@
     }
 </script>
 
-<div style="background-color:#88888888; width:100%">
+<div style="background-color:#88888888;">
     <form action="">
-        <label>Themes</label>
         <InputSelect @bind-Value="Theme">
             @foreach(var theme in Enum.GetValues(Theme.GetType())){
                 <option value="@theme">@Enum.GetName(Theme.GetType(),theme)</option>
