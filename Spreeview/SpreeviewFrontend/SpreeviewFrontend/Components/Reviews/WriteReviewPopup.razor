@@ -52,6 +52,9 @@
     [Parameter]
     public EventCallback<bool> OnClose { get; set; }
 
+    [Parameter]
+    public EventCallback ReviewSubmitSignal { get; set; }
+
     private string ReviewContent { get; set; } = string.Empty;
 
     public int Rating
@@ -113,10 +116,17 @@
             Console.WriteLine(e.Message);
             throw;
         }
+
     }
 
     private async Task ClosePopup()
     {
         await TogglePopup.InvokeAsync();
+    }
+
+    private async Task ReviewSubmitTrigger()
+    {
+        await ReviewSubmitSignal.InvokeAsync();
+        StateHasChanged();
     }
 }

@@ -13,7 +13,6 @@
 @if (episode != null)
 {
     <EpisodeInfo episode="@episode" />
-    <ReviewLoader episode="@episode" />
 }
 else if (errorMessage != null)
 {
@@ -38,7 +37,7 @@ else
     public int EpisodeNumber { get; set; }
 
     [Parameter]
-    public int seriesId { get; set; }
+    public SeriesGetDTO series { get; set; }
 
     private EpisodeGetDTO episode;
 
@@ -64,12 +63,12 @@ else
         try
         {
             Console.WriteLine("Paramaters set");
-            Console.WriteLine(seriesId);
+            Console.WriteLine(series.Id);
             Console.WriteLine(EpisodeNumber);
             Console.WriteLine(SeasonNumber);
             
             // TODO: refactor this to handle errors using the ServiceObjectResponse instead of try catch
-            episode = (await EpisodeService.GetIndividualEpisode(seriesId, SeasonNumber, EpisodeNumber)).Value;
+            episode = (await EpisodeService.GetIndividualEpisode(series.Id, SeasonNumber, EpisodeNumber)).Value;
         }
         catch (Exception ex)
         {
