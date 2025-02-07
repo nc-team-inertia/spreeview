@@ -6,97 +6,117 @@
 @inject IApiReviewService ReviewService
 
 <div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center" @onclick="HandleBackgroundClick">
-	<div class="bg-white p-8 rounded  shadow-lg w-1/3 h-1/2" @onclick:stopPropagation="true" @onclick:preventDefault="true">
-		<h2 class="text-xl font-bold mb-4">Add a Review</h2>
+    <div class="bg-white p-8 rounded shadow-lg w-1/3 h-auto" @onclick:stopPropagation="true" @onclick:preventDefault="true">
+        <h2 class="text-xl font-bold mb-4">Add a Review</h2>
 
-		<textarea @bind="ReviewContent" class="w-full h-64 p-2 border outline-none rounded mb-3 resize-none !important" placeholder="Write your thoughts here..."></textarea>
-		@if (IsContentEmpty)
-		{
-			<p class="text-gray-500 text-sm mb-3">Review content cannot be empty</p>
-		}
+        <textarea @bind="ReviewContent" class="w-full h-64 p-2 border outline-none rounded mb-3 resize-none !important" placeholder="Write your thoughts here..."></textarea>
+        @if (IsContentEmpty)
+        {
+            <p class="text-gray-500 text-sm mb-3">Review content cannot be empty</p>
+        }
 
-		<div class="mb-4">
-			<label for="rating" class="block mb-2 font-bold">Rating: @Rating</label>
-			<input type="range" id="rating" @bind="Rating" min="1" max="10" step="1" class="w-full" />
-		</div>
-
-		<button @onclick="SubmitReview" class="form-button text-white font-bold py-2 px-4 rounded">
-			Submit
-		</button>
-		<button @onclick="ClosePopup" class="ml-2 form-button text-white font-bold py-2 px-4 rounded">
-			Cancel
-		</button>
-	</div>
+        <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
+            <label for="rating" class="block mb-2 font-bold text-lg text-gray-700">
+                Rating: <span class="text-purple-500">@Rating</span>
+            </label>
+            <input type="range" id="rating" min="1" max="10" step="1" value="@Rating" @oninput="UpdateRating" class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer transition duration-300 ease-in-out focus:outline-none">
+        </div>
+        <button @onclick="SubmitReview" class="form-button text-white font-bold py-2 px-4 rounded">
+            Submit
+        </button>
+        <button @onclick="ClosePopup" class="ml-2 form-button text-white font-bold py-2 px-4 rounded">
+            Cancel
+        </button>
+    </div>
 </div>
 
-
-
 @code {
-	[Parameter]
-	public SeriesGetDTO series { get; set; }
+    [Parameter]
+    public SeriesGetDTO series { get; set; }
 
-	[Parameter]
-	public EventCallback TogglePopup { get; set; }
+    [Parameter]
+    public EventCallback TogglePopup { get; set; }
 
-	[Parameter]
-	public int episodeId { get; set; }
+    [Parameter]
+    public int episodeId { get; set; }
 
-	[Parameter]
-	public int episodeNumber { get; set; }
+    [Parameter]
+    public int episodeNumber { get; set; }
 
-	[Parameter]
-	public int seasonNumber { get; set; }
+    [Parameter]
+    public int seasonNumber { get; set; }
 
-	[Parameter]
-	public bool IsVisible { get; set; }
+    [Parameter]
+    public bool IsVisible { get; set; }
 
-	[Parameter]
-	public EventCallback<bool> OnClose { get; set; }
+    [Parameter]
+    public EventCallback<bool> OnClose { get; set; }
 
-	private string ReviewContent { get; set; } = string.Empty;
+    private string ReviewContent { get; set; } = string.Empty;
 
-	private int Rating { get; set; } = 1;
+    public int Rating
+    {
+        get => _rating;
+        set
+        {
+            if (_rating != value)
+            {
+                _rating = value;
+                StateHasChanged();
+            }
+        }
+    }
 
-	private bool IsContentEmpty { get; set; } = false;
-	private void HandleBackgroundClick()
-	{
-		ClosePopup();
-	}
+    private int _rating;
 
-	private async void SubmitReview()
-	{
-		if (string.IsNullOrWhiteSpace(ReviewContent))
-		{
-			IsContentEmpty = true;
-			return;
-		}
+    private bool IsContentEmpty { get; set; } = false;
 
-		IsContentEmpty = false;
-		try
-		{
-			var review = new ReviewInsertDTO
-			{
-				Contents = ReviewContent,
-				SeriesId = series.Id,
-				SeasonNumber = seasonNumber,
-				EpisodeNumber = episodeNumber,
-				EpisodeId = episodeId,
-				Rating = Rating
-			};
-			await ReviewService.PostReviewAsync(review);
-			Console.WriteLine("posted");
-			ClosePopup();
-		}
-		catch (Exception e)
-		{
-			Console.WriteLine(e.Message);
-			throw;
-		}
-	}
+    private void UpdateRating(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out var value))
+        {
+            Rating = value;
+        }
+    }
 
-	private async Task ClosePopup()
-	{
-		await TogglePopup.InvokeAsync();
-	}
+    private void HandleBackgroundClick()
+    {
+        ClosePopup();
+    }
+
+    private async void SubmitReview()
+    {
+        if (string.IsNullOrWhiteSpace(ReviewContent))
+        {
+            IsContentEmpty = true;
+            return;
+        }
+
+        IsContentEmpty = false;
+        try
+        {
+            var review = new ReviewInsertDTO
+            {
+                Contents = ReviewContent,
+                SeriesId = series.Id,
+                SeasonNumber = seasonNumber,
+                EpisodeNumber = episodeNumber,
+                EpisodeId = episodeId,
+                Rating = Rating
+            };
+            await ReviewService.PostReviewAsync(review);
+            Console.WriteLine("posted");
+            ClosePopup();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
+    }
+
+    private async Task ClosePopup()
+    {
+        await TogglePopup.InvokeAsync();
+    }
 }
-
