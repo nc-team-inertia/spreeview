@@ -1,50 +1,78 @@
 ﻿@page "/chat"
-@using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager Navigation
+@using Microsoft.AspNetCore.SignalR.Client
+@implements IAsyncDisposable
 
-<h3>Chat</h3>
+<PageTitle>Chat</PageTitle>
 
-@if (IsConnected)
-{
-    <input type="text" @bind="userInput"/>
-    <input type="text" @bind="messageInput"/>
-    <button @onclick="Send">Send</button>    
-    <ul id="messagesList">
-        @foreach (var message in messages)
-        {
-            <li>@message</li>
-        }
-    </ul>
-}
-else
-{
-    <span>Connecting...</span>
-}
+<div class="form-group">
+    <label>
+        User:
+        <input @bind="_usernameInput" />
+    </label>
+</div>
+<div class="form-group">
+    <label>
+        Message:
+        <input @bind="_messageInput" size="50" />
+    </label>
+</div>
+<button @onclick="SendMessageAsync" disabled="@(!IsConnected)">Send</button>
+
+<hr>
+
+<ul id="messagesList">
+    @foreach (var message in _messages)
+    {
+        <li>@message</li>
+    }
+</ul>
 
 @code {
-    private HubConnection _hubConnection;
-    private List<string> messages = new List<string>();
-    private string userInput;
-    private string messageInput;
+
+    private HubConnection? _hubConnection; // the hub connection
+    private List<string> _messages = []; // list of messages in chit
+    private bool _isChatting = false; // whether the user is chatting or not
+    private string? _usernameInput; // username
+    private string? _messageInput; // message
 
     protected override async Task OnInitializedAsync()
     {
+        // Setup a new HubConnection to chat hub
         _hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("/chathub"))
+            .WithUrl(Navigation.ToAbsoluteUri("/chatHub"))
             .Build();
 
-        _hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
-        {
-            var encodedMsg = $"{user}: {message}";
-            messages.Add(encodedMsg);
-            StateHasChanged();
-        });
+        // Register OnRecieveMessage method
+        _hubConnection.On<string, string>("ReceiveMessage", OnRecieveMessageAsync);
 
         await _hubConnection.StartAsync();
     }
 
-    Task Send() => _hubConnection.SendAsync("SendMessage", userInput, messageInput);
+    // Executed anytime a message is recieved from the users in the hub
+    private async Task OnRecieveMessageAsync(string user, string message)
+    {
+        var encodedMessage = $"{user}: {message}";
+        _messages.Add(encodedMessage);
+        await InvokeAsync(StateHasChanged);
+    }
 
-    public bool IsConnected => _hubConnection.State == HubConnectionState.Connected;
+    private async Task SendMessageAsync()
+    {
+        // If hub connection exists
+        if (_hubConnection is not null)
+        {
+            await _hubConnection.SendAsync("SendMessage", _usernameInput, _messageInput);
+        }
+    }
+    
+    public bool IsConnected => _hubConnection?.State == HubConnectionState.Connected;    
 
+    public async ValueTask DisposeAsync()
+    {
+        if (_hubConnection is not null)
+        {
+            await _hubConnection.DisposeAsync();
+        }
+    }
 }
