@@ -50,11 +50,17 @@ public static class WebApplicationBuilderExtensions
         {
             throw new InvalidOperationException("BackendUrl not found in configuration.");
         }
+        
+        // Scoped HTTP client (one per circuit)
+        builder.Services.AddScoped(sp =>
+        {
+            // Set use default credentials to true, so that cookies are passed with the request
+            var client = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true });
+            client.BaseAddress = new Uri(backendUrl);
+            client.DefaultRequestHeaders.Add("X-Requested-With", ["XMLHttpRequest"]);
+            return client;
+        });
 
-        // Create a named HTTP client connecting to the backend. This is used for authentication and API services.
-        builder.Services
-            .AddHttpClient("SpreeviewAPI", client => client.BaseAddress = new Uri(backendUrl))
-            .AddHttpMessageHandler<CookieHandler>();
     }
 
     public static void SetupApiServices(this WebApplicationBuilder builder)

@@ -9,10 +9,9 @@ public class ApiSeriesService : IApiSeriesService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiSeriesService> _logger;
 
-    public ApiSeriesService(IHttpClientFactory httpClientFactory, ILogger<ApiSeriesService> logger)
+    public ApiSeriesService(HttpClient httpClient, ILogger<ApiSeriesService> logger)
     {
-	    _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
-	    _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/series/");
+	    _httpClient = httpClient;
 	    Console.WriteLine(_httpClient.BaseAddress);
         _logger = logger;
     }
@@ -22,9 +21,7 @@ public class ApiSeriesService : IApiSeriesService
 			try
 			{
 				var response = await _httpClient.GetFromJsonAsync<List<SeriesGetDTO>>(
-					$"trending");
-
-				Console.WriteLine(_httpClient.BaseAddress + "trending");
+					$"api/series/trending");
 				
 				if (response != null)
 				{
@@ -45,7 +42,7 @@ public class ApiSeriesService : IApiSeriesService
 			try
 			{
 				var response = await _httpClient.GetFromJsonAsync<SeriesGetDTO>(
-					$"{id}");
+					$"api/series/{id}");
 
 				if (response != null)
 				{
@@ -66,7 +63,7 @@ public class ApiSeriesService : IApiSeriesService
 			try
 			{
 				var response = await _httpClient.GetFromJsonAsync<List<SeriesGetDTO>>(
-					$"search?query={query}");
+					$"api/series/search?query={query}");
 
 				if (response != null)
 				{
