@@ -6,16 +6,20 @@
 @using SpreeviewFrontend.Components.Reviews
 @rendermode InteractiveServer
 
-<div class="flex gap-10 px-4 sm:px-20 py-12">
+<div class="flex gap-10 px-4 sm:px-20 md:py-12 py-4">
 	<!--Bio section-->
 	<section class="flex-[2.5]">
 		<!--Banner section-->
 		<section class="h-[200px] sm:h-[400px] overflow-hidden relative">
-			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") width="100%" class="absolute top-1/2 -translate-y-1/2" />
+			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") width="100%" class="absolute h-full object-cover" />
 		</section>
-		<section class="px-4 flex gap-6 flex-col md:flex-row">
-			<section>
+		<section class="px-4 flex gap-6 flex-col lg:flex-row">
+			<!--Seasons cards section-->
+			<div class="lg:order-2 lg:flex-1">
+					<SeasonCards series="@series" SetSeason="SetSeason" />
+			</div>
 
+			<section class="lg:flex-[2.5]">
 				<SeriesInformation series="@series" />
 
 				<!-- Seasons and episodes section -->
@@ -24,12 +28,9 @@
 					<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 				}
 
-				<EpisodeAndReview DisplaySeason="DisplaySeason" series="@series" TogglePopup="TogglePopup" />
+				<EpisodeAndReview DisplayEpisode="DisplayEpisode" series="@series" TogglePopup="TogglePopup" />
 
 			</section>
-
-			<!--Seasons cards section-->
-			<SeasonCards series="@series" />
 
 		</section>
 	</section>

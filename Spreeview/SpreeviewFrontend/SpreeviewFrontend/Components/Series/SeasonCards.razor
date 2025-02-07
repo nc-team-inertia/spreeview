@@ -1,12 +1,12 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
 <section class="relative flex flex-col gap-2 max-h-[500px] flex-[1] overflow-hidden flex-[1]">
 
-	<section class="flex mt-10 flex-col gap-[10px] items-center overflow-y-scroll">
+	<section class="flex mt-4 lg:mt-10 flex-col gap-[10px] items-center overflow-y-scroll">
 		@for (var i = 0; i < series.Seasons.Count; i++)
 		{
 			var seasonIndex = i; // Capture i in a new variable
 			var seasonNumber = @series.Seasons[seasonIndex].SeasonNumber;
-			<button class="w-4/5 h-[150px] flex justify-center items-center light-bg-secondary text-white shrink-0 click-transition" @onclick="() => SetSeason(seasonNumber)">
+			<button class="w-4/5 h-[50px] lg:h-[150px] flex justify-center items-center light-bg-secondary text-white shrink-0 click-transition" @onclick="() => SelectSeason(seasonNumber)">
 				@* <img src=@($"https://image.tmdb.org/t/p/original{series.Seasons[i-1].PosterPath}") /> *@
 				@* Season @seasonNumber *@
 				@series.Seasons[seasonIndex].SeasonName
@@ -18,4 +18,12 @@
 @code {
 	[Parameter]
 	public SeriesGetDTO series { get; set; }
+
+	[Parameter]
+	public EventCallback<int> SetSeason { get; set; }
+
+	private void SelectSeason(int seasonNumber)
+	{
+		SetSeason.InvokeAsync(seasonNumber);
+	}
 }

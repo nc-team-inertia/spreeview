@@ -5,6 +5,7 @@
 @using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Components.Reviews
 @using SpreeviewFrontend.Services.ApiEpisode
+@using SpreeviewFrontend.Components.Series
 @inject IApiEpisodeService EpisodeService
 
 @rendermode InteractiveServer
@@ -23,7 +24,7 @@ else if (errorMessage != null)
 else
 {
     <div class="load-message">
-        Loading Episode...
+        <Spinner />
     </div>
 }
 
