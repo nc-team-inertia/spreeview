@@ -26,7 +26,7 @@
 					</p>
 				</article>
 				<!-- Seasons section -->
-				@if (SeasonNumber >= 0)
+				@if (DisplaySeason == true && SeasonNumber >= 0)
 				{
 					<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 				}
@@ -102,10 +102,13 @@
 	[Parameter]
 	public SeriesGetDTO series { get; set; }
 
-	public int SeasonNumber { get; set; } = 0;
+	public bool DisplaySeason { get; set; } = false;
+
+	public int SeasonNumber { get; set; } = 1;
 
 	public void SetSeason(int i)
 	{
+		DisplaySeason = true;
 		SeasonNumber = i;
 		StateHasChanged();
 		Navigation.NavigateTo(GetSeasonUrl());
