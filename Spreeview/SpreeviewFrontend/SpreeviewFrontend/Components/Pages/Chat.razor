@@ -1,6 +1,7 @@
 ﻿@page "/chat"
 @inject NavigationManager Navigation
 @using Microsoft.AspNetCore.SignalR.Client
+@using SpreeviewFrontend.Hubs.Chat
 @implements IAsyncDisposable
 
 <PageTitle>Chat</PageTitle>
@@ -24,15 +25,14 @@
 <ul id="messagesList">
     @foreach (var message in _messages)
     {
-        <li>@message</li>
+        <li>@message.Time : @message.User : @message.Message</li>
     }
 </ul>
 
 @code {
 
     private HubConnection? _hubConnection; // the hub connection
-    private List<string> _messages = []; // list of messages in chit
-    private bool _isChatting = false; // whether the user is chatting or not
+    private List<ChatMessage> _messages = []; // list of messages in chit
     private string? _usernameInput; // username
     private string? _messageInput; // message
 
@@ -44,16 +44,15 @@
             .Build();
 
         // Register OnRecieveMessage method
-        _hubConnection.On<string, string>("ReceiveMessage", OnRecieveMessageAsync);
+        _hubConnection.On<ChatMessage>("ReceiveMessage", OnRecieveMessageAsync);
 
         await _hubConnection.StartAsync();
     }
 
-    // Executed anytime a message is recieved from the users in the hub
-    private async Task OnRecieveMessageAsync(string user, string message)
+    // Executed anytime a message is received from the users in the hub
+    private async Task OnRecieveMessageAsync(ChatMessage message)
     {
-        var encodedMessage = $"{user}: {message}";
-        _messages.Add(encodedMessage);
+        _messages.Add(message);
         await InvokeAsync(StateHasChanged);
     }
 
@@ -62,7 +61,8 @@
         // If hub connection exists
         if (_hubConnection is not null)
         {
-            await _hubConnection.SendAsync("SendMessage", _usernameInput, _messageInput);
+            var message = new ChatMessage() { Message = _messageInput, User = _usernameInput, Time = TimeOnly.FromDateTime(DateTime.Now) };
+            await _hubConnection.SendAsync("SendMessage", message);
         }
     }
     
