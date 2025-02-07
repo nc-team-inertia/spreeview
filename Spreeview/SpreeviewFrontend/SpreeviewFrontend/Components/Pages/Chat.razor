@@ -8,12 +8,6 @@
 
 <div class="form-group">
     <label>
-        User:
-        <input @bind="_usernameInput" />
-    </label>
-</div>
-<div class="form-group">
-    <label>
         Message:
         <input @bind="_messageInput" size="50" />
     </label>
@@ -31,13 +25,20 @@
 
 @code {
 
+    [CascadingParameter] private Task<AuthenticationState> AuthStateTask { get; set; } = null!;
+    
     private HubConnection? _hubConnection; // the hub connection
     private List<ChatMessage> _messages = []; // list of messages in chit
-    private string? _usernameInput; // username
     private string? _messageInput; // message
-
+    
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthStateTask;
+        if (authState.User.Identity is not { IsAuthenticated: true })
+        {
+            NavigateToLogin();
+        }
+        
         // Setup a new HubConnection to chat hub
         _hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri("/chatHub"))
@@ -58,12 +59,27 @@
 
     private async Task SendMessageAsync()
     {
+        // Recheck auth state
+        var authState = await AuthStateTask;
+        if (authState.User.Identity is not { IsAuthenticated: true })
+        {
+            NavigateToLogin();
+            return;
+        }
+
+        var username = authState.User.Identity.Name; // get the username from the auth state
+        
         // If hub connection exists
         if (_hubConnection is not null)
         {
-            var message = new ChatMessage() { Message = _messageInput, User = _usernameInput, Time = TimeOnly.FromDateTime(DateTime.Now) };
+            var message = new ChatMessage() { Message = _messageInput, User = username, Time = TimeOnly.FromDateTime(DateTime.Now) };
             await _hubConnection.SendAsync("SendMessage", message);
         }
+    }
+
+    private void NavigateToLogin()
+    {
+        Navigation.NavigateTo("login?returnUrl=chat");
     }
     
     public bool IsConnected => _hubConnection?.State == HubConnectionState.Connected;    
