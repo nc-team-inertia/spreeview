@@ -1,3 +1,16 @@
-﻿<a href="/" class="flex-shrink-0">
+﻿@code {
+    private bool display { get; set; } = false;
+}
+
+@if (display)
+{
+    <div style="background-color:#888888CC; position:fixed; margin:auto auto; z-index:2; height:80vh; width:80vw; top: 10vh; left:50%; transform:translateX(-50%)">
+        <UserPrefs/>
+    </div>
+}
+
+
+<a href="/" class="flex-shrink-0">
     <img src="/Spreeview Logo.png" width="250"  />
 </a>
+<img style="height:50px; width:50px; transform: translateX(-100%)" src="https://cdn.pixabay.com/photo/2016/01/03/11/24/gear-1119298_1280.png" alt="UserPrefs" @onclick="()=>{display = !display;}" />
