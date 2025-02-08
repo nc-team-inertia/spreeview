@@ -116,7 +116,7 @@
             Console.WriteLine(e.Message);
             throw;
         }
-
+        await ReviewSubmitTrigger();
     }
 
     private async Task ClosePopup()
