@@ -118,6 +118,7 @@
         {
             var message = new ChatMessage() { Message = _messageInput, User = _username, Time = TimeOnly.FromDateTime(DateTime.Now) };
             await _hubConnection.SendAsync("SendMessage", message);
+            _messageInput = string.Empty;
         }
     }
 
