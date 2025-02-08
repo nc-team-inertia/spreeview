@@ -1,6 +1,7 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Components.HomeComponents
 @using SpreeviewFrontend.Services.ApiSeries
+@using SpreeviewFrontend.Components.Series
 @inject IApiSeriesService SeriesService
 @rendermode InteractiveServer
 
@@ -17,14 +18,14 @@
 }
 else if (errorMessage != null)
 {
-    <div class="load-message">
+    <div class="load-message h-[500px]">
         We faced an error when loading the series: @errorMessage
     </div>
 }
 else
 {
-    <div class="load-message">
-        Loading Series...
+    <div class="load-message h-[500px] flex justify-center items-center">
+        <Spinner />
     </div>
 }
 

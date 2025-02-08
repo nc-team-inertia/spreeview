@@ -1,9 +1,9 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
 @if (series != null)
 {
-	<a class="h-[20rem] w-[12rem] shadow-purple" href=@($"/series/{series.Id}")>
+	<NavLink class="shadow-purple" href=@($"/series/{series.Id}")>
 		<img class="h-full m-auto object-cover overflow-hidden display-block" src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/original{series.BannerPath}" : $"https://image.tmdb.org/t/p/original{series.PosterPath}") alt="@series.Name" />
-	</a>
+	</NavLink>
 }
 
 @code {

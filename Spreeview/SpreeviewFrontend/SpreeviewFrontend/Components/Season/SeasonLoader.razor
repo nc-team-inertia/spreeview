@@ -3,6 +3,7 @@
 @using CommonLibrary.DataClasses.SeasonModel
 @using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Services.ApiSeason
+@using SpreeviewFrontend.Components.Series
 @inject IApiSeasonService SeasonService
 @rendermode InteractiveServer
 
@@ -22,7 +23,7 @@ else if (errorMessage != null)
 else
 {
     <div>
-        Loading Season...
+        <Spinner />
     </div>
 }
 

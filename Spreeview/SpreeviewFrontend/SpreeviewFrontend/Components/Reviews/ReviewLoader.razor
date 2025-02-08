@@ -1,12 +1,14 @@
 @using CommonLibrary.DataClasses.EpisodeModel
 @using CommonLibrary.DataClasses.ReviewModel
+@using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Services.ApiReview
+@using SpreeviewFrontend.Components.Series
 @inject IApiReviewService ReviewService
 @inject NavigationManager Navigation
 
 @if (reviews != null && reviews.Count > 0)
 {
-    <ReviewInfo reviews="reviews" />
+    <ReviewInfo reviews="@reviews" />
 }
 else if (errorMessage != null)
 {
@@ -22,25 +24,29 @@ else
 }
 
 @code {
-    [Parameter]
     public List<ReviewGetDTO> reviews { get; set; } = new();
 
     private string errorMessage { get; set; }
 
     [Parameter]
-    public EpisodeGetDTO episode { get; set; }
+    public int EpisodeId { get; set; }
+
+    [Parameter]
+    public bool ReloadReviews { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        if (episode == null)
-        {
-            errorMessage = "Episode data is missing.";
-            return;
-        }
+        await GetReviews();
+        StateHasChanged();
+        ReloadReviews = false;
+    }
 
+    public async Task GetReviews()
+    {
+        Console.WriteLine(EpisodeId);
         try
         {
-            reviews = (await ReviewService.GetEpisodeReviews(episode.Id)).Value;
+            reviews = (await ReviewService.GetEpisodeReviews(EpisodeId)).Value;
 
             if (reviews.Count == 0)
             {
