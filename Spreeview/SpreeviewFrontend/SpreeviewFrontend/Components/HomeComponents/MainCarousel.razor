@@ -8,7 +8,14 @@
 		<div class="flex w-full transition-transform duration-500 ease-in-out w-full" style="transform: translateX(@($"-{currentIndex * 100}%"))">
 			@foreach (SeriesGetDTO series in series)
 			{
-				<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") class="w-full flex-shrink-0 object-cover" alt="Banner Carousel" @onclick="() => Redirect(series.Id)" loading="lazy" />
+				<img 
+					src=@($"https://image.tmdb.org/t/p/w500{series.BannerPath}") 
+					srcset=@($"https://image.tmdb.org/t/p/w500{series.BannerPath} 500w, https://image.tmdb.org/t/p/w780{series.BannerPath} 780w, https://image.tmdb.org/t/p/w1280{series.BannerPath} 1280w, https://image.tmdb.org/t/p/original{series.BannerPath} 1920w") 
+					sizes="(max-width: 600px) 500px, (max-width: 1200px) 780px, 1280px" 
+					class="w-full flex-shrink-0 object-cover" 
+					alt="Banner Carousel" 
+					@onclick="() => Redirect(series.Id)" 
+				/>
 			}
 		</div>
 

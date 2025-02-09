@@ -21,13 +21,13 @@
 }
 else if (errorMessage != null)
 {
-    <div class="load-message h-[500px]">
+    <div class="load-message min-h-[500px] flex justify-center items-center">
         We faced an error when loading the series: @errorMessage
     </div>
 }
 else
 {
-    <div class="load-message h-[500px] flex justify-center items-center">
+    <div class="load-message min-h-[500px] flex justify-center items-center">
         <Spinner />
     </div>
 }
