@@ -8,7 +8,9 @@
 
 @if (review != null)
 {
-	int timeFromNow = (DateTime.Now - @review.DateAdded).Days;
+	int reviewTimeFromNow = (DateTime.Now - @review.DateAdded).Days;
+
+	string reviewTimeAgoString = GenerateTimeAgoString(reviewTimeFromNow);
 
 	<!-- Review card -->
 	<div class="p-6 flex flex-col gap-2 w-[80vw] sm:w-[60vw] m-auto font-semibold text-white bg-purple-600 rounded-2xl">
@@ -16,7 +18,7 @@
 		<p class="text-lg">"@review.Contents"</p>
 		<div>
 			<p>User @review.UserId</p>
-			<p class="text-sm">@timeFromNow days ago</p>
+			<p class="text-sm">@reviewTimeAgoString</p>
 		</div>
 
 
@@ -46,8 +48,6 @@
   			</AuthorizeView>
 		</div>
 
-		
-		<!-- Comment section -->
 		@if (DisplayedComments.Contains(review.Id) == true) {
 			@if (comments != null && comments.Count > 0)
 			{
@@ -55,8 +55,9 @@
 					@foreach (var comment in comments)
 					{
 						int commentTimeFromNow = (DateTime.Now - @comment.DateAdded).Days;
+						string commentTimeAgoString = GenerateTimeAgoString(commentTimeFromNow);
 						<div class="py-2 px-6 bg-white rounded-xl text-purple-600 self-start">
-							<p class="font-bold">User @comment.UserId <span class="text-sm font-light">@commentTimeFromNow days ago</span></p>
+							<p class="font-bold">User @comment.UserId <span class="text-sm font-light">@commentTimeAgoString</span></p>
 							<p>@comment.Contents</p>
 						</div>
 					}
@@ -132,6 +133,15 @@
 		}
 
 	} 
+
+	public string GenerateTimeAgoString(int daysAgo)
+	{
+		string timeAgoString = "";
+		if (daysAgo > 1) timeAgoString = $"{@daysAgo} days ago";
+		else if (daysAgo == 0) timeAgoString = "earlier today";
+		else if (daysAgo == 1) timeAgoString = "yesterday";
+		return timeAgoString;
+	}
 
 	private async Task SubmitComment(int reviewId)
 	{
