@@ -2,7 +2,7 @@
 @if (series != null)
 {
 	<NavLink class="shadow-purple" href=@($"/series/{series.Id}")>
-		<img class="h-full m-auto object-cover overflow-hidden display-block" src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/original{series.BannerPath}" : $"https://image.tmdb.org/t/p/original{series.PosterPath}") alt="@series.Name" />
+		<img class="h-full m-auto object-cover overflow-hidden display-block" src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/original{series.BannerPath}" : $"https://image.tmdb.org/t/p/original{series.PosterPath}") alt="@series.Name" loading="lazy" />
 	</NavLink>
 }
 
