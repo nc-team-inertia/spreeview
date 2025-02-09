@@ -11,7 +11,13 @@
 	<section class="flex-[2.5]">
 		<!--Banner section-->
 		<section class="h-[200px] sm:h-[400px] overflow-hidden relative">
-			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") width="100%" class="absolute h-full object-cover" />
+			<img src=@($"https://image.tmdb.org/t/p/w500{series.BannerPath}")
+				 srcset=@($"https://image.tmdb.org/t/p/w500{series.BannerPath} 500w, https://image.tmdb.org/t/p/w780{series.BannerPath} 780w, https://image.tmdb.org/t/p/w1280{series.BannerPath} 1280w, https://image.tmdb.org/t/p/original{series.BannerPath} 1920w")
+				 sizes="(max-width: 600px) 500px, (max-width: 1200px) 780px, 1280px"
+				 class="absolute object-cover"
+				 width="100%"
+				 alt="Series banner"
+			/>
 		</section>
 		<section class="px-4 flex gap-6 flex-col lg:flex-row">
 			<!--Seasons cards section-->
