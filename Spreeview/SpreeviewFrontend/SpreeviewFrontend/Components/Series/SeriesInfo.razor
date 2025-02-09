@@ -11,7 +11,13 @@
 	<section class="flex-[2.5]">
 		<!--Banner section-->
 		<section class="h-[200px] sm:h-[400px] overflow-hidden relative">
-			<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") width="100%" class="absolute h-full object-cover" />
+			<img src=@($"https://image.tmdb.org/t/p/w500{series.BannerPath}")
+				 srcset=@($"https://image.tmdb.org/t/p/w500{series.BannerPath} 500w, https://image.tmdb.org/t/p/w780{series.BannerPath} 780w, https://image.tmdb.org/t/p/w1280{series.BannerPath} 1280w, https://image.tmdb.org/t/p/original{series.BannerPath} 1920w")
+				 sizes="(max-width: 600px) 500px, (max-width: 1200px) 780px, 1280px"
+				 class="absolute object-cover"
+				 width="100%"
+				 alt="Series banner"
+			/>
 		</section>
 		<section class="px-4 flex gap-6 flex-col lg:flex-row">
 			<!--Seasons cards section-->
@@ -28,34 +34,37 @@
 					<SeasonLoader LoadingType="@LoadingType.SeasonInfo" seriesId="@series.Id" SelectEpisode="SelectEpisode" />
 				}
 
-				<div class="flex justify-center items-center my-6">
-					<!-- Popup Version -->
-					<AuthorizeView>
-						<Authorized>
-							<button class="bg-purple-600 rounded-lg text-white flex gap-2 py-4 px-6" @onclick="TogglePopup">
-								<span>Write a Review</span>
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-									<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-								</svg>
-							</button>
-						</Authorized>
-						<NotAuthorized>
-							<a href="/login">
-								<button class="button-purple form-button">Login to review</button>
-							</a>
-						</NotAuthorized>
-					</AuthorizeView>
-				</div>
+				@if (DisplayEpisode == true)
+				{
+					<div class="flex justify-center items-center my-6">
+						<!-- Popup Version -->
+						<AuthorizeView>
+							<Authorized>
+								<button class="bg-purple-600 rounded-lg text-white flex gap-2 py-4 px-6" @onclick="TogglePopup">
+									<span>Write a Review</span>
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+										<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+									</svg>
+								</button>
+							</Authorized>
+							<NotAuthorized>
+								<a href="/login">
+									<button class="button-purple form-button">Login to review</button>
+								</a>
+							</NotAuthorized>
+						</AuthorizeView>
+					</div>
+				}
 
 				@if (DisplayPopup == true)
 				{
-					<WriteReviewPopup series="@series" ReviewSubmitSignal="ReviewSubmitSignal" TogglePopup="TogglePopup" seasonNumber="@SeasonNumber" episodeNumber="@EpisodeNumber" episodeId="@EpisodeId" />
+					<WriteReviewPopup series="@series" TogglePopup="TogglePopup" seasonNumber="@SeasonNumber" episodeNumber="@EpisodeNumber" episodeId="@EpisodeId" />
 				}
 
 				@if (DisplayEpisode == true)
 				{
 					<EpisodeLoader series="@series" />
-					<ReviewLoader ReloadReviews="ReloadReviews" EpisodeId="@EpisodeId" />
+					<ReviewLoader EpisodeId="@EpisodeId" />
 				}
 
 			</section>
@@ -92,8 +101,6 @@
 
 	public int EpisodeNumber { get; set; }
 
-	public bool ReloadReviews { get; set; } = false;
-
 	public void SelectEpisode((int Id, int number) episode)
 	{
 		EpisodeId = episode.Id;
@@ -104,12 +111,6 @@
 	private async Task TogglePopup()
 	{
 		DisplayPopup = !DisplayPopup;
-		StateHasChanged();
-	}
-
-	public async Task ReviewSubmitSignal()
-	{
-		ReloadReviews = true;
 		StateHasChanged();
 	}
 

@@ -1,8 +1,13 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
 @if (series != null)
 {
-	<NavLink class="shadow-purple" href=@($"/series/{series.Id}")>
-		<img class="h-full m-auto object-cover overflow-hidden display-block" src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/original{series.BannerPath}" : $"https://image.tmdb.org/t/p/original{series.PosterPath}") alt="@series.Name" />
+	<NavLink class="relative shadow-purple group" href=@($"/series/{series.Id}")>
+		<img class="h-full m-auto object-cover overflow-hidden display-block"
+			 src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/w500{series.BannerPath}" : $"https://image.tmdb.org/t/p/w500{series.PosterPath}") 
+			 alt="@series.Name" 
+			 loading="lazy" 
+		/>
+		<h3 class="text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-0 bg-black/50 text-center w-full text-white p-2 h-full flex justify-center items-center">@series.Name</h3>
 	</NavLink>
 }
 

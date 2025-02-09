@@ -15,16 +15,16 @@
             <p class="text-gray-500 text-sm mb-3">Review content cannot be empty</p>
         }
 
-        <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
+@*         <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
             <label for="rating" class="block mb-2 font-bold text-lg text-gray-700">
                 Rating: <span class="text-purple-500">@Rating</span>
             </label>
             <input type="range" id="rating" min="1" max="10" step="1" value="@Rating" @oninput="UpdateRating" class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer transition duration-300 ease-in-out focus:outline-none">
-        </div>
+        </div> *@
         <button @onclick="SubmitReview" class="form-button text-white font-bold py-2 px-4 rounded">
             Submit
         </button>
-        <button @onclick="ClosePopup" class="ml-2 form-button text-white font-bold py-2 px-4 rounded">
+        <button @onclick="ShutPopup" class="ml-2 form-button text-white font-bold py-2 px-4 rounded">
             Cancel
         </button>
     </div>
@@ -32,59 +32,44 @@
 
 @code {
     [Parameter]
-    public SeriesGetDTO series { get; set; }
+    public ReviewGetDTO review { get; set; }
 
     [Parameter]
-    public EventCallback TogglePopup { get; set; }
-
-    [Parameter]
-    public int episodeId { get; set; }
-
-    [Parameter]
-    public int episodeNumber { get; set; }
-
-    [Parameter]
-    public int seasonNumber { get; set; }
-
-    [Parameter]
-    public bool IsVisible { get; set; }
-
-    [Parameter]
-    public EventCallback<bool> OnClose { get; set; }
+    public EventCallback ClosePopup { get; set; }
 
     [CascadingParameter]
     public RefreshReviewsClass RefreshReviews { get; set; }
 
     private string ReviewContent { get; set; } = string.Empty;
 
-    public int Rating
-    {
-        get => _rating;
-        set
-        {
-            if (_rating != value)
-            {
-                _rating = value;
-                StateHasChanged();
-            }
-        }
-    }
+    // public int Rating
+    // {
+    //     get => _rating;
+    //     set
+    //     {
+    //         if (_rating != value)
+    //         {
+    //             _rating = value;
+    //             StateHasChanged();
+    //         }
+    //     }
+    // }
 
-    private int _rating;
+    // private int _rating;
 
     private bool IsContentEmpty { get; set; } = false;
 
-    private void UpdateRating(ChangeEventArgs e)
-    {
-        if (int.TryParse(e.Value.ToString(), out var value))
-        {
-            Rating = value;
-        }
-    }
+    // private void UpdateRating(ChangeEventArgs e)
+    // {
+    //     if (int.TryParse(e.Value.ToString(), out var value))
+    //     {
+    //         Rating = value;
+    //     }
+    // }
 
     private void HandleBackgroundClick()
     {
-        ClosePopup();
+        ShutPopup();
     }
 
     private async void SubmitReview()
@@ -98,30 +83,31 @@
         IsContentEmpty = false;
         try
         {
-            var review = new ReviewInsertDTO
-            {
-                Contents = ReviewContent,
-                SeriesId = series.Id,
-                SeasonNumber = seasonNumber,
-                EpisodeNumber = episodeNumber,
-                EpisodeId = episodeId,
-                Rating = Rating
-            };
-            await ReviewService.PostReviewAsync(review);
-            Console.WriteLine("posted");
+            var updateReview = new ReviewUpdateDTO
+                {
+                    Id = review.Id,
+                    Contents = ReviewContent
+                };
+            await ReviewService.PutReviewAsync(updateReview);
+            Console.WriteLine("updated");
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
             throw;
         }
-        await ClosePopup();
+        await ShutPopup();
         RefreshReviews.Refresh = true;
         StateHasChanged();
     }
 
-    private async Task ClosePopup()
+    private async Task ShutPopup()
     {
-        await TogglePopup.InvokeAsync();
+        await ClosePopup.InvokeAsync();
+    }
+
+    protected override void OnInitialized()
+    {
+        ReviewContent = review.Contents;
     }
 }

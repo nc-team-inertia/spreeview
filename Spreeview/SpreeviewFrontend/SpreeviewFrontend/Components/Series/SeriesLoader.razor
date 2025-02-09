@@ -5,26 +5,29 @@
 @inject IApiSeriesService SeriesService
 @rendermode InteractiveServer
 
-@if (series != null)
+@if (trendingSeries != null || topRatedSeries != null)
 {
     @if (LoadingType == LoadingType.Trending)
     {
-        <PopularSeriesDisplay series="series" />
+        <PopularSeriesDisplay series="trendingSeries" LoadingType="LoadingType" />
     }
     else if (LoadingType == LoadingType.Carousel)
     {
-        <MainCarousel series="series" />
+        <MainCarousel series="trendingSeries" />
+    } else if (LoadingType == LoadingType.TopRated)
+    {
+        <PopularSeriesDisplay series="topRatedSeries" LoadingType="LoadingType" />
     }
 }
 else if (errorMessage != null)
 {
-    <div class="load-message h-[500px]">
+    <div class="load-message min-h-[500px] flex justify-center items-center">
         We faced an error when loading the series: @errorMessage
     </div>
 }
 else
 {
-    <div class="load-message h-[500px] flex justify-center items-center">
+    <div class="load-message min-h-[500px] flex justify-center items-center">
         <Spinner />
     </div>
 }
@@ -33,20 +36,37 @@ else
     [Parameter]
     public LoadingType LoadingType { get; set; }
 
-    private List<SeriesGetDTO> series { get; set; }
+    private List<SeriesGetDTO> trendingSeries { get; set; }
+
+    private List<SeriesGetDTO> topRatedSeries { get; set; }
 
     private string errorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         // TODO: refactor this to handle errors using the ServiceObjectResponse instead of try catch
-        try
+        if (LoadingType == LoadingType.Carousel || LoadingType == LoadingType.Trending)
         {
-            series = (await SeriesService.GetTrendingSeries()).Value;
+            try
+            {
+                trendingSeries = (await SeriesService.GetTrendingSeries()).Value;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
         }
-        catch (Exception ex)
+        else if (LoadingType == LoadingType.TopRated)
         {
-            errorMessage = ex.Message;
+            try
+            {
+                topRatedSeries = (await SeriesService.GetTopRatedSeries()).Value;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
         }
+
     }
 }

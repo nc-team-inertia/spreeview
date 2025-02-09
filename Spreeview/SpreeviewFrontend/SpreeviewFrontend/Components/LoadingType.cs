@@ -5,6 +5,7 @@
 		Carousel,
 		Trending,
 		SeasonInfo,
-		SearchResults
+		SearchResults,
+		TopRated
 	}
 }

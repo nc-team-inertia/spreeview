@@ -8,20 +8,27 @@
 		<div class="flex w-full transition-transform duration-500 ease-in-out w-full" style="transform: translateX(@($"-{currentIndex * 100}%"))">
 			@foreach (SeriesGetDTO series in series)
 			{
-				<img src=@($"https://image.tmdb.org/t/p/original{series.BannerPath}") class="w-full flex-shrink-0 object-cover" alt="Banner Carousel" @onclick="() => Redirect(series.Id)" />
+				<img 
+					src=@($"https://image.tmdb.org/t/p/w500{series.BannerPath}") 
+					srcset=@($"https://image.tmdb.org/t/p/w500{series.BannerPath} 500w, https://image.tmdb.org/t/p/w780{series.BannerPath} 780w, https://image.tmdb.org/t/p/w1280{series.BannerPath} 1280w, https://image.tmdb.org/t/p/original{series.BannerPath} 1920w") 
+					sizes="(max-width: 600px) 500px, (max-width: 1200px) 780px, 1280px" 
+					class="w-full flex-shrink-0 object-cover" 
+					alt="Banner Carousel" 
+					@onclick="() => Redirect(series.Id)" 
+				/>
 			}
 		</div>
 
 		<div class="w-1/5 absolute left-0 top-0 h-full bg-gradient-to-r from-black/100 to-black/0 z-10" />
 		<div class="w-1/5 absolute right-0 top-0 h-full bg-gradient-to-l from-black/100 to-black/0 z-10" />
 
-		<button @onclick="Previous" class="absolute left-2 top-1/2 -translate-y-1/2 text-white z-20">
+		<button @onclick="Previous" class="absolute left-2 top-1/2 -translate-y-1/2 text-white z-20" id="left" aria-label="left">
 			<svg xmlns="http://www.w3.org/2000/svg" class="w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]" viewBox="0 0 24 24" fill="currentColor">
 				<path d="m12.718 4.707-1.413-1.415L2.585 12l8.72 8.707 1.413-1.415L6.417 13H20v-2H6.416l6.302-6.293z" />
 			</svg>
 		</button>
 
-		<button @onclick="Next" class="absolute right-2 top-1/2 -translate-y-1/2 text-white z-20">
+		<button @onclick="Next" class="absolute right-2 top-1/2 -translate-y-1/2 text-white z-20" id="right" aria-label="right">
 			<svg xmlns="http://www.w3.org/2000/svg" class="w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]" viewBox="0 0 24 24" fill="currentColor">
 				<path d="M11.293 4.707 17.586 11H4v2h13.586l-6.293 6.293 1.414 1.414L21.414 12l-8.707-8.707-1.414 1.414z" />
 			</svg>
