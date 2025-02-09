@@ -36,16 +36,8 @@ else
 
     protected override async Task OnParametersSetAsync()
     {
-        StateHasChanged();
         Console.WriteLine("Refreshing");
         await GetReviews();
-        StateHasChanged();
-        RefreshReviews.Refresh = false;
-    }
-
-    protected void OnParametersSet()
-    {
-        StateHasChanged();
     }
 
     public async Task GetReviews()
