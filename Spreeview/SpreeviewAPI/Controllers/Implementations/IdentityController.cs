@@ -35,6 +35,10 @@ public class IdentityController(SignInManager<ApplicationUser> signInManager, Us
     public async Task<ActionResult> GetUserNameById(int userId)
     {
         var user = await userManager.FindByIdAsync(userId.ToString());
-        return Ok(user!.UserName);
+        string email = user!.UserName!;
+
+        // "Creating" username from registered e-mail, until username registration is added
+        string userName = email.Split("@")[0];
+        return Ok(userName);
     }
 }
