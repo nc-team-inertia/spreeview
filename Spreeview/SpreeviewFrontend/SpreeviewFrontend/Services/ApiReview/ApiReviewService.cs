@@ -1,5 +1,4 @@
 ﻿using CommonLibrary.DataClasses.ReviewModel;
-using CommonLibrary.DataClasses.SeriesModel;
 using SpreeviewAPI.Wrappers;
 
 namespace SpreeviewFrontend.Services.ApiReview;
@@ -77,7 +76,8 @@ public class ApiReviewService : IApiReviewService
 
             if (response != null)
             {
-                return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
+                var orderedResponse = response.OrderByDescending(r => r.DateAdded).ToList();
+                return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = orderedResponse };
             }
         }
         catch (Exception ex)
