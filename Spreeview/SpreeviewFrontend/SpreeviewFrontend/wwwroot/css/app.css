@@ -129,7 +129,7 @@ body, html {
 }
 
 .form {
-    @apply mt-20 mx-auto max-w-xl flex flex-col gap-4 shadow-md p-8 rounded-2xl;
+    @apply my-10 mx-auto max-w-xl flex flex-col gap-4 shadow-md p-8 rounded-2xl;
 }
 
 .form-button {

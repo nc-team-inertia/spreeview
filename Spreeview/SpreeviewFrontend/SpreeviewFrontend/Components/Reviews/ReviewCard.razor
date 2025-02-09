@@ -1,8 +1,10 @@
 ﻿@using CommonLibrary.DataClasses.CommentModel
 @using CommonLibrary.DataClasses.ReviewModel
 @using SpreeviewFrontend.Services.ApiCommentService
-@inject IApiCommentService CommentService
+@using SpreeviewFrontend.Services.ApiIdentity
 @rendermode InteractiveServer
+@inject IApiCommentService CommentService
+@inject IApiIdentityService IdentityService
 
 @if (review != null)
 {
@@ -10,6 +12,7 @@
 
 	string reviewTimeAgoString = GenerateTimeAgoString(reviewTimeFromNow);
 
+	<!-- Review card -->
 	<div class="p-6 flex flex-col gap-2 w-[80vw] sm:w-[60vw] m-auto font-semibold text-white bg-purple-600 rounded-2xl">
 		<StarRating Rating="@review.Rating" />
 		<p class="text-lg">"@review.Contents"</p>
@@ -18,6 +21,8 @@
 			<p class="text-sm">@reviewTimeAgoString</p>
 		</div>
 
+
+		<!-- Buttons -->
 		<div class="self-end flex items-center gap-2">
 			@if (comments != null && comments.Count > 0)
 			{
@@ -29,29 +34,19 @@
 				</button>
 			}
 
-			<AuthorizeView>
-				<Authorized>
-					@if (DisplayedCommentForm.Contains(review.Id) == false)
-					{
-						<button class="h-12 w-12" @onclick="() => ToggleCommentForm(review.Id)">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-								<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-							</svg>
-						</button>
-					}
-				</Authorized>
-			</AuthorizeView>
+  			<AuthorizeView>
+  				<Authorized>
+  					@if (DisplayedCommentForm.Contains(review.Id) == false && UserId == review.UserId)
+  					{
+  						<button class="h-8 w-8" @onclick="() => ToggleReviewEditor()">
+  							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+  								<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+  							</svg>
+  						</button>
+  					}
+  				</Authorized>
+  			</AuthorizeView>
 		</div>
-
-
-		<div class="flex flex-col overflow-hidden transition-all ease-in-out duration-500 @(DisplayedCommentForm.Contains(review.Id) == true ? "max-h-[500px] opacity-100 pt-4" : "h-0 opacity-0")">
-			<InputText @bind-Value="CommentInput" class="mb-2 text-purple-600 pl-2 bg-white outline-none" />
-			<div class="self-end">
-				<button @onclick="() => ToggleCommentForm(review.Id)">Cancel</button>
-				<button @onclick="() => SubmitComment(review.Id)" class="bg-white p-2 text-purple-600 rounded-md ml-2">Send</button>
-			</div>
-		</div>
-
 
 		@if (DisplayedComments.Contains(review.Id) == true) {
 			@if (comments != null && comments.Count > 0)
@@ -68,10 +63,27 @@
 					}
 				</div>
 			}
+
+			<!-- Comment Input -->
+			<AuthorizeView>
+				<Authorized>
+					<div class="flex flex-col overflow-hidden transition-all ease-in-out duration-500 @(DisplayedCommentForm.Contains(review.Id) == true ? "max-h-[500px] opacity-100 pt-4" : "h-0 opacity-0")">
+						<InputText @bind-Value="CommentInput" class="mb-2 text-purple-600 pl-2 bg-white outline-none" />
+						<div class="self-end">
+							<button @onclick="() => ToggleCommentForm(review.Id)">Cancel</button>
+							<button @onclick="() => SubmitComment(review.Id)" class="bg-white p-2 text-purple-600 rounded-md ml-2">Send</button>
+						</div>
+					</div>
+				</Authorized>
+			</AuthorizeView>
 		}
 
-
 	</div>
+
+	@if (EditReview == true)
+	{
+		<ReviewEditor review="@review" ClosePopup="ClosePopup" />
+	}
 }
 
 
@@ -89,16 +101,14 @@
 
 	public bool IsContentEmpty { get; set; } = true;
 
+	[CascadingParameter]
+	public bool RefreshReviews { get; set; }
+
+	public int UserId { get; set; }
+
 	public void ToggleCommentForm(int reviewId)
 	{
-		if (DisplayedCommentForm.Contains(reviewId) == true)
-		{
-			DisplayedCommentForm.Remove(reviewId);
-		}
-		else
-		{
-			DisplayedCommentForm.Add(reviewId);
-		}
+		DisplayedCommentForm.Remove(reviewId);
 	}
 
 	public void ToggleComments(int reviewId)
@@ -111,6 +121,17 @@
 		{
 			DisplayedComments.Add(reviewId);
 		}
+
+
+		if (DisplayedComments.Contains(reviewId) == false)
+		{
+			DisplayedCommentForm.Remove(reviewId);
+		}
+		else
+		{
+			DisplayedCommentForm.Add(reviewId);
+		}
+
 	} 
 
 	public string GenerateTimeAgoString(int daysAgo)
@@ -177,5 +198,28 @@
 	protected override async Task OnParametersSetAsync()
 	{
 		await GetComments();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		UserId = await GetUserId();
+		StateHasChanged();
+	}
+
+	private async Task<int> GetUserId()
+	{
+		return (await IdentityService.GetUserIdAsync()).Value;
+	}
+
+	public bool EditReview { get; set; } = false;
+
+	public void ToggleReviewEditor()
+	{
+		EditReview = !EditReview;
+	}
+
+	public void ClosePopup()
+	{
+		EditReview = false;
 	}
 }

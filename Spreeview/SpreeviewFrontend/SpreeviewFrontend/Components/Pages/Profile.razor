@@ -104,7 +104,7 @@
     
     private async Task<int> GetUserId()
     {
-        return await IdentityService.GetUserIdAsync();
+        return (await IdentityService.GetUserIdAsync()).Value;
     }
     
     protected override async Task OnInitializedAsync()
