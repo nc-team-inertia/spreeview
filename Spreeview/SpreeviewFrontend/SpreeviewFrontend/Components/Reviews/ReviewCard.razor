@@ -2,14 +2,17 @@
 @using CommonLibrary.DataClasses.ReviewModel
 @using SpreeviewFrontend.Services.ApiCommentService
 @using SpreeviewFrontend.Services.ApiIdentity
+
 @rendermode InteractiveServer
+
 @inject IApiCommentService CommentService
 @inject IApiIdentityService IdentityService
 
 @if (review != null)
 {
-	int reviewTimeFromNow = (DateTime.Now - @review.DateAdded).Days;
+	string reviewUserName = Task.Run(() => GetUserNameByIdAsync(review.UserId)).Result;
 
+	int reviewTimeFromNow = (DateTime.Now - @review.DateAdded).Days;
 	string reviewTimeAgoString = GenerateTimeAgoString(reviewTimeFromNow);
 
 	<!-- Review card -->
@@ -17,10 +20,9 @@
 		<StarRating Rating="@review.Rating" />
 		<p class="text-lg">"@review.Contents"</p>
 		<div>
-			<p>User @review.UserId</p>
+			<p>User @reviewUserName</p>
 			<p class="text-sm">@reviewTimeAgoString</p>
 		</div>
-
 
 		<!-- Buttons -->
 		<div class="self-end flex items-center gap-2">
@@ -34,18 +36,18 @@
 				</button>
 			}
 
-  			<AuthorizeView>
-  				<Authorized>
-  					@if (DisplayedCommentForm.Contains(review.Id) == false && UserId == review.UserId)
-  					{
-  						<button class="h-8 w-8" @onclick="() => ToggleReviewEditor()">
-  							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-  								<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
-  							</svg>
-  						</button>
-  					}
-  				</Authorized>
-  			</AuthorizeView>
+			<AuthorizeView>
+				<Authorized>
+					@if (DisplayedCommentForm.Contains(review.Id) == false && UserId == review.UserId)
+					{
+						<button class="h-8 w-8" @onclick="() => ToggleReviewEditor()">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+								<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+							</svg>
+						</button>
+					}
+				</Authorized>
+			</AuthorizeView>
 		</div>
 
 		@if (DisplayedComments.Contains(review.Id) == true) {
@@ -54,10 +56,12 @@
 				<div class="flex flex-col gap-2 max-h-[300px] overflow-y-scroll">
 					@foreach (var comment in comments)
 					{
+						string commentUserName = Task.Run(() => GetUserNameByIdAsync(comment.UserId)).Result;
 						int commentTimeFromNow = (DateTime.Now - @comment.DateAdded).Days;
 						string commentTimeAgoString = GenerateTimeAgoString(commentTimeFromNow);
+
 						<div class="py-2 px-6 bg-white rounded-xl text-purple-600 self-start">
-							<p class="font-bold">User @comment.UserId <span class="text-sm font-light">@commentTimeAgoString</span></p>
+							<p class="font-bold">User @commentUserName <span class="text-sm font-light">@commentTimeAgoString</span></p>
 							<p>@comment.Contents</p>
 						</div>
 					}
@@ -88,6 +92,9 @@
 
 
 @code {
+	[CascadingParameter]
+	public bool RefreshReviews { get; set; }
+
 	[Parameter]
 	public ReviewGetDTO review { get; set; }
 
@@ -100,9 +107,6 @@
 	public string CommentInput { get; set; }
 
 	public bool IsContentEmpty { get; set; } = true;
-
-	[CascadingParameter]
-	public bool RefreshReviews { get; set; }
 
 	public int UserId { get; set; }
 
@@ -122,7 +126,6 @@
 			DisplayedComments.Add(reviewId);
 		}
 
-
 		if (DisplayedComments.Contains(reviewId) == false)
 		{
 			DisplayedCommentForm.Remove(reviewId);
@@ -131,7 +134,6 @@
 		{
 			DisplayedCommentForm.Add(reviewId);
 		}
-
 	} 
 
 	public string GenerateTimeAgoString(int daysAgo)
@@ -193,6 +195,20 @@
 			Console.WriteLine(e.Message);
 			throw;
 		}
+	}
+
+	private async Task<string> GetUserNameByIdAsync(int userId)
+	{
+		try
+		{
+			return (await IdentityService.GetUserNameByIdAsync(userId)).Value!;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine($"Error getting User Name for User ID {userId}");
+			Console.WriteLine(e.Message);
+		}
+		return "ERROR";
 	}
 
 	protected override async Task OnParametersSetAsync()

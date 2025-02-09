@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SpreeviewAPI.Controllers.Interfaces;
@@ -30,5 +29,12 @@ public class IdentityController(SignInManager<ApplicationUser> signInManager, Us
     {
         var user = await userManager.GetUserAsync(User);
         return Ok(user.Id);
+    }
+
+    [HttpGet("/identity/{userId:int}")]
+    public async Task<ActionResult> GetUserNameById(int userId)
+    {
+        var user = await userManager.FindByIdAsync(userId.ToString());
+        return Ok(user!.UserName);
     }
 }
