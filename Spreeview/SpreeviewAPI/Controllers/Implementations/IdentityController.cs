@@ -26,7 +26,7 @@ public class IdentityController(SignInManager<ApplicationUser> signInManager, Us
 
     [Authorize]
     [HttpGet("/identity")]
-    public async Task<IActionResult> GetUserId()
+    public async Task<ActionResult> GetUserId()
     {
         var user = await userManager.GetUserAsync(User);
         return Ok(user.Id);

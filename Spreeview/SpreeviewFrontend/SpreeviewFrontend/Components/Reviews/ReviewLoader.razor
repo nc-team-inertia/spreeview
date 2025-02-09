@@ -31,14 +31,21 @@ else
     [Parameter]
     public int EpisodeId { get; set; }
 
-    [Parameter]
-    public bool ReloadReviews { get; set; }
+    [CascadingParameter]
+    public RefreshReviewsClass RefreshReviews { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
+        StateHasChanged();
+        Console.WriteLine("Refreshing");
         await GetReviews();
         StateHasChanged();
-        ReloadReviews = false;
+        RefreshReviews.Refresh = false;
+    }
+
+    protected void OnParametersSet()
+    {
+        StateHasChanged();
     }
 
     public async Task GetReviews()

@@ -50,6 +50,24 @@ public class ApiReviewService : IApiReviewService
         return new ServiceObjectResponse<ReviewGetDTO?>() { Type = ServiceResponseType.Failure };
     }
 
+    public async Task<ServiceObjectResponse<ReviewGetDTO?>> PutReviewAsync(ReviewUpdateDTO review)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/review/", review);
+            if (response != null)
+            {
+                Console.WriteLine(response.Content);
+                return new ServiceObjectResponse<ReviewGetDTO?>() { Type = ServiceResponseType.Success };
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        return new ServiceObjectResponse<ReviewGetDTO?>() { Type = ServiceResponseType.Failure };
+    }
+
     public async Task<ServiceObjectResponse<List<ReviewGetDTO>>> GetEpisodeReviews(int episodeId)
     {
         try
