@@ -36,6 +36,6 @@
 		EpisodeNumber = episode.Number;
 		await SelectEpisode.InvokeAsync((episode.Id, episode.Number));
 		StateHasChanged();
-		Navigation.NavigateTo(GetEpisodeUrl());
+		Navigation.NavigateTo(GetEpisodeUrl(), forceLoad: false);
 	}
 }
