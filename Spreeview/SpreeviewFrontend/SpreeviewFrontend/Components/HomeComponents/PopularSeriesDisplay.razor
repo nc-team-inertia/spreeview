@@ -14,7 +14,7 @@
 		}
 	</section>
 
-	<button class="button-purple" @onclick="ToggleSeries">@(showNumber == 5 ? "Show More" : "Show Less")</button>
+	<button class="button-purple" @onclick="ToggleSeries">@(showNumber <= 5 ? "Show More" : "Show Less")</button>
 
 </section>
 
@@ -26,10 +26,22 @@
 	[Parameter]
 	public LoadingType LoadingType { get; set; }
 
-	public int showNumber { get; set; } = 5;
+	public int showNumber { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		if (series.Count >= 5)
+		{
+			showNumber = 5;
+		}
+		else
+		{
+			showNumber = series.Count;
+		}
+	}
 
 	public void ToggleSeries()
 	{
-		showNumber = showNumber == 5 ? 20 : 5;
+		showNumber = showNumber <= 5 ? series.Count < 20 ? series.Count : 20 : 5;
 	}
 }
