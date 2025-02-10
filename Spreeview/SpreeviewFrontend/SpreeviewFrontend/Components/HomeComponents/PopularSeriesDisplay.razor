@@ -14,7 +14,10 @@
 		}
 	</section>
 
-	<button class="button-purple" @onclick="ToggleSeries">@(showNumber <= 5 ? "Show More" : "Show Less")</button>
+	@if (series.Count > 5)
+	{
+		<button class="button-purple" @onclick="ToggleSeries">@(showNumber <= 5 ? "Show More" : "Show Less")</button>
+	}
 
 </section>
 
