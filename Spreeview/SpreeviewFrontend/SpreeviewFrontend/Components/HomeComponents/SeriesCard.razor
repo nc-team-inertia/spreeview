@@ -2,13 +2,21 @@
 @if (series != null)
 {
 	<NavLink class="relative shadow-purple group" href=@($"/series/{series.Id}")>
-		<img class="h-full m-auto object-cover overflow-hidden display-block"
-			 src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/w500{series.BannerPath}" : $"https://image.tmdb.org/t/p/w500{series.PosterPath}") 
-			 alt="@series.Name" 
-			 loading="lazy" 
-		/>
+		<div class="overflow-hidden">
+			<img class="h-full m-auto object-cover display-block transition-transform duration-300"
+			     src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/w500{series.BannerPath}" : $"https://image.tmdb.org/t/p/w500{series.PosterPath}")
+			     alt="@series.Name"
+			     loading="lazy"
+			/>
+		</div>
 		<h3 class="text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-0 bg-black/50 text-center w-full text-white p-2 h-full flex justify-center items-center">@series.Name</h3>
 	</NavLink>
+	<style>
+		.group:hover img {
+			transform: scale(1.1);
+		}
+	</style>
+
 }
 
 @code {
