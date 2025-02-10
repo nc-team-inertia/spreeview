@@ -109,9 +109,8 @@ Contributions may be opened in the future but for now, please raise an issue and
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributors 🔗
-https://github.com/thecodingrunner
-https://github.com/cghlee
-https://github.com/Syntrice
-https://github.com/Metajjj
-https://github.com/nick-midmore
-
+[![Static Badge](https://img.shields.io/badge/Syntrice-purple?style=for-the-badge)](https://github.com/Syntrice)
+[![Static Badge](https://img.shields.io/badge/thecodingrunner-purple?style=for-the-badge)](https://github.com/thecodingrunner)
+[![Static Badge](https://img.shields.io/badge/cghlee-purple?style=for-the-badge)](https://github.com/cghlee)
+[![Static Badge](https://img.shields.io/badge/Metajjj-purple?style=for-the-badge)](https://github.com/Metajjj)
+[![Static Badge](https://img.shields.io/badge/nick%20midmore-purple?style=for-the-badge)](https://github.com/nick-midmore)
