@@ -141,7 +141,7 @@ body, html {
 }
 
 .page-margin {
-    @apply px-12 py-6;
+    @apply px-12 py-12;
 }
 
 .page-title {
