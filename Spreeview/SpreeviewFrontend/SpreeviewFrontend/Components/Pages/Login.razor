@@ -16,23 +16,28 @@
         </div>
     </Authorized>
     <NotAuthorized>
-        <LoginForm Messages="loginResponse.Messages" OnSubmit="LoginUserAsync"/>
+        <LoginForm Messages="_loginResponse.Messages" OnSubmit="LoginUserAsync"/>
     </NotAuthorized>
 </AuthorizeView>
 
 @code
 {
-    [SupplyParameterFromQuery]
-    private string? ReturnUrl { get; set; }
+    [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
     
-    private ServiceResponse loginResponse = new();
+    private ServiceResponse _loginResponse = new();
 
     public async Task LoginUserAsync(LoginFormModel formData)
     {
-        loginResponse = await AccountManagementService.LoginAsync(formData.Email, formData.Password);
-        
-        if (loginResponse.Type == ServiceResponseType.Success && !string.IsNullOrEmpty(ReturnUrl))
+        _loginResponse = await AccountManagementService.LoginAsync(formData.Email, formData.Password);
+
+        Console.WriteLine(Navigation.BaseUri);
+        if (_loginResponse.Type == ServiceResponseType.Success)
         {
+            if (string.IsNullOrEmpty(ReturnUrl))
+            {
+                ReturnUrl = Navigation.BaseUri;
+            }
+            
             Navigation.NavigateTo(ReturnUrl);
         }
     }
