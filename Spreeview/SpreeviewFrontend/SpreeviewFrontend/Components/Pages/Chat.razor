@@ -80,6 +80,7 @@
         if (authState.User.Identity is not { IsAuthenticated: true })
         {
             NavigateToLogin();
+            return;
         }
 
         // Setup a new HubConnection to chat hub
