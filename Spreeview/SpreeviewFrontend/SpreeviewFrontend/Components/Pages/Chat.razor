@@ -7,18 +7,21 @@
 
 <PageTitle>Chat</PageTitle>
 
-<!-- Chat Header -->
-<div class="bg-purple-600 text-white p-4 shadow-lg px-12 py-6">
-    <div class="max-w-4xl flex items-start justify-between">
-        <h1 class="text-4xl">Chat</h1>
+<div class="flex justify-between flex-col h-full">
+    <!-- Chat Header -->
+    <div class="bg-purple-600 text-white p-4 shadow-lg px-12 py-6">
+        <div class="max-w-4xl flex items-start justify-between">
+            <h1 class="text-4xl">Chat</h1>
+        </div>
     </div>
+
+    <!-- Chat Message List -->
+    <MessageList CurrentUser="@_username" Messages="@_messages"/>
+
+    <!-- Chat Input -->
+    <ChatInput SubmitDisabled="!IsConnected" OnSubmit="SendMessageAsync"/>
 </div>
 
-<!-- Chat Message List -->
-<MessageList CurrentUser="@_username" Messages="@_messages"/>
-
-<!-- Chat Input -->
-<ChatInput SubmitDisabled="!IsConnected" OnSubmit="SendMessageAsync"/>
 
 @code {
 
