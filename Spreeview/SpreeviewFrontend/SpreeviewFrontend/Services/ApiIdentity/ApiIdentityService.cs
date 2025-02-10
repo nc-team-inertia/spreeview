@@ -1,9 +1,6 @@
-using CommonLibrary.DataClasses.ReviewModel;
 using SpreeviewAPI.Wrappers;
 
 namespace SpreeviewFrontend.Services.ApiIdentity;
-
-
 
 public class ApiIdentityService : IApiIdentityService
 {
@@ -19,7 +16,7 @@ public class ApiIdentityService : IApiIdentityService
         try
         {
 			var response = await _httpClient.GetFromJsonAsync<int>($"/identity");
-            Console.WriteLine("User Id");
+            Console.WriteLine("User ID:");
             Console.WriteLine(response);
 			if (response != null)
 			{
@@ -28,9 +25,26 @@ public class ApiIdentityService : IApiIdentityService
         }
         catch (Exception e)
         {
-            Console.WriteLine("failed");
-            Console.WriteLine(e.Message);
+            Console.WriteLine($"ERROR: failed to get User ID: {e}");
         }
 		return new ServiceObjectResponse<int>() { Type = ServiceResponseType.Failure };
 	}
+
+    public async Task<ServiceObjectResponse<string>> GetUserNameByIdAsync(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"identity/{userId}");
+            if (response != null)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return new ServiceObjectResponse<string>() { Type = ServiceResponseType.Success, Value = content };
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"ERROR: failed to get User Name by ID: {e}");
+        }
+        return new ServiceObjectResponse<string>() { Type = ServiceResponseType.Failure, Value = "" };
+    }
 }
