@@ -1,5 +1,7 @@
 # Spreeview 🎬
 
+![Animation1](https://github.com/user-attachments/assets/29cc5817-eb3e-4cac-b74b-1147856211aa)
+
 Spreeview is a social networking app designed for users to review and comment on trending and popular TV series. The application features a modern Blazor and Tailwind CSS front end and an ASP.NET Core Web API back end that integrates with the TMDb (The Movie Database) API. It also utilizes ASP.NET Core Identity for secure authentication.
 
 ## Table of Contents
@@ -16,7 +18,7 @@ Spreeview aims to create an engaging community for TV series enthusiasts. Users 
 
 ## Features
 - User Registration and Login
-- JWT Authentication with ASP.NET Core Identity
+- Cookie Authentication with ASP.NET Core Identity
 - Review and Comment on TV Series
 - Fetch Trending and Popular TV Series from TMDb API
 - Responsive User Interface with Blazor and Tailwind CSS
@@ -35,6 +37,7 @@ Spreeview aims to create an engaging community for TV series enthusiasts. Users 
 - [.NET Core SDK](https://dotnet.microsoft.com/download)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 - [TMDb API Key](https://www.themoviedb.org/documentation/api)
+- [Node.js / NPM](https://nodejs.org/en)
 
 ### Backend
 1. Clone the repository:
@@ -62,18 +65,34 @@ Spreeview aims to create an engaging community for TV series enthusiasts. Users 
     ```
 
 ### Frontend
-1. Navigate to the frontend project directory:
+
+1. Navigate to the frontend server project directory:
     ```bash
-    cd ../Frontend
+    cd ./SpreeviewFrontend/SpreeviewFrontend
     ```
 
-2. Restore dependencies and build the project:
+2. Install Node.js dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Build Node.js dependencies:
+   ```bash
+   npm run build
+   ```
+
+4. Navigate back to the frontend project directory:
+    ```bash
+    cd ../
+    ```
+
+5. Restore dependencies and build the project:
     ```bash
     dotnet restore
     dotnet build
     ```
 
-3. Start the Blazor server:
+6. Start the Blazor server:
     ```bash
     dotnet run
     ```

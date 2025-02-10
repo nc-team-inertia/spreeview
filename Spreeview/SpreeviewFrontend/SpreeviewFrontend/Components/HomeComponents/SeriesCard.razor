@@ -16,8 +16,15 @@
 				 alt="@series.Name"
 				 loading="lazy" />
 		}
+
 		<h3 class="text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-0 bg-black/50 text-center w-full text-white p-2 h-full flex justify-center items-center">@series.Name</h3>
 	</NavLink>
+	<style>
+		.group:hover img {
+			transform: scale(1.1);
+		}
+	</style>
+
 }
 
 @code {
