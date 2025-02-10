@@ -16,7 +16,8 @@
     <script src="https://unpkg.com/@@tailwindcss/browser@@4"></script>
     <HeadOutlet />
 
-    <link href="./css/CustCss.css" rel="stylesheet" />
+    <!-- Cache busting (forces update than relying on cached stylesheet using query params) -->
+    <link href="./css/CustCss.css?v=1" rel="stylesheet" />
     <title>Spreeview</title>
 </head>
 
