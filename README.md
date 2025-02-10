@@ -1,6 +1,6 @@
 # Spreeview 🎬
 
-![Animation1](https://github.com/user-attachments/assets/29cc5817-eb3e-4cac-b74b-1147856211aa)
+![Animation1](https://github.com/user-attachments/assets/e0eadda5-d6de-4cb0-a522-ffbcde51c2fe)
 
 Spreeview is a social networking app designed for users to review and comment on trending and popular TV series. The application features a modern Blazor and Tailwind CSS front end and an ASP.NET Core Web API back end that integrates with the TMDb (The Movie Database) API. It also utilizes ASP.NET Core Identity for secure authentication.
 
