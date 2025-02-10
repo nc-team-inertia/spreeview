@@ -1,71 +1,100 @@
 ﻿@using CommonLibrary.DataClasses.CommentModel
 @using CommonLibrary.DataClasses.ReviewModel
 @using SpreeviewFrontend.Services.ApiCommentService
-@inject IApiCommentService CommentService
+@using SpreeviewFrontend.Services.ApiIdentity
+
 @rendermode InteractiveServer
+
+@inject IApiCommentService CommentService
+@inject IApiIdentityService IdentityService
 
 @if (review != null)
 {
-	int timeFromNow = (DateTime.Now - @review.DateAdded).Days;
+	string reviewUserName = Task.Run(() => GetUserNameByIdAsync(review.UserId)).Result;
 
-	<div class="p-6 flex flex-col gap-2 w-[60vw] m-auto font-semibold text-white bg-purple-600 rounded-2xl">
+	int reviewTimeFromNow = (DateTime.Now - @review.DateAdded).Days;
+	string reviewTimeAgoString = GenerateTimeAgoString(reviewTimeFromNow);
+
+	<!-- Review card -->
+	<div class="p-6 flex flex-col gap-2 w-[80vw] sm:w-[60vw] m-auto font-semibold text-white bg-purple-600 rounded-2xl">
 		<StarRating Rating="@review.Rating" />
-		<p class="text-lg">"@review.Contents"</p>
+		<p class="text-lg italic">"@review.Contents"</p>
 		<div>
-			<p>User @review.UserId</p>
-			<p class="text-sm">@timeFromNow days ago</p>
+			<p>@reviewUserName</p>
+			<p class="text-sm">@reviewTimeAgoString</p>
 		</div>
 
+		<!-- Buttons -->
 		<div class="self-end flex items-center gap-2">
-			<button class="h-8 w-8" @onclick="() => ToggleComments(review.Id)">
-				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-					<!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-					<path fill="#ffffff" d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6C73.6 471.1 44.7 480 16 480c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c0 0 0 0 0 0s0 0 0 0s0 0 0 0c0 0 0 0 0 0l.3-.3c.3-.3 .7-.7 1.3-1.4c1.1-1.2 2.8-3.1 4.9-5.7c4.1-5 9.6-12.4 15.2-21.6c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z" />
-				</svg>
-			</button>
-
-			@if (DisplayedCommentForm.Contains(review.Id) == false)
+			@if (comments != null && comments.Count > 0)
 			{
-				<button class="h-12 w-12" @onclick="() => ToggleCommentForm(review.Id)">
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-						<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+				<button class="h-8 w-8" @onclick="() => ToggleComments(review.Id)">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+						<!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+						<path fill="#ffffff" d="M512 240c0 114.9-114.6 208-256 208c-37.1 0-72.3-6.4-104.1-17.9c-11.9 8.7-31.3 20.6-54.3 30.6C73.6 471.1 44.7 480 16 480c-6.5 0-12.3-3.9-14.8-9.9c-2.5-6-1.1-12.8 3.4-17.4c0 0 0 0 0 0s0 0 0 0s0 0 0 0c0 0 0 0 0 0l.3-.3c.3-.3 .7-.7 1.3-1.4c1.1-1.2 2.8-3.1 4.9-5.7c4.1-5 9.6-12.4 15.2-21.6c10-16.6 19.5-38.4 21.4-62.9C17.7 326.8 0 285.1 0 240C0 125.1 114.6 32 256 32s256 93.1 256 208z" />
 					</svg>
 				</button>
 			}
+
+			<AuthorizeView>
+				<Authorized>
+					@if (DisplayedCommentForm.Contains(review.Id) == false && UserId == review.UserId)
+					{
+						<button class="h-8 w-8" @onclick="() => ToggleReviewEditor()">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+								<path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z" />
+							</svg>
+						</button>
+					}
+				</Authorized>
+			</AuthorizeView>
 		</div>
 
-
-		<div class="flex flex-col overflow-hidden transition-all ease-in-out duration-500 @(DisplayedCommentForm.Contains(review.Id) == true ? "max-h-[500px] opacity-100 pt-4" : "h-0 opacity-0")">
-			<InputText @bind-Value="CommentInput" class="mb-2 text-purple-600 pl-2 bg-white" />
-			<div class="self-end">
-				<button @onclick="() => ToggleCommentForm(review.Id)">Cancel</button>
-				<button @onclick="() => SubmitComment(review.Id)" class="bg-white p-2 text-purple-600 rounded-md ml-2">Send</button>
-			</div>
-		</div>
-
-		
 		@if (DisplayedComments.Contains(review.Id) == true) {
-			@if (comments != null)
+			@if (comments != null && comments.Count > 0)
 			{
 				<div class="flex flex-col gap-2 max-h-[300px] overflow-y-scroll">
 					@foreach (var comment in comments)
 					{
+						string commentUserName = Task.Run(() => GetUserNameByIdAsync(comment.UserId)).Result;
 						int commentTimeFromNow = (DateTime.Now - @comment.DateAdded).Days;
+						string commentTimeAgoString = GenerateTimeAgoString(commentTimeFromNow);
+
 						<div class="py-2 px-6 bg-white rounded-xl text-purple-600 self-start">
-							<p class="font-bold">User @comment.UserId <span class="text-sm font-light">@commentTimeFromNow days ago</span></p>
-							<p>@comment.Contents</p>
+							<p class="font-bold">@commentUserName <span class="text-sm font-light">@commentTimeAgoString</span></p>
+							<p class="italic">@comment.Contents</p>
 						</div>
 					}
 				</div>
 			}
+
+			<!-- Comment Input -->
+			<AuthorizeView>
+				<Authorized>
+					<div class="flex flex-col overflow-hidden transition-all ease-in-out duration-500 @(DisplayedCommentForm.Contains(review.Id) == true ? "max-h-[500px] opacity-100 pt-4" : "h-0 opacity-0")">
+						<InputText @bind-Value="CommentInput" class="mb-2 text-purple-600 pl-2 bg-white outline-none" />
+						<div class="self-end">
+							<button @onclick="() => ToggleCommentForm(review.Id)">Cancel</button>
+							<button @onclick="() => SubmitComment(review.Id)" class="bg-white p-2 text-purple-600 rounded-md ml-2">Send</button>
+						</div>
+					</div>
+				</Authorized>
+			</AuthorizeView>
 		}
 
-
 	</div>
+
+	@if (EditReview == true)
+	{
+		<ReviewEditor review="@review" ClosePopup="ClosePopup" />
+	}
 }
 
 
 @code {
+	[CascadingParameter]
+	public bool RefreshReviews { get; set; }
+
 	[Parameter]
 	public ReviewGetDTO review { get; set; }
 
@@ -79,16 +108,11 @@
 
 	public bool IsContentEmpty { get; set; } = true;
 
+	public int UserId { get; set; }
+
 	public void ToggleCommentForm(int reviewId)
 	{
-		if (DisplayedCommentForm.Contains(reviewId) == true)
-		{
-			DisplayedCommentForm.Remove(reviewId);
-		}
-		else
-		{
-			DisplayedCommentForm.Add(reviewId);
-		}
+		DisplayedCommentForm.Remove(reviewId);
 	}
 
 	public void ToggleComments(int reviewId)
@@ -101,7 +125,25 @@
 		{
 			DisplayedComments.Add(reviewId);
 		}
+
+		if (DisplayedComments.Contains(reviewId) == false)
+		{
+			DisplayedCommentForm.Remove(reviewId);
+		}
+		else
+		{
+			DisplayedCommentForm.Add(reviewId);
+		}
 	} 
+
+	public string GenerateTimeAgoString(int daysAgo)
+	{
+		string timeAgoString = "";
+		if (daysAgo > 1) timeAgoString = $"{@daysAgo} days ago";
+		else if (daysAgo == 0) timeAgoString = "earlier today";
+		else if (daysAgo == 1) timeAgoString = "yesterday";
+		return timeAgoString;
+	}
 
 	private async Task SubmitComment(int reviewId)
 	{
@@ -123,7 +165,10 @@
 				{
 					Contents = CommentInput,
 					ReviewId = reviewId,
-					DateAdded = DateTime.Now
+					DateAdded = DateTime.Now,
+					SeriesId = review.SeriesId,
+					SeasonNumber = review.SeasonNumber,
+					EpisodeNumber = review.EpisodeNumber
 				};
 			await CommentService.PostReviewComment(comment);
 			Console.WriteLine("successfull");
@@ -152,8 +197,45 @@
 		}
 	}
 
+	private async Task<string> GetUserNameByIdAsync(int userId)
+	{
+		try
+		{
+			return (await IdentityService.GetUserNameByIdAsync(userId)).Value!;
+		}
+		catch (Exception e)
+		{
+			Console.WriteLine($"Error getting User Name for User ID {userId}");
+			Console.WriteLine(e.Message);
+		}
+		return "ERROR";
+	}
+
 	protected override async Task OnParametersSetAsync()
 	{
 		await GetComments();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		UserId = await GetUserId();
+		StateHasChanged();
+	}
+
+	private async Task<int> GetUserId()
+	{
+		return (await IdentityService.GetUserIdAsync()).Value;
+	}
+
+	public bool EditReview { get; set; } = false;
+
+	public void ToggleReviewEditor()
+	{
+		EditReview = !EditReview;
+	}
+
+	public void ClosePopup()
+	{
+		EditReview = false;
 	}
 }

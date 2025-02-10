@@ -1,12 +1,35 @@
 ﻿@using CommonLibrary.DataClasses.SeriesModel
-<section class="p-10 grid grid-cols-5 m-auto gap-10">
-	@foreach (SeriesGetDTO series in series)
-	{
-		<SeriesCard series="series" />
-	}
+
+<section class="flex flex-col gap-2 justify-center items-center my-10">
+	<div class="text-center mt-12">
+		<h2 class="text-4xl font-bold">@(LoadingType == LoadingType.Trending ? "Trending Series" : "Top Rated Series")</h2>
+		<div class="h-[4px] bg-purple-600 w-36 m-auto mt-2" />
+	</div>
+
+	<section class="p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 m-auto gap-10">
+		@for (var i = 0; i < showNumber; i++)
+		{
+			var seriesSingle = series[i];
+			<SeriesCard series="@seriesSingle" />
+		}
+	</section>
+
+	<button class="button-purple" @onclick="ToggleSeries">@(showNumber == 5 ? "Show More" : "Show Less")</button>
+
 </section>
+
 
 @code {
 	[Parameter]
 	public List<SeriesGetDTO> series { get; set; }
+
+	[Parameter]
+	public LoadingType LoadingType { get; set; }
+
+	public int showNumber { get; set; } = 5;
+
+	public void ToggleSeries()
+	{
+		showNumber = showNumber == 5 ? 20 : 5;
+	}
 }

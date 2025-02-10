@@ -1,14 +1,15 @@
 ﻿@using CommonLibrary.DataClasses.CommentModel
 @using CommonLibrary.DataClasses.ReviewModel
+@using CommonLibrary.DataClasses.SeriesModel
 @using SpreeviewFrontend.Services.ApiCommentService
 @inject IApiCommentService CommentService
 
+
 @if (reviews.Count > 0)
 {
-	<div class="flex flex-col gap-4 py-4">
+	<div class="flex flex-col gap-4 pt-8 pb-14">
 		@foreach (ReviewGetDTO review in reviews)
 		{
-
 			<ReviewCard review="review" />
 		}
 	</div>
@@ -18,4 +19,5 @@
 @code {
 	[Parameter]
 	public List<ReviewGetDTO> reviews { get; set; }
+
 }

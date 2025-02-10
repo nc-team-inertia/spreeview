@@ -1,30 +1,50 @@
+using SpreeviewAPI.Wrappers;
+
 namespace SpreeviewFrontend.Services.ApiIdentity;
-
-
 
 public class ApiIdentityService : IApiIdentityService
 {
     private readonly HttpClient _httpClient; 
     
-    public ApiIdentityService(IHttpClientFactory httpClientFactory)
+    public ApiIdentityService(HttpClient httpClient)
     {
-        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
-        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "identity/");
+        _httpClient = httpClient;
     }
 
-    public async Task<int> GetUserIdAsync()
+    public async Task<ServiceObjectResponse<int>?> GetUserIdAsync()
     {
         try
         {
-            var result = await _httpClient.GetAsync("");
-            result.EnsureSuccessStatusCode();
-            var content = await result.Content.ReadAsStringAsync();
-            return int.Parse(content);
+			var response = await _httpClient.GetFromJsonAsync<int>($"/identity");
+            Console.WriteLine("User ID:");
+            Console.WriteLine(response);
+			if (response != null)
+			{
+				return new ServiceObjectResponse<int>() { Type = ServiceResponseType.Success, Value = response };
+			}
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.WriteLine($"ERROR: failed to get User ID: {e}");
         }
-        return 0;
+		return new ServiceObjectResponse<int>() { Type = ServiceResponseType.Failure };
+	}
+
+    public async Task<ServiceObjectResponse<string>> GetUserNameByIdAsync(int userId)
+    {
+        try
+        {
+            var response = await _httpClient.GetAsync($"identity/{userId}");
+            if (response != null)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return new ServiceObjectResponse<string>() { Type = ServiceResponseType.Success, Value = content };
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"ERROR: failed to get User Name by ID: {e}");
+        }
+        return new ServiceObjectResponse<string>() { Type = ServiceResponseType.Failure, Value = "" };
     }
 }

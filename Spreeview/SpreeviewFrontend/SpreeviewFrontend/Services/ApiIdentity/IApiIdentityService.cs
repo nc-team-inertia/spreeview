@@ -1,6 +1,9 @@
+using SpreeviewAPI.Wrappers;
+
 namespace SpreeviewFrontend.Services.ApiIdentity;
 
 public interface IApiIdentityService
 {
-    Task<int> GetUserIdAsync();
+    Task<ServiceObjectResponse<int>> GetUserIdAsync();
+    Task<ServiceObjectResponse<string>> GetUserNameByIdAsync(int userId);
 }

@@ -11,11 +11,9 @@ public class ApiCommentService : IApiCommentService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiCommentService> _logger;
 
-    public ApiCommentService(IHttpClientFactory httpClientFactory, ILogger<ApiCommentService> logger)
+    public ApiCommentService(HttpClient httpClient, ILogger<ApiCommentService> logger)
     {
-        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
-        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/comment/");
-
+        _httpClient = httpClient;
         _logger = logger;
     }
 
@@ -23,7 +21,7 @@ public class ApiCommentService : IApiCommentService
 	{
 		try
 		{
-			var response = await _httpClient.PostAsJsonAsync("", comment);
+			var response = await _httpClient.PostAsJsonAsync("api/Comment/", comment);
 			if (response != null)
 			{
 				Console.WriteLine(response.Content);
@@ -43,7 +41,7 @@ public class ApiCommentService : IApiCommentService
 		try
 		{
 			var response = await _httpClient.GetFromJsonAsync<List<CommentGetDTO>>(
-				$"review/{reviewId}");
+				$"api/comment/review/{reviewId}");
 
 			if (response != null)
 			{
@@ -62,7 +60,7 @@ public class ApiCommentService : IApiCommentService
     {
         try
         {
-            var response = await _httpClient.GetFromJsonAsync<List<CommentGetDTO>>($"user/{userId}");
+            var response = await _httpClient.GetFromJsonAsync<List<CommentGetDTO>>($"api/comment/user/{userId}");
             if (response != null)
             {
                 Console.WriteLine(response[0].Contents);

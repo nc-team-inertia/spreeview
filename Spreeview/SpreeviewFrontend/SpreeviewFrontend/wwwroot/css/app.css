@@ -41,6 +41,24 @@ the parent element on which these colors are used.
         --oFg: #E0E0E0;
         --oBg: #101010;
     }
+
+    *[theme] {
+        background-color: var(--mBg);
+        color: var(--mFg);
+    }
+
+    *[theme] img {
+        background-color: var(--container);
+    }
+
+    *[theme] button {
+        background-color: var(--accent);
+    }
+
+    *[theme] header, *[theme] footer {
+        background-color: var(--oBg);
+        color: var(--oFg);
+    }
 }
 
 /* Other CSS */
@@ -129,7 +147,7 @@ body, html {
 }
 
 .form {
-    @apply mt-20 mx-auto max-w-xl flex flex-col gap-4 shadow-md p-8 rounded-2xl;
+    @apply my-10 mx-auto max-w-xl flex flex-col gap-4 shadow-md p-8 rounded-2xl;
 }
 
 .form-button {
@@ -141,7 +159,7 @@ body, html {
 }
 
 .page-margin {
-    @apply px-12 py-6;
+    @apply px-12 py-12;
 }
 
 .page-title {

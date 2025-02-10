@@ -6,39 +6,84 @@
 
 <PageTitle>Chat</PageTitle>
 
-<div class="form-group">
-    <label>
-        User:
-        <input @bind="_usernameInput" />
-    </label>
+<!-- Chat Header -->
+<div class="bg-purple-600 text-white p-4 shadow-lg px-12 py-6">
+    <div class="max-w-4xl flex items-start justify-between">
+        <h1 class="text-4xl">Chat</h1>
+    </div>
 </div>
-<div class="form-group">
-    <label>
-        Message:
-        <input @bind="_messageInput" size="50" />
-    </label>
+
+<!-- Chat Messages -->
+<div class="flex-1 overflow-y-auto p-4 px-12 py-6 max-h-[400px]">
+    <div class="max-w-4xl space-y-4">
+
+        @foreach (var message in _messages)
+        {
+            @if (message.User == _username)
+            {
+                <!-- Sender Message -->
+                <div class="flex items-start justify-end space-x-2">
+                    <div class="flex flex-col items-end">
+                        <div class="bg-purple-600 text-white rounded-lg rounded-tr-none p-3 shadow-md max-w-md">
+                            <p>@message.User: @message.Message</p>
+                        </div>
+                        <span class="text-gray-500 text-xs message-time mt-3">@message.Time</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <!-- Receiver Message -->
+                <div class="flex items-start space-x-2">
+                    <div>
+                        <div class="bg-white rounded-lg rounded-tl-none p-3 shadow-md max-w-md">
+                            <p>@message.User: @message.Message</p>
+                        </div>
+                        <span class="text-gray-500 text-xs mt-2">@message.Time</span>
+                    </div>
+                </div>
+            }
+        }
+    </div>
 </div>
-<button @onclick="SendMessageAsync" disabled="@(!IsConnected)">Send</button>
 
-<hr>
+<!-- Chat Input -->
+<div class="bg-white border-t px-12 py-6">
+    <div class="max-w-4xl flex items-start">
+        <input
+                @bind="_messageInput"
+                type="text"
+               placeholder="Type your message..."
+               class="flex-1 p-2 border rounded-full focus:outline-none focus:border-purple-700">
+        <button @onclick="SendMessageAsync" disabled="@(!IsConnected)" class="p-2 text-white bg-purple-600 rounded-full hover:bg-purple-700 transition ml-4">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+        </button>
+    </div>
+</div>
 
-<ul id="messagesList">
-    @foreach (var message in _messages)
-    {
-        <li>@message.Time : @message.User : @message.Message</li>
-    }
-</ul>
 
 @code {
 
+    [CascadingParameter] private Task<AuthenticationState> AuthStateTask { get; set; } = null!;
+    
     private HubConnection? _hubConnection; // the hub connection
     private List<ChatMessage> _messages = []; // list of messages in chit
-    private string? _usernameInput; // username
     private string? _messageInput; // message
-
+    private string _username;
+    
     protected override async Task OnInitializedAsync()
     {
+        var authState = await AuthStateTask;
+        if (authState.User.Identity is not { IsAuthenticated: true })
+        {
+            NavigateToLogin();
+        }
+
         // Setup a new HubConnection to chat hub
+        _username = authState.User.Identity.Name; // get the username from the auth state
         _hubConnection = new HubConnectionBuilder()
             .WithUrl(Navigation.ToAbsoluteUri("/chatHub"))
             .Build();
@@ -58,12 +103,28 @@
 
     private async Task SendMessageAsync()
     {
+        // Recheck auth state
+        var authState = await AuthStateTask;
+        if (authState.User.Identity is not { IsAuthenticated: true })
+        {
+            NavigateToLogin();
+            return;
+        }
+
+        _username = authState.User.Identity.Name; // get the username from the auth state
+        
         // If hub connection exists
         if (_hubConnection is not null)
         {
-            var message = new ChatMessage() { Message = _messageInput, User = _usernameInput, Time = TimeOnly.FromDateTime(DateTime.Now) };
+            var message = new ChatMessage() { Message = _messageInput, User = _username, Time = TimeOnly.FromDateTime(DateTime.Now) };
             await _hubConnection.SendAsync("SendMessage", message);
+            _messageInput = string.Empty;
         }
+    }
+
+    private void NavigateToLogin()
+    {
+        Navigation.NavigateTo("login?returnUrl=chat");
     }
     
     public bool IsConnected => _hubConnection?.State == HubConnectionState.Connected;    
