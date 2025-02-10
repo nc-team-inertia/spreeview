@@ -43,6 +43,7 @@ public class ReviewRepository : IReviewRepository
     {
         var reviewToUpdate = await FindReviewById(reviewDto.Id);
         reviewToUpdate.Contents = reviewDto.Contents;
+        reviewToUpdate.Rating = reviewDto.Rating;
         await _context.SaveChangesAsync();
         return reviewToUpdate;
     }
