@@ -1,5 +1,15 @@
-﻿<h3>ChatMessageList</h3>
+﻿@using SpreeviewFrontend.Hubs.Chat
+<div class="flex-1 overflow-y-auto p-4 px-12 py-6 max-h-[400px]">
+    <div class="max-w-4xl space-y-4">
+        @foreach (var message in Messages)
+        {
+            bool isSenderMessage = CurrentUser == message.User;
+            <MessageComponent Message="message" IsSenderMessage="isSenderMessage"/>
+        }
+    </div>
+</div>
 
 @code {
-    
+    [Parameter] public List<ChatMessage> Messages { get; set; } = [];
+    [Parameter] public string CurrentUser { get; set; } = "";
 }

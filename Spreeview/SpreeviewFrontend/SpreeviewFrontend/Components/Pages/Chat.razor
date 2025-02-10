@@ -14,35 +14,11 @@
     </div>
 </div>
 
-<!-- Chat Messages -->
-<div class="flex-1 overflow-y-auto p-4 px-12 py-6 max-h-[400px]">
-    <div class="max-w-4xl space-y-4">
-
-        @foreach (var message in _messages)
-        {
-            bool isSenderMessage = _username == message.User;
-            <MessageComponent Message="message" IsSenderMessage="isSenderMessage"/>
-        }
-    </div>
-</div>
+<!-- Chat Message List -->
+<MessageList CurrentUser="@_username" Messages="@_messages"/>
 
 <!-- Chat Input -->
-<div class="bg-white border-t px-12 py-6">
-    <div class="max-w-4xl flex items-start">
-        <input
-                @bind="_messageInput"
-                type="text"
-               placeholder="Type your message..."
-               class="flex-1 p-2 border rounded-full focus:outline-none focus:border-purple-700">
-        <button @onclick="SendMessageAsync" disabled="@(!IsConnected)" class="p-2 text-white bg-purple-600 rounded-full hover:bg-purple-700 transition ml-4">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-            </svg>
-        </button>
-    </div>
-</div>
-
+<ChatInput SubmitDisabled="!IsConnected" OnSubmit="SendMessageAsync"/>
 
 @code {
 
@@ -50,7 +26,6 @@
     
     private HubConnection? _hubConnection; // the hub connection
     private List<ChatMessage> _messages = []; // list of messages in chit
-    private string? _messageInput; // message
     private string _username;
     
     protected override async Task OnInitializedAsync()
@@ -81,7 +56,7 @@
         await InvokeAsync(StateHasChanged);
     }
 
-    private async Task SendMessageAsync()
+    private async Task SendMessageAsync(string messageInput)
     {
         // Recheck auth state
         var authState = await AuthStateTask;
@@ -96,9 +71,8 @@
         // If hub connection exists
         if (_hubConnection is not null)
         {
-            var message = new ChatMessage() { Message = _messageInput, User = _username, Time = TimeOnly.FromDateTime(DateTime.Now) };
+            var message = new ChatMessage() { Message = messageInput, User = _username, Time = TimeOnly.FromDateTime(DateTime.Now) };
             await _hubConnection.SendAsync("SendMessage", message);
-            _messageInput = string.Empty;
         }
     }
 
