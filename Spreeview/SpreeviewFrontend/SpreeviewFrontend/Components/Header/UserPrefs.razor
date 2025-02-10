@@ -1,0 +1,43 @@
+﻿@using SpreeviewFrontend.Services
+@inject IUserPreferencesService UserPreferencesService;
+@inject IJSRuntime JSR;
+@code {
+    private UserPreferences _preferences = new();
+    protected override async Task OnInitializedAsync()
+    { 
+        _preferences = await UserPreferencesService.GetUserPreferencesAsync();
+            //Defaults to light ?? TODO static/cookie
+    }
+
+    public Theme Theme { 
+        get { return _preferences.Theme; } 
+        set {
+            JSR.InvokeVoidAsync("ThemeSwitch", Enum.GetName(Theme.GetType(), value));
+            _preferences.Theme = value;
+        } 
+    }
+}
+
+<script>
+    function ThemeSwitch(theme){
+        document.querySelector("body").setAttribute("theme",theme.toLowerCase());
+    }
+</script>
+
+<div style="color:var(--accent);">
+    <form style="width:80%; margin:auto; justify-content:center; align-content:center; text-align:center" action="">
+        <fieldset>
+            <legend><b><u>User Preferences</u></b></legend>
+            <hr />
+
+        <label style="font-weight: bold">Theme</label> <br />
+        <InputSelect @bind-Value="Theme" style="min-width:fit-content">
+            @foreach(var theme in Enum.GetValues(Theme.GetType())){
+                <option value="@theme">@Enum.GetName(Theme.GetType(),theme)</option>
+            }
+        </InputSelect>
+        <hr />
+
+        </fieldset>
+    </form>
+</div>

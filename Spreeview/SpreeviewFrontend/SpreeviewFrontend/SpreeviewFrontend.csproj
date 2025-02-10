@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e097522d-eea5-443c-a05a-2b05cfa30bca</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,12 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\Common\Button.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Spreeview Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

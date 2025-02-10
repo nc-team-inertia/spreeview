@@ -1,58 +1,51 @@
-﻿/*These theme preferences have been moved to app.css */
+﻿*[theme='light'] {
+    /*var(val, defaultVal)*/
+    --hBg: #E0E0E0;
+    --hFg: #101010;
+    --accent: #9333ea;
+    --container: #888888;
+    --mBg: #FFFFFF;
+    --mFg: #000000;
+    --fBg: #E0E0E0;
+    --fFg: #101010;
+    --oBg: #E0E0E0;
+    --oFg: #101010;
+}
 
-/**[theme='light'] {*/
-/*    !*var(val, defaultVal)*!*/
-/*    --hBg: #E0E0E0;*/
-/*    --hFg: #101010;*/
-/*    --accent: #8816FC;*/
-/*    --container: #888888;*/
-/*    --mBg: #FFFFFF;*/
-/*    --mFg: #000000;*/
-/*    --fBg: #E0E0E0;*/
-/*    --fFg: #101010;*/
-/*    --oBg: #E0E0E0;*/
-/*    --oFg: #101010;*/
-/*}*/
-
-/**[theme='dark'] {*/
-/*    --hFg: #E0E0E0;*/
-/*    --hBg: #101010;*/
-/*    --accent: #FC6C16;*/
-/*    --container: #888888;*/
-/*    --mFg: #FFFFFF;*/
-/*    --mBg: #161616;*/
-/*    --fFg: #E0E0E0;*/
-/*    --fBg: #101010;*/
-/*    --oFg: #E0E0E0;*/
-/*    --oBg: #101010;*/
-/*}*/
+*[theme='dark'] {
+    --hFg: #E0E0E0;
+    --hBg: #101010;
+    --accent: #FC6C16;
+    --container: #888888;
+    --mFg: #FFFFFF;
+    --mBg: #161616;
+    --fFg: #E0E0E0;
+    --fBg: #101010;
+    --oFg: #E0E0E0;
+    --oBg: #101010;
+}
 
 /*actual CSS code here - turn into razor ??*/
 
-/*direct to general/child
-    > = ??
-    + = ??
-    ~ = ??
-*/
-
 /*var(val, defaultVal)*/
 *[theme] {
-    background-color: var(--mBg);
-    color: var(--mFg);
+    background-color: var(--mBg) !important;
+    color: var(--mFg) !important;
+    text-shadow: 5px 5px 5px 5px var(--mBg);
 }
 
-    *[theme] img {
-        background-color: var(--container);
-    }
+*[theme] img {
+    background-color: var(--container) !important;
+}
 
-    *[theme] button {
-        background-color: var(--accent);
-    }
+*[theme] button {
+    background-color: var(--accent) !important;
+}
 
-    *[theme] header, *[theme] footer {
-        background-color: var(--oBg);
-        color: var(--oFg);
-    }
+*[theme] header, *[theme] footer {
+    background-color: var(--oBg) !important;
+    color: var(--oFg) !important;
+}
 
 /*
 *[theme='light'] header { background-color: var(--hBg); color: var(--hFg); }

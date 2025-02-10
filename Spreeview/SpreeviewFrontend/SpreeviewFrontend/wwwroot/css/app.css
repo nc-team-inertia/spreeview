@@ -41,6 +41,24 @@ the parent element on which these colors are used.
         --oFg: #E0E0E0;
         --oBg: #101010;
     }
+
+    *[theme] {
+        background-color: var(--mBg);
+        color: var(--mFg);
+    }
+
+    *[theme] img {
+        background-color: var(--container);
+    }
+
+    *[theme] button {
+        background-color: var(--accent);
+    }
+
+    *[theme] header, *[theme] footer {
+        background-color: var(--oBg);
+        color: var(--oFg);
+    }
 }
 
 /* Other CSS */
