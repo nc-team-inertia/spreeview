@@ -1,10 +1,35 @@
-﻿@using CommonLibrary.DataClasses.ReviewModel
+﻿using CommonLibrary.DataClasses.ReviewModel
 @using SpreeviewFrontend.Components
 @using SpreeviewFrontend.Services
 @using SpreeviewFrontend.Components.Header
 @using SpreeviewFrontend.Components.Footer
 @using SpreeviewFrontend.Services.ApiReview
 @inherits LayoutComponentBase
+
+
+
+@inject IUserPreferencesService UserPreferencesService
+@inject IApiReviewService ReviewService
+
+<!-- TODO conflicts with userPrefs? -->
+
+@code {
+	private UserPreferences _preferences = new();
+
+	public RefreshReviewsClass RefreshReviews { get; set; } = new() { Refresh = false };
+
+	protected override async Task OnInitializedAsync()
+	{
+		_preferences = await UserPreferencesService.GetUserPreferencesAsync();
+		RefreshReviews.OnRefreshChanged += () => StateHasChanged();
+	}
+
+	public void Dispose()
+	{
+		RefreshReviews.OnRefreshChanged -= () => StateHasChanged();
+	}
+}
+
 
 @* Example of dynamically setting html attributes via UserPreferences *@
 <div class="flex h-screen flex-col justify-between">

@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 ﻿<!DOCTYPE html>
 <html lang="en">
 
+=======
+<!DOCTYPE html>
+<html lang="en" class="max-w-screen">
+    
+>>>>>>> dc19ce47b35328d6402cdd133473a485ea85ebd8
 <head>
+  <title>Spreeview</title>
+  
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
@@ -18,7 +26,6 @@
 
     <!-- Cache busting (forces update than relying on cached stylesheet using query params) -->
     <link href="./css/CustCss.css?v=1" rel="stylesheet" />
-    <title>Spreeview</title>
 </head>
 
 @*TODO shift into Authorised component ?? *@
@@ -32,10 +39,12 @@
     public EventCallback<Theme> CurrTheme { get; set; }
 }
 
+
 <body theme="@( Enum.GetName(_preferences.Theme).ToLower() )" class="max-w-screen">
     <Routes  @rendermode="InteractiveServer" />
     <script src="_framework/blazor.web.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
 </body>
+
 
 </html>
