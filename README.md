@@ -37,6 +37,7 @@ Spreeview aims to create an engaging community for TV series enthusiasts. Users 
 - [.NET Core SDK](https://dotnet.microsoft.com/download)
 - [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
 - [TMDb API Key](https://www.themoviedb.org/documentation/api)
+- [Node.js / NPM](https://nodejs.org/en)
 
 ### Backend
 1. Clone the repository:
@@ -64,18 +65,34 @@ Spreeview aims to create an engaging community for TV series enthusiasts. Users 
     ```
 
 ### Frontend
-1. Navigate to the frontend project directory:
+
+1. Navigate to the frontend server project directory:
     ```bash
-    cd ../Frontend
+    cd ./SpreeviewFrontend/SpreeviewFrontend
     ```
 
-2. Restore dependencies and build the project:
+2. Install Node.js dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Build Node.js dependencies:
+   ```bash
+   npm run build
+   ```
+
+4. Navigate back to the frontend project directory:
+    ```bash
+    cd ../
+    ```
+
+5. Restore dependencies and build the project:
     ```bash
     dotnet restore
     dotnet build
     ```
 
-3. Start the Blazor server:
+6. Start the Blazor server:
     ```bash
     dotnet run
     ```
