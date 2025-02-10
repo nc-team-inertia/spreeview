@@ -7,7 +7,6 @@
 
 @inject IApiReviewService ReviewService
 
-
 <div class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center" @onclick="HandleBackgroundClick">
     <div class="bg-white p-8 rounded shadow-lg w-1/3 h-auto" @onclick:stopPropagation="true" @onclick:preventDefault="true">
         <h2 class="text-xl font-bold mb-4">Edit Review</h2>
@@ -17,12 +16,12 @@
         {
             <p class="text-gray-500 text-sm mb-3">Review content cannot be empty</p>
         }
-@*         <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
+        <div class="mb-4 p-4 bg-gray-100 rounded-lg shadow-md">
             <label for="rating" class="block mb-2 font-bold text-lg text-gray-700">
                 Rating: <span class="text-purple-500">@Rating</span>
             </label>
             <input type="range" id="rating" min="1" max="10" step="1" value="@Rating" @oninput="UpdateRating" class="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer transition duration-300 ease-in-out focus:outline-none">
-        </div> *@
+        </div>
         <button @onclick="SubmitReview" class="form-button text-white font-bold py-2 px-4 rounded">
             Submit
         </button>
@@ -31,7 +30,6 @@
         </button>
     </div>
 </div>
-
 
 @code {
     [Parameter]
@@ -45,30 +43,30 @@
 
     private string ReviewContent { get; set; } = string.Empty;
 
-    // public int Rating
-    // {
-    //     get => _rating;
-    //     set
-    //     {
-    //         if (_rating != value)
-    //         {
-    //             _rating = value;
-    //             StateHasChanged();
-    //         }
-    //     }
-    // }
+    public int Rating
+    {
+        get => _rating;
+        set
+        {
+            if (_rating != value)
+            {
+                _rating = value;
+                StateHasChanged();
+            }
+        }
+    }
 
-    // private int _rating;
+    private int _rating;
 
     private bool IsContentEmpty { get; set; } = false;
 
-    // private void UpdateRating(ChangeEventArgs e)
-    // {
-    //     if (int.TryParse(e.Value.ToString(), out var value))
-    //     {
-    //         Rating = value;
-    //     }
-    // }
+    private void UpdateRating(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out var value))
+        {
+            Rating = value;
+        }
+    }
 
     private void HandleBackgroundClick()
     {
@@ -89,7 +87,8 @@
             var updateReview = new ReviewUpdateDTO
                 {
                     Id = review.Id,
-                    Contents = ReviewContent
+                    Contents = ReviewContent,
+                    Rating = Rating
                 };
             await ReviewService.PutReviewAsync(updateReview);
             Console.WriteLine("updated");
@@ -112,5 +111,6 @@
     protected override void OnInitialized()
     {
         ReviewContent = review.Contents;
+        Rating = review.Rating;
     }
 }
