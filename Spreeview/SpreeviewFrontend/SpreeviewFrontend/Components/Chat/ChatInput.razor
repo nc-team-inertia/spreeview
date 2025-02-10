@@ -25,5 +25,6 @@
     private async Task Submit()
     {
         await OnSubmit.InvokeAsync(message);
+        message = String.Empty;
     }
 }
