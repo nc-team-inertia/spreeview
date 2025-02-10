@@ -4,17 +4,22 @@
 	<NavLink class="relative shadow-purple group aspect-9/16 min-h-[400px] sm:min-h-0" href=@($"/series/{series.Id}")>
 		@if (string.IsNullOrEmpty(series.PosterPath) && string.IsNullOrEmpty(series.BannerPath))
 		{
-			<div class="absolute flex justify-center items-center absolute-0 h-full w-full">
-				<div class="text-[8rem]">
-					🎬
+			<div class="overflow-hidden h-full">
+				<div class="h-full m-auto object-cover display-block transition-transform duration-300">
+					<div class="text-[8rem]">
+						🎬
+					</div>
 				</div>
 			</div>
 		} else
 		{
-			<img class="h-full m-auto object-cover overflow-hidden display-block"
-				 src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/w500{series.BannerPath}" : $"https://image.tmdb.org/t/p/w500{series.PosterPath}")
-				 alt="@series.Name"
-				 loading="lazy" />
+			<div class="overflow-hidden h-full">
+				<img class="h-full m-auto object-cover display-block transition-transform duration-300"
+				     src=@(string.IsNullOrEmpty(series.PosterPath) ? $"https://image.tmdb.org/t/p/w500{series.BannerPath}" : $"https://image.tmdb.org/t/p/w500{series.PosterPath}")
+				     alt="@series.Name"
+				     loading="lazy"
+				/>
+			</div>
 		}
 
 		<h3 class="text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-0 bg-black/50 text-center w-full text-white p-2 h-full flex justify-center items-center">@series.Name</h3>
