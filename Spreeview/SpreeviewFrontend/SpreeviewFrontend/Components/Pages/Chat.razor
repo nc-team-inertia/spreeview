@@ -2,6 +2,7 @@
 @inject NavigationManager Navigation
 @using Microsoft.AspNetCore.SignalR.Client
 @using SpreeviewFrontend.Hubs.Chat
+@using SpreeviewFrontend.Components.Chat
 @implements IAsyncDisposable
 
 <PageTitle>Chat</PageTitle>
@@ -19,30 +20,8 @@
 
         @foreach (var message in _messages)
         {
-            @if (message.User == _username)
-            {
-                <!-- Sender Message -->
-                <div class="flex items-start justify-end space-x-2">
-                    <div class="flex flex-col items-end">
-                        <div class="bg-purple-600 text-white rounded-lg rounded-tr-none p-3 shadow-md max-w-md">
-                            <p>@message.User: @message.Message</p>
-                        </div>
-                        <span class="text-gray-500 text-xs message-time mt-3">@message.Time</span>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <!-- Receiver Message -->
-                <div class="flex items-start space-x-2">
-                    <div>
-                        <div class="bg-white rounded-lg rounded-tl-none p-3 shadow-md max-w-md">
-                            <p>@message.User: @message.Message</p>
-                        </div>
-                        <span class="text-gray-500 text-xs mt-2">@message.Time</span>
-                    </div>
-                </div>
-            }
+            bool isSenderMessage = _username == message.User;
+            <MessageComponent Message="message" IsSenderMessage="isSenderMessage"/>
         }
     </div>
 </div>

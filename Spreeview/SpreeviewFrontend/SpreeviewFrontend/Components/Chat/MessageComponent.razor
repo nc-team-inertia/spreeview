@@ -1,0 +1,44 @@
+﻿@using SpreeviewFrontend.Hubs.Chat
+@if (IsSenderMessage)
+{
+    <!-- Sender Message -->
+    <div class="flex items-start justify-end space-x-2">
+        <div class="flex flex-col items-end">
+            <div class="bg-purple-600 text-white rounded-lg rounded-tr-none p-3 shadow-md max-w-md">
+                <p>@username: @message</p>
+            </div>
+            <span class="text-gray-500 text-xs message-time mt-3">@time</span>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Receiver Message -->
+    <div class="flex items-start space-x-2">
+        <div>
+            <div class="bg-white rounded-lg rounded-tl-none p-3 shadow-md max-w-md">
+                <p>@username: @message</p>
+            </div>
+            <span class="text-gray-500 text-xs mt-2">@time</span>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public bool IsSenderMessage { get; set; } = false;
+
+    [Parameter, EditorRequired] public ChatMessage Message { get; set; } = null!;
+
+    private string username = null!;
+    private string message = null!;
+    private string time = null!;
+    
+    protected override void OnInitialized()
+    {
+        username = Message.User.Split('@')[0];
+        message = Message.Message;
+        time = Message.Time.ToString();
+    }
+
+
+}
