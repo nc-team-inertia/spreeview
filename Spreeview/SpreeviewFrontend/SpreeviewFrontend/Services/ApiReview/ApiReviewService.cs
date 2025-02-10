@@ -1,5 +1,4 @@
 ﻿using CommonLibrary.DataClasses.ReviewModel;
-using CommonLibrary.DataClasses.SeriesModel;
 using SpreeviewAPI.Wrappers;
 
 namespace SpreeviewFrontend.Services.ApiReview;
@@ -9,10 +8,9 @@ public class ApiReviewService : IApiReviewService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiReviewService> _logger;
 
-    public ApiReviewService(IHttpClientFactory httpClientFactory, ILogger<ApiReviewService> logger)
+    public ApiReviewService(HttpClient httpClient, ILogger<ApiReviewService> logger)
     {
-        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
-        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/review/");
+        _httpClient = httpClient;
         _logger = logger;
     }
 
@@ -20,7 +18,7 @@ public class ApiReviewService : IApiReviewService
     {
         try
         {
-            var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>($"user/{userId}");
+            var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>($"api/review/user/{userId}");
             if (response != null)
             {
                 return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
@@ -37,7 +35,25 @@ public class ApiReviewService : IApiReviewService
     {
         try
         {
-            var response = await _httpClient.PostAsJsonAsync("", review);
+            var response = await _httpClient.PostAsJsonAsync("api/review/", review);
+            if (response != null)
+            {
+                Console.WriteLine(response.Content);
+                return new ServiceObjectResponse<ReviewGetDTO?>() { Type = ServiceResponseType.Success };
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        return new ServiceObjectResponse<ReviewGetDTO?>() { Type = ServiceResponseType.Failure };
+    }
+
+    public async Task<ServiceObjectResponse<ReviewGetDTO?>> PutReviewAsync(ReviewUpdateDTO review)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/review/", review);
             if (response != null)
             {
                 Console.WriteLine(response.Content);
@@ -56,11 +72,12 @@ public class ApiReviewService : IApiReviewService
         try
         {
             var response = await _httpClient.GetFromJsonAsync<List<ReviewGetDTO>>(
-                $"episode/{episodeId}");
+                $"api/review/episode/{episodeId}");
 
             if (response != null)
             {
-                return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = response };
+                var orderedResponse = response.OrderByDescending(r => r.DateAdded).ToList();
+                return new ServiceObjectResponse<List<ReviewGetDTO>>() { Type = ServiceResponseType.Success, Value = orderedResponse };
             }
         }
         catch (Exception ex)

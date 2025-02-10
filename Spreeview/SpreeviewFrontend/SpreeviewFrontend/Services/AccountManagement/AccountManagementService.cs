@@ -7,14 +7,11 @@ using SpreeviewAPI.Wrappers;
 
 namespace SpreeviewFrontend.Services.AccountManagement;
 
-public class AccountManagementService(
-    IHttpClientFactory httpClientFactory,
-    ILogger<AccountManagementService> logger)
-    : AuthenticationStateProvider, IAccountManagementService
+public class AccountManagementService : AuthenticationStateProvider, IAccountManagementService
 {
     
     // http client pointing to authentication api
-    private readonly HttpClient _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
+    private readonly HttpClient _httpClient;
     
     // json serializer options to use camelCase
     private readonly JsonSerializerOptions _jsonSerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
@@ -24,6 +21,15 @@ public class AccountManagementService(
     
     // Field to store current boolean authenticated state 
     private bool _isAuthenticated;
+    
+    private readonly ILogger<AccountManagementService> _logger;
+
+    public AccountManagementService(HttpClient httpClient,
+        ILogger<AccountManagementService> logger)
+    {
+        _logger = logger;
+        _httpClient = httpClient;
+    }
 
     /// <summary>
     /// Get authentication state.
@@ -45,7 +51,7 @@ public class AccountManagementService(
             // Check if user is not authenticated
             if (!userInfoResponse.IsSuccessStatusCode)
             {
-                logger.LogInformation("Could not authenticate user. Perhaps they are not logged in?");
+                _logger.LogInformation("Could not authenticate user. Perhaps they are not logged in?");
                 return new AuthenticationState(_unauthenticated);
             }
             
@@ -56,7 +62,7 @@ public class AccountManagementService(
             // Check if user info exists:
             if (userInfo == null)
             {
-                logger.LogInformation("User is authenticated, but unable to retrieve user info.");
+                _logger.LogInformation("User is authenticated, but unable to retrieve user info.");
                 return new AuthenticationState(_unauthenticated);
             }
 
@@ -78,7 +84,7 @@ public class AccountManagementService(
             // Check if getting roles was not successful
             if (!userInfoResponse.IsSuccessStatusCode)
             {
-                logger.LogInformation("Unable to get user roles from API");
+                _logger.LogInformation("Unable to get user roles from API");
                 return new AuthenticationState(_unauthenticated);
             }
             
@@ -109,7 +115,7 @@ public class AccountManagementService(
         }
         catch (Exception e)
         {
-            logger.LogInformation("Could not authenticate user due to server error.");
+            _logger.LogInformation("Could not authenticate user due to server error.");
             return new AuthenticationState(_unauthenticated);
         }
     }
@@ -142,7 +148,7 @@ public class AccountManagementService(
         }
         catch (Exception e)
         {
-            logger.LogInformation("Could not register user due to server error.");
+            _logger.LogInformation("Could not register user due to server error.");
             return new ServiceResponse();
         }
         
@@ -177,7 +183,7 @@ public class AccountManagementService(
         }
         catch (Exception e)
         {
-            logger.LogInformation("Could not login user due to server error.");
+            _logger.LogInformation("Could not login user due to server error.");
             return new ServiceResponse();
         }
     }
@@ -198,7 +204,7 @@ public class AccountManagementService(
         }
         catch (Exception e)
         {
-            logger.LogInformation("Could not logout user due to server error.");
+            _logger.LogInformation("Could not logout user due to server error.");
             return new ServiceResponse();
         }
     }

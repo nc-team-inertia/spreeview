@@ -8,10 +8,9 @@ public class ApiEpisodeService : IApiEpisodeService
     private readonly HttpClient _httpClient;
     private readonly ILogger<ApiEpisodeService> _logger;
 
-    public ApiEpisodeService(IHttpClientFactory httpClientFactory, ILogger<ApiEpisodeService> logger)
+    public ApiEpisodeService(HttpClient httpClient, ILogger<ApiEpisodeService> logger)
     {
-        _httpClient = httpClientFactory.CreateClient("SpreeviewAPI");
-        _httpClient.BaseAddress = new Uri(_httpClient.BaseAddress, "api/episode/");
+        _httpClient = httpClient;
         _logger = logger;
     }
     
@@ -20,7 +19,7 @@ public class ApiEpisodeService : IApiEpisodeService
         try
         {
             var response = await _httpClient.GetFromJsonAsync<EpisodeGetDTO>(
-                $"{seriesId}/{seasonNumber}/{episodeNumber}");
+                $"api/episode/{seriesId}/{seasonNumber}/{episodeNumber}");
             
             if (response != null)
             {

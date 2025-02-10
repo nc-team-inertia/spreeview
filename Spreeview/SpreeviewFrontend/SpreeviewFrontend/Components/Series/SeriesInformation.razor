@@ -1,0 +1,17 @@
+﻿@using CommonLibrary.DataClasses.SeriesModel
+
+<!--Information section-->
+<article class="pt-6 pb-2">
+	<div class="flex flex-col gap-2 items-start sm:flex-row sm:items-end">
+		<h2 class="text-3xl">@series.Name</h2>
+		<h3>@series.ReleaseDate  Directed by <span class="text-purple-700">Director Name</span></h3>
+	</div>
+	<p class="my-4">
+		@series.Overview
+	</p>
+</article>
+
+@code {
+	[Parameter]
+	public SeriesGetDTO series { get; set; }
+}
