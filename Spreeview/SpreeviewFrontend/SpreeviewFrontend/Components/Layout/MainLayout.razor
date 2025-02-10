@@ -28,7 +28,7 @@
 @* Example of dynamically setting html attributes via UserPreferences *@
 <div class="@(_preferences.Theme == Theme.Dark ? "dark" : "light") flex h-screen flex-col justify-between">
 	<Header />
-	<main>
+	<main class="flex-1">
 		<CascadingValue Value="@RefreshReviews" IsFixed="false">
 			@Body
 		</CascadingValue>

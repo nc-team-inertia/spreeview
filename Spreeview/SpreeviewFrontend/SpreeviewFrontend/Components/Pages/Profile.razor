@@ -112,8 +112,9 @@
         UserId = await GetUserId();
         Reviews = (await ReviewService.GetReviewsByUserId(UserId)).Value;
         Comments = (await CommentService.GetCommentsByUserId(UserId)).Value;
-        Comments.Reverse();
-        Reviews.Reverse();
+
+        if (Comments != null) Comments.Reverse();
+        if (Reviews != null) Reviews.Reverse();
         StateHasChanged();
     }
 }
