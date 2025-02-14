@@ -2,5 +2,9 @@
 
 public class UserPreferences
 {
-    public Theme Theme { get; set; } = Theme.Light;
+    private static Theme theme = Theme.Light;
+    public Theme Theme {
+        get { return theme; }
+        set { theme = value; }
+    }
 }

@@ -1,27 +1,44 @@
 ﻿<!DOCTYPE html>
-<html lang="en" class="max-w-screen">
-    <title>Spreeview</title>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <base href="/" />
-        <link href="/css/app.min.css" rel="stylesheet" />
+<html lang="en">
+
+<head>
+  <title>Spreeview</title>
+  
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link href="/css/app.min.css" rel="stylesheet" />
     @*     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" /> *@
-        <link rel="icon" type="image/png" href="favicon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
-        <!-- Tailwind CDN - replace in production with a proper build process -->
-        <script src="https://unpkg.com/@@tailwindcss/browser@@4"></script>
-        <HeadOutlet />
-    </head>
+    <!-- Tailwind CDN - replace in production with a proper build process -->
+    <script src="https://unpkg.com/@@tailwindcss/browser@@4"></script>
+    <HeadOutlet />
 
-    <body class="max-w-screen">
-        <Routes  @rendermode="InteractiveServer" />
-        <script src="_framework/blazor.web.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
-        <script src="scroll-fix.js"></script>
-    </body>
+    <!-- Cache busting (forces update than relying on cached stylesheet using query params) -->
+    <link href="./css/CustCss.css?v=1" rel="stylesheet" />
+</head>
+
+@*TODO shift into Authorised component ?? *@
+@using SpreeviewFrontend.Services
+@inject IUserPreferencesService UserPreferencesService;
+@code {
+    private UserPreferences _preferences = new();
+    protected override async Task OnInitializedAsync()
+    { _preferences = await UserPreferencesService.GetUserPreferencesAsync(); }
+
+    public EventCallback<Theme> CurrTheme { get; set; }
+}
+
+
+<body theme="@( Enum.GetName(_preferences.Theme).ToLower() )" class="max-w-screen">
+    <Routes  @rendermode="InteractiveServer" />
+    <script src="_framework/blazor.web.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.0.0/dist/flowbite.min.js"></script>
+    <script src="scroll-fix.js"></script>
+</body>
 
 </html>

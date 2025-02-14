@@ -1,60 +1,130 @@
-﻿/*These theme preferences have been moved to app.css */
+﻿*[theme='light'] {
+    /*var(val, defaultVal)*/
+    --hBg: #E0E0E0;
+    --hFg: #101010;
+    --accent: #9333ea;
+    --container: #888888;
+    --mBg: #FFFFFF;
+    --mFg: #000000;
+    --fBg: #E0E0E0;
+    --fFg: #101010;
+    --oBg: #E0E0E0;
+    --oFg: #101010;
+}
 
-/**[theme='light'] {*/
-/*    !*var(val, defaultVal)*!*/
-/*    --hBg: #E0E0E0;*/
-/*    --hFg: #101010;*/
-/*    --accent: #8816FC;*/
-/*    --container: #888888;*/
-/*    --mBg: #FFFFFF;*/
-/*    --mFg: #000000;*/
-/*    --fBg: #E0E0E0;*/
-/*    --fFg: #101010;*/
-/*    --oBg: #E0E0E0;*/
-/*    --oFg: #101010;*/
-/*}*/
-
-/**[theme='dark'] {*/
-/*    --hFg: #E0E0E0;*/
-/*    --hBg: #101010;*/
-/*    --accent: #FC6C16;*/
-/*    --container: #888888;*/
-/*    --mFg: #FFFFFF;*/
-/*    --mBg: #161616;*/
-/*    --fFg: #E0E0E0;*/
-/*    --fBg: #101010;*/
-/*    --oFg: #E0E0E0;*/
-/*    --oBg: #101010;*/
-/*}*/
+*[theme='dark'] {
+    --hFg: #E0E0E0;
+    --hBg: #101010;
+    --accent: #FC6C16;
+    --container: #888888;
+    --mFg: #FFFFFF;
+    --mBg: #161616;
+    --fFg: #E0E0E0;
+    --fBg: #101010;
+    --oFg: #E0E0E0;
+    --oBg: #101010;
+}
 
 /*actual CSS code here - turn into razor ??*/
 
-/*direct to general/child
-    > = ??
-    + = ??
-    ~ = ??
-*/
-
 /*var(val, defaultVal)*/
 *[theme] {
-    background-color: var(--mBg);
+    background-color: var(--mBg) ;
+    color: var(--mFg) ;
+    text-shadow: 5px 5px 5px 5px var(--mBg);
+}
+
+/*span {
     color: var(--mFg);
 }
 
-    *[theme] img {
-        background-color: var(--container);
-    }
+*[theme] img {
+    background-color: var(--container) ;
+}
 
-    *[theme] button {
-        background-color: var(--accent);
-    }
+*[theme] header, *[theme] footer {
+    background-color: var(--oBg) ;
+    color: var(--oFg) ;
+}*/
 
-    *[theme] header, *[theme] footer {
-        background-color: var(--oBg);
-        color: var(--oFg);
-    }
 
-/*
-*[theme='light'] header { background-color: var(--hBg); color: var(--hFg); }
-*[theme='light'] footer { background-color: var(--fBg); color: var(--fFg); }
-*/
+
+img{
+    background-color: var(--container)
+}
+
+/*TODO overwrite tailwind classes*/
+
+/* target classes that contain 'bg-purple' */
+[class*="bg-purple"],
+[class*=button-purple],
+[class*=bg-secondary] {
+    background-color: var(--accent); padding:5px;
+    color:var(--mBg);
+}
+ 
+[class*="text-purple"]{ color: var(--accent); }
+
+
+[class*=bg-black] { background-color: var(--mFg); }
+[class*=bg-white] { background-color: var(--mBg); }
+
+[class*=text-white] { color: var(--mBg); }
+[class*=text-black] { color: var(--mFg); }
+
+header, footer{ background-color:var(--oBg);}
+
+button[class*=hover:bg-gray]:hover{
+    background-color: var(--accent);
+}
+
+[class*=shadow-purple]{
+    box-shadow: var(--accent) 0px 10px 10px;
+}
+[class*=shadow-purple-small] {
+    box-shadow: var(--accent) 0px 5px 5px;
+}
+
+/*scrollbar*/
+::-webkit-scrollbar-thumb { background-color: var(--accent); }
+::-webkit-scrollbar-track{ background-color: var(--container); } /*trackpiece overrides track?*/
+::-webkit-scrollbar-button{background-color:var(--oFg);}
+
+
+/*burgerMenu*/
+#burgerMenu{ background-color:transparent}
+#burgerMenu:hover{
+    background-color: var(--accent);
+        
+    /*transition - direct animation*/
+    transition: background-color ease-in .6s;
+}
+
+
+/*form */
+[class*=form-button] { background-color:var(--accent); }
+
+/*chat border -- 'Input.ChatMessage' fullstop broke CSS selector */
+#InputChatMessage{ color:var(--accent); }
+#InputChatMessage:focus { border: var(--accent) solid 1px !important; }
+
+
+/*nav*/
+* [class*=TransitionMe]{ color:var(--oBg); background-color:var(--accent); }
+* [class*=TransitionMe]:hover {
+    color: var(--oFg);
+    background-color: var(--container);
+    transition: color linear 1s;
+    transition: background-color linear 1s;
+}
+
+/*for bottom div*/
+*[class*=bg-gray] { background-color: var(--oFg); }
+*[class*=text-gray] {color:var(--oFg);}
+
+/*hero section gradient shift*/
+.gradient-text {
+    background: linear-gradient(to right, var(--mFg), var(--accent)); /* gradient colors */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

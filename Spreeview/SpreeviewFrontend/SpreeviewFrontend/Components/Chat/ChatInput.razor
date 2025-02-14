@@ -3,12 +3,12 @@
         <div class="max-w-4xl flex items-start">
             <InputText
                 @bind-value="message"
-                id="Input.ChatMessage"
+                id="InputChatMessage"
                 type="text"
                 placeholder="Type your message..."
                 class="flex-1 p-2 border rounded-full focus:outline-none focus:border-purple-700"/>
-            <button type="submit" disabled="@(SubmitDisabled)" class="p-2 text-white bg-purple-600 rounded-full hover:bg-purple-700 transition ml-4">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button type="submit" disabled="@(SubmitDisabled)" class="p-2 text-white bg-purple-600 rounded-full TransitionMe ml-4">
+                <svg class="w-6 h-6" fill="none" stroke="var(--mFg)" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                 </svg>

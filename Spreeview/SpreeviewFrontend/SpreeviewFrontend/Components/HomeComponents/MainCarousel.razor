@@ -1,4 +1,4 @@
-﻿@using CommonLibrary.DataClasses.SeriesModel
+@using CommonLibrary.DataClasses.SeriesModel
 @inject NavigationManager NavManager
 
 @if (series != null)
@@ -23,13 +23,16 @@
 		<div class="w-1/5 absolute right-0 top-0 h-full bg-gradient-to-l from-black/100 to-black/0 z-10"></div>
 
 		<button @onclick="Previous" class="absolute left-2 top-1/2 -translate-y-1/2 text-white z-20" id="left" aria-label="left">
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]" viewBox="0 0 24 24" fill="currentColor">
+				<svg xmlns="http://www.w3.org/2000/svg" class="w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]" viewBox="0 0 24 24" fill="var(--accent)">
+
 				<path d="M 11 9 C 12 8 10 7 9 8 L 6 11 C 5 12 5 12 6 13 l 3 3 C 10 17 12 16 11 15 l -1 -1 L 8 12 C 8 12 8 12 8 12 l 3 -3 z"/>
 			</svg>
 		</button>
 
 		<button @onclick="Next" class="absolute right-2 top-1/2 -translate-y-1/2 text-white z-20" id="right" aria-label="right">
-			<svg xmlns="http://www.w3.org/2000/svg" class="w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]" viewBox="0 0 24 24" fill="currentColor">
+
+				<svg xmlns="http://www.w3.org/2000/svg" class="w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]" viewBox="0 0 24 24" fill="var(--accent)">
+
 				<path d="M 12 9 C 11 8 13 7 14 8 L 17 11 C 18 12 18 12 17 13 l -3 3 C 13 17 11 16 12 15 l 1 -1 L 15 12 C 15 12 15 12 15 12 l -3 -3 z"/>
 			</svg>
 		</button>
